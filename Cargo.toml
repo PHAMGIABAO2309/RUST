@@ -3,6 +3,14 @@ name = "hello-rust2"
 version = "0.1.0"
 edition = "2021"
 license = "MIT OR Apache-2.0"
+# Các metadata yêu cầu
+description = "Mô tả ngắn gọn về crate của bạn"
+authors = ["Your Name <your-email@example.com>"]
+repository = "https://github.com/PHAMGIABAO2309/RUST"
+homepage = "https://your-crate-homepage.com"
+documentation = "https://docs.rs/your-crate-name"
+readme = "README.md"
+keywords = ["rust", "crate", "example"]
 
 [dependencies]
 rand = "0.8.0"
