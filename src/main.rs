@@ -1,19 +1,33 @@
-use std::fs;
-use std::env;
-use std::process;
+use std::fs::File;
+use std::io::Write;
+use std::process::Command;
 
 fn main() {
-    let args: Vec<String> = env::args().collect();
-    if args.len() < 3 {
-        println!("Usage: {} <query> <filename>", args[0]);
-        process::exit(1);
-    }
+    // Nội dung HTML
+    let html_content = r#"<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Hello!</title>
+  </head>
+  <body>
+    <h1>Hello!</h1>
+    <p>Hi from Rust </p>cc
+    <p> Tôi tên là Bảo Phạm Gia Sang Nguyen lông phi hahahaha  êre cc  Huy</p>
+  </body>
+</html>"#;
 
-    let filename = &args[2];
-    println!("In file {}", filename);
+    // Tạo file hello.html
+    let mut file = File::create("./front-end/hello.html").expect("Không thể tạo file!");
+    file.write_all(html_content.as_bytes()).expect("Lỗi khi ghi file!");
 
-    match fs::read_to_string(filename) {
-        Ok(contents) => println!("File content:\n{}", contents),
-        Err(e) => eprintln!("Failed to read file: {}", e),
-    }
+    println!("✅ Đã tạo file hello.html!");
+
+    // Chạy http-server bằng Node.js
+    let _ = Command::new("cmd")
+        .args(["/C", "http-server -p 8080"])
+        .spawn()
+        .expect("Không thể chạy server!");
+
+    println!("🚀 Server chạy tại http://localhost:8080");
 }
