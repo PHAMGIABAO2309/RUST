@@ -28,7 +28,7 @@ fn push_to_github() {
 
     // Push lên remote (ở đây giả sử branch chính là 'main')
     let status = Command::new("git")
-        .args(&["push", "origin", "master"])
+        .args(&["push", "origin", "main"])
         .status()
         .expect("Không thể chạy lệnh git push");
     if !status.success() {
