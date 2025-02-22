@@ -12,46 +12,63 @@ body {
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background: linear-gradient(135deg, #1abc9c, #16a085);
+    background: linear-gradient(135deg, #74ebd5, #acb6e5);
     overflow: hidden;
 }
 
 .container {
-    background: rgba(255, 255, 255, 0.1);
-    padding: 2rem;
-    border-radius: 15px;
-    box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.2);
-    backdrop-filter: blur(10px);
     text-align: center;
+    background: rgba(255, 255, 255, 0.2);
+    padding: 2rem;
+    border-radius: 12px;
+    backdrop-filter: blur(8px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
     width: 350px;
+    position: relative;
 }
 
+/* LOGO */
+.logo {
+    width: 80px;
+    margin-bottom: 10px;
+    animation: fadeIn 1.5s ease-in-out;
+}
+
+/* HIỆU ỨNG CHỮ */
 h2 {
     color: white;
-    margin-bottom: 1rem;
+    font-size: 22px;
+    font-weight: 600;
+    background: linear-gradient(90deg, #ff9a9e, #fad0c4);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: fadeIn 2s ease-in-out;
 }
 
+/* FORM */
 form {
     display: flex;
     flex-direction: column;
+    margin-top: 15px;
 }
 
 label {
     color: white;
-    font-weight: 600;
+    font-weight: 400;
     text-align: left;
     margin-bottom: 5px;
+    font-size: 14px;
 }
 
 input {
-    padding: 12px;
+    padding: 10px;
     border: none;
     border-radius: 8px;
     background: rgba(255, 255, 255, 0.2);
     color: white;
-    font-size: 16px;
-    transition: 0.3s ease-in-out;
-    margin-bottom: 15px;
+    font-size: 14px;
+    transition: 0.3s;
+    margin-bottom: 10px;
     outline: none;
 }
 
@@ -61,14 +78,15 @@ input::placeholder {
 
 input:focus {
     background: rgba(255, 255, 255, 0.3);
-    box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+    box-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
 }
 
+/* NÚT ĐĂNG KÝ */
 button {
-    padding: 12px;
+    padding: 10px;
     background: linear-gradient(90deg, #ff9a9e, #fad0c4);
     color: white;
-    font-size: 18px;
+    font-size: 16px;
     border: none;
     border-radius: 8px;
     cursor: pointer;
@@ -78,6 +96,18 @@ button {
 
 button:hover {
     background: linear-gradient(90deg, #fad0c4, #ff9a9e);
-    box-shadow: 0px 5px 15px rgba(255, 154, 158, 0.4);
+    box-shadow: 0px 4px 10px rgba(255, 154, 158, 0.4);
     transform: scale(1.05);
+}
+
+/* ANIMATION */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
