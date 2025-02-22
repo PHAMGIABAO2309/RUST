@@ -57,3 +57,5 @@ async fn handle_hello(poem: Arc<Mutex<String>>, func: Arc<String>) -> Result<imp
     let html = front_end::hello::home(&poem_content, &func);
     Ok(warp::reply::html(html))
 }
+
+
