@@ -1,3 +1,3 @@
-pub fn my_function() {
-    println!("Hàm từ lib.rs!");
+pub fn my_function() -> String {
+    "Hello from my_function!".to_string()
 }

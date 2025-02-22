@@ -42,10 +42,8 @@ fn push_to_github() {
 
 #[tokio::main]
 async fn main() {
-    // --- Phần xử lý MySQL và tạo file HTML (ví dụ) ---
-
-    // Cập nhật chuỗi kết nối với thông tin của bạn (đảm bảo database đã tồn tại)
-    let db_url = "mysql://root@localhost:3366/my_database"; // Nếu không có mật khẩu, bỏ phần :password
+    // --- Phần kết nối MySQL ---
+    let db_url = "mysql://root@localhost:3366/my_database"; 
     let pool = Pool::<MySql>::connect(db_url)
         .await
         .expect("Không thể kết nối tới MySQL");
@@ -57,7 +55,10 @@ async fn main() {
         .expect("Không thể lấy dữ liệu từ MySQL");
     let poem_content = row.0;
 
-    // Tạo nội dung HTML với bài thơ
+    // Gọi `my_function()` để lấy nội dung cần ghi vào file
+    let my_func_output = my_function(); // Lấy nội dung từ my_function()
+
+    // Tạo nội dung HTML
     let html_content = format!(
         r#"<!DOCTYPE html>
 <html lang="en">
@@ -69,12 +70,13 @@ async fn main() {
     <h1>Hello!</h1>
     <p>Hi from Rust</p>
     <pre>{}</pre>
+    <p>{}</p> <!-- Chèn kết quả của my_function() -->
   </body>
 </html>"#,
-        poem_content
+        poem_content, my_func_output
     );
 
-    // Đảm bảo thư mục front-end tồn tại
+    // Tạo thư mục front-end nếu chưa tồn tại
     if let Err(e) = fs::create_dir_all("./front-end").await {
         eprintln!("Lỗi tạo thư mục front-end: {:?}", e);
     }
@@ -88,7 +90,7 @@ async fn main() {
         .expect("Lỗi khi ghi file hello.html");
 
     println!("✅ Đã tạo file hello.html!");
-    my_function();
-    // --- Kết thúc phần xử lý chính, bắt đầu tự động đẩy code lên GitHub ---
+
+    // Đẩy code lên GitHub
     push_to_github();
 }
