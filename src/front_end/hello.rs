@@ -1,4 +1,4 @@
-pub fn generate_html(poem_content: &str, my_func_content: &str) -> String {
+pub fn home(poem_content: &str, my_func_content: &str) -> String {
   format!(
       r#"<!DOCTYPE html>
 <html lang="en">

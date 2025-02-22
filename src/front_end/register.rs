@@ -1,26 +1,59 @@
-pub fn register_html() -> String {
-    format!(
-        r#"<!DOCTYPE html>
-<html lang="vi">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Đăng Ký</title>
-    <link rel="stylesheet" href="/static/register.css">
-</head>
-<body>
-    <div class="container">
-        <form id="registerForm" class="register-form" method="post">
-            <h2>Đăng Ký</h2>
-            <input type="text" name="username" id="username" placeholder="Tên đăng nhập" required>
-            <input type="email" name="email" id="email" placeholder="Email" required>
-            <input type="password" name="password" id="password" placeholder="Mật khẩu" required>
-            <button type="submit">Đăng Ký</button>
-            <p id="message"></p>
-        </form>
-    </div>
-    <script src="/static/register.js" defer></script>
-</body>
-</html>"#
-    )
+
+use sqlx::MySqlPool;
+use serde::Deserialize;
+
+#[derive(Deserialize)]
+pub struct RegisterForm {
+    username: String,
+    password: String,
+}
+
+// 👉 Hiển thị trang đăng ký (GET /register)
+pub fn register_page() -> String {
+    r#"
+    <html>
+        <head><title>Đăng Ký</title></head>
+        <body>
+            <h2>Trang Đăng Ký</h2>
+            <form action="/register" method="post">
+                <label for="username">Tên đăng nhập:</label>
+                <input type="text" id="username" name="username" required>
+                <br>
+                <label for="password">Mật khẩu:</label>
+                <input type="password" id="password" name="password" required>
+                <br>
+                <button type="submit">Đăng Ký</button>
+            </form>
+        </body>
+    </html>
+    "#.to_string()
+}
+
+// 👉 Xử lý đăng ký (POST /register)
+pub async fn handle_register(pool: MySqlPool, form: RegisterForm) -> Result<impl warp::Reply, warp::Rejection> {
+    let query = "INSERT INTO users (username, password) VALUES (?, ?)";
+    
+    match sqlx::query(query)
+        .bind(&form.username)
+        .bind(&form.password)
+        .execute(&pool)
+        .await 
+    {
+        Ok(_) => {
+            let response = warp::reply::html(r#"
+                <html>
+                    <body>
+                        <h3>Đăng ký thành công! Chuyển hướng...</h3>
+                        <script>setTimeout(() => { window.location.href = "/hello"; }, 2000);</script>
+                    </body>
+                </html>
+            "#);
+            Ok(response)
+        }
+        Err(e) => {
+            eprintln!("Lỗi khi đăng ký: {:?}", e);
+            let response = warp::reply::html("<h3>Đăng ký thất bại, thử lại!</h3>");
+            Ok(response)
+        }
+    }
 }
