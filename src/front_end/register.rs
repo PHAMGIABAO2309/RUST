@@ -1,5 +1,6 @@
 
 use sqlx::MySqlPool;
+
 use serde::Deserialize;
 
 #[derive(Deserialize)]
@@ -29,10 +30,21 @@ pub fn register_page() -> String {
     "#.to_string()
 }
 
-// 👉 Xử lý đăng ký (POST /register)
+// Xử lý đăng ký tài khoản
 pub async fn handle_register(pool: MySqlPool, form: RegisterForm) -> Result<impl warp::Reply, warp::Rejection> {
+    // Kiểm tra tài khoản đã tồn tại chưa
+    let existing_user = sqlx::query("SELECT username FROM users WHERE username = ?")
+        .bind(&form.username)
+        .fetch_optional(&pool)
+        .await
+        .unwrap();
+
+    if existing_user.is_some() {
+        return Ok(warp::reply::html("<h3>Tên đăng nhập đã tồn tại! Thử tên khác.</h3>"));
+    }
+
+    // Thêm tài khoản mới vào database
     let query = "INSERT INTO users (username, password) VALUES (?, ?)";
-    
     match sqlx::query(query)
         .bind(&form.username)
         .bind(&form.password)
