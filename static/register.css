@@ -49,3 +49,6 @@ button {
     opacity: 1;
     transform: translateX(0);
 }
+
+.toast.success { background-color: #4CAF50; } /* Xanh lá */
+.toast.error { background-color: #f44336; } /* Đỏ */
