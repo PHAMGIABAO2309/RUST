@@ -70,12 +70,12 @@ async fn main() {
   <body>
     <h1>Hello!</h1>
     <p>Hi from Rust</p>
-    <pre>{}</pre>
-    <p>{}</p> <!-- Chèn kết quả của my_function() -->
-    <p>{}</p> <!-- Chèn kết quả của function_content() -->
+    <pre>{poem_content}</pre>
+    <p>{my_func_output}</p> <!-- Chèn kết quả của my_function() -->
+    <p>{my_func_content}</p> <!-- Chèn kết quả của function_content() -->
   </body>
-</html>"#,
-        poem_content, my_func_output, my_func_content
+</html>"#
+         
     );
 
     // Tạo thư mục front-end nếu chưa tồn tại
