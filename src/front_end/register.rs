@@ -60,7 +60,7 @@ pub fn register_page() -> String {
     <body>
         <div class="container">
             <h2>Đăng Ký Tài Khoản</h2>
-            <form id="register-form" action="/register" method="post">
+            <form action="/register" method="post">
                 <label for="username">Tên đăng nhập:</label>
                 <input type="text" id="username" name="username" placeholder="Nhập tên..." required>
                 
@@ -73,50 +73,9 @@ pub fn register_page() -> String {
                 <button type="submit">Đăng Ký</button>
             </form>
         </div>
-
-        <!-- Toast Notification -->
-        <div class="toast-container"></div>
-
-        <script>
-            function showToast(message, type = "success", redirect = null) {
-                const toastContainer = document.querySelector(".toast-container");
-                const toast = document.createElement("div");
-                toast.className = "toast " + (type === "error" ? "error" : "success");
-                toast.textContent = message;
-                toastContainer.appendChild(toast);
-                
-                setTimeout(() => toast.classList.add("show"), 100);
-                setTimeout(() => {
-                    toast.classList.remove("show");
-                    setTimeout(() => toast.remove(), 500);
-                    if (redirect) window.location.href = redirect;
-                }, 2000);
-            }
-
-            // Xử lý submit form qua fetch để không cần tải lại trang
-            document.getElementById("register-form").addEventListener("submit", function(event) {
-                event.preventDefault(); // Ngăn form gửi đi theo cách thông thường
-                
-                const formData = new FormData(this);
-                fetch("/register", {
-                    method: "POST",
-                    body: formData
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        showToast("Đăng ký thành công!", "success", "/hello");
-                    } else {
-                        showToast("Đăng ký thất bại! " + (data.message || ""), "error");
-                    }
-                })
-                .catch(() => showToast("Lỗi kết nối!", "error"));
-            });
-        </script>
     </body>
 </html>
     "#.to_string()
 }
-
 
 
