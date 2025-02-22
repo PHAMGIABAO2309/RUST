@@ -1,5 +1,11 @@
-pub mod content;  // ✅ Thêm module content vào thư viện
+// ✅ Thêm library  
+
+pub mod content;  
+pub mod database;
+pub mod push_github;
+
+
 
 pub fn my_function() -> String {
-    "Hello from my_function from Library!".to_string()
+    "Đây là thư viện chứa các khai báo của main!".to_string()
 }
