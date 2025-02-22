@@ -1,9 +1,6 @@
-
 use sqlx::MySqlPool;
-
 use serde::Deserialize;
 use warp::{Rejection, Reply};
-
 #[derive(Deserialize)]
 pub struct RegisterForm {
     username: String,
@@ -43,7 +40,7 @@ pub async fn handle_register(pool: MySqlPool, form: RegisterForm) -> Result<impl
                 <html>
                     <body>
                         <h3>Đăng ký thành công! Chuyển hướng...</h3>
-                        <script>setTimeout(() => { window.location.href = "/hello"; }, 2000);</script>
+                       <script>window.location.href = "/hello";</script>
                     </body>
                 </html>
             "#);
@@ -73,12 +70,13 @@ pub fn register_page() -> String {
                 <label for="username">Tên đăng nhập:</label>
                 <input type="text" id="username" name="username" required>
                 <br>
-                <label for="password">Mật khẩu:</label>
-                <input type="password" id="password" name="password" required>
-                <br>
                 <label for="email">Email:</label>
                 <input type="email" id="email" name="email" required>
                 <br>
+                <label for="password">Mật khẩu:</label>
+                <input type="password" id="password" name="password" required>
+                <br>
+                
                 <button type="submit">Đăng Ký</button>
             </form>
         </body>
