@@ -78,15 +78,31 @@ pub fn register_page() -> String {
                 if (result.success) {
                     messageBox.style.color = "green";
                     messageBox.innerHTML = result.message;
+                    messageBox.style.display = "block"; // Hiện thông báo
                     setTimeout(() => { window.location.href = "/hello"; }, 2000);
                 } else {
                     messageBox.style.color = "red";
                     messageBox.innerHTML = result.message;
+                    messageBox.style.display = "block"; // Hiện thông báo
                 }
             }
         </script>
+        <style>
+            .message-box {
+                position: fixed;
+                top: 10px;
+                right: 10px;
+                background: rgba(255, 0, 0, 0.9);
+                color: white;
+                padding: 10px 20px;
+                border-radius: 5px;
+                display: none;
+                font-weight: bold;
+            }
+        </style>
     </head>
     <body>
+        <div class="message-box" id="message"></div>
         <div class="container">
             <h2>Đăng Ký Tài Khoản</h2>
             <form id="registerForm" onsubmit="submitForm(event)">
@@ -101,7 +117,6 @@ pub fn register_page() -> String {
 
                 <button type="submit">Đăng Ký</button>
             </form>
-            <p id="message"></p>
         </div>
     </body>
 </html>
