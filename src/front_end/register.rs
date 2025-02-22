@@ -13,9 +13,7 @@ pub fn register_page() -> String {
     r#"
     <html>
         <head>
-        <meta charset="utf-8">
         <title>Đăng Ký</title>
-        <link rel="stylesheet" href="/static/register.css">
         </head>
         <body>
             <h2>Trang Đăng Ký</h2>
