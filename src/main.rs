@@ -3,6 +3,7 @@ use tokio::fs::{self, File};
 use tokio::io::AsyncWriteExt;
 use sqlx::{MySql, Pool};
 
+
 /// Hàm tự động đẩy code lên GitHub
 fn push_to_github() {
     // Thêm tất cả file đã thay đổi
@@ -86,7 +87,10 @@ async fn main() {
         .expect("Lỗi khi ghi file hello.html");
 
     println!("✅ Đã tạo file hello.html!");
-
+    my_function();
     // --- Kết thúc phần xử lý chính, bắt đầu tự động đẩy code lên GitHub ---
     push_to_github();
+}
+fn my_function() {
+    println!("Hàm từ lib.rs!");
 }

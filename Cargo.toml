@@ -33,3 +33,5 @@ sqlx = { version = "0.7", features = ["mysql", "runtime-tokio"] }
 
 [lib]
 crate-type = ["cdylib", "rlib"]
+name = "hello_rust2"  # Tên thư viện (thường là tên project)
+path = "src/lib.rs"
