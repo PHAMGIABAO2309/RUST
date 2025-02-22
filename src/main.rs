@@ -2,6 +2,7 @@ use std::process::Command;
 use tokio::fs::{self, File};
 use tokio::io::AsyncWriteExt;
 use sqlx::{MySql, Pool};
+use hello_rust2::my_function;
 
 
 /// Hàm tự động đẩy code lên GitHub
@@ -90,7 +91,4 @@ async fn main() {
     my_function();
     // --- Kết thúc phần xử lý chính, bắt đầu tự động đẩy code lên GitHub ---
     push_to_github();
-}
-fn my_function() {
-    println!("Hàm từ lib.rs!");
 }
