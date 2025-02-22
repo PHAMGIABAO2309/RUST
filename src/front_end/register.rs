@@ -12,9 +12,7 @@ pub struct RegisterForm {
 pub fn register_page() -> String {
     r#"
     <html>
-        <head>
-        <title>Đăng Ký</title>
-        </head>
+        <head><title>Đăng Ký</title></head>
         <body>
             <h2>Trang Đăng Ký</h2>
             <form action="/register" method="post">
