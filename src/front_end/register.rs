@@ -11,7 +11,7 @@ pub struct RegisterForm {
 // 👉 Hiển thị trang đăng ký (GET /register)
 pub fn register_page() -> String {
     r#"
-    <html lang="en">
+    <html>
         <head>
         <meta charset="utf-8">
         <title>Đăng Ký</title>
