@@ -61,7 +61,7 @@ pub fn register_page() -> String {
     <html>
     <head>
         <title>Đăng Ký</title>
-        <link rel="stylesheet" href="styles.css">
+        <link rel="stylesheet" href="/static/register.css">
     </head>
     <body>
         <div class="container">
