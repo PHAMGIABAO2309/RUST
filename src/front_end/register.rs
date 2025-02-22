@@ -59,28 +59,28 @@ pub async fn handle_register(pool: MySqlPool, form: RegisterForm) -> Result<impl
 pub fn register_page() -> String {
     r#"
     <html>
-        <head>
-        <meta charset="utf-8">
+    <head>
         <title>Đăng Ký</title>
-        <link rel="stylesheet" href="/static/register.css">
-        </head>
-        <body>
+        <link rel="stylesheet" href="styles.css">
+    </head>
+    <body>
+        <div class="container">
             <h2>Trang Đăng Ký</h2>
             <form action="/register" method="post">
                 <label for="username">Tên đăng nhập:</label>
                 <input type="text" id="username" name="username" required>
-                <br>
-                <label for="email">Email:</label>
-                <input type="email" id="email" name="email" required>
-                <br>
+                
                 <label for="password">Mật khẩu:</label>
                 <input type="password" id="password" name="password" required>
-                <br>
+                
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
                 
                 <button type="submit">Đăng Ký</button>
             </form>
-        </body>
-    </html>
+        </div>
+    </body>
+</html>
     "#.to_string()
 }
 
