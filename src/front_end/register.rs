@@ -8,6 +8,7 @@ use warp::{Rejection, Reply};
 pub struct RegisterForm {
     username: String,
     password: String,
+    email: String,
 }
 
 // Hàm kiểm tra username đã tồn tại chưa
@@ -28,11 +29,12 @@ pub async fn handle_register(pool: MySqlPool, form: RegisterForm) -> Result<impl
         return Ok(response);
     }
 
-    let query = "INSERT INTO users (username, password) VALUES (?, ?)";
+    let query = "INSERT INTO users (username, password, email) VALUES (?, ?, ?)";
 
     match sqlx::query(query)
         .bind(&form.username)
         .bind(&form.password)
+        .bind(&form.email)
         .execute(&pool)
         .await 
     {
@@ -60,7 +62,11 @@ pub async fn handle_register(pool: MySqlPool, form: RegisterForm) -> Result<impl
 pub fn register_page() -> String {
     r#"
     <html>
-        <head><title>Đăng Ký</title></head>
+        <head>
+        <meta charset="utf-8">
+        <title>Đăng Ký</title>
+        <link rel="stylesheet" href="/static/register.css">
+        </head>
         <body>
             <h2>Trang Đăng Ký</h2>
             <form action="/register" method="post">
@@ -69,6 +75,9 @@ pub fn register_page() -> String {
                 <br>
                 <label for="password">Mật khẩu:</label>
                 <input type="password" id="password" name="password" required>
+                <br>
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
                 <br>
                 <button type="submit">Đăng Ký</button>
             </form>
