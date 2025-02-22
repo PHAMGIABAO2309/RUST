@@ -1,16 +1,11 @@
 use tokio::fs::{self, File};
 use tokio::io::AsyncWriteExt;
-use hello_rust2::{my_function, content::function_content, database, push_github}; // Import từ lib.rs
-
+use hello_rust2::*; // Import từ lib.rs
 
 #[tokio::main]
 async fn main() {
-    // --- Phần kết nối MySQL ---
-    let poem_content = database::get_poem_content().await;
-    // Gọi `my_function()` để lấy nội dung cần ghi vào file
-    let my_func_output = my_function(); // Lấy nội dung từ my_function()
-    let my_func_content = function_content();
-
+    let poem_content = database::get_poem_content().await; // --- Phần kết nối MySQL ---
+    let my_func_content = content::function_content(); // Gọi `my_function()` để lấy nội dung cần ghi vào file 
     // Tạo nội dung HTML
     let html_content = format!(
         r#"<!DOCTYPE html>
@@ -23,11 +18,9 @@ async fn main() {
     <h1>Hello!</h1>
     <p>Hi from Rust</p>
     <pre>{poem_content}</pre>
-    <p>{my_func_output}</p> <!-- Chèn kết quả của my_function() -->
     <p>{my_func_content}</p> <!-- Chèn kết quả của function_content() -->
   </body>
-</html>"#
-         
+</html>"#  
     );
 
     // Tạo thư mục front-end nếu chưa tồn tại
@@ -45,6 +38,6 @@ async fn main() {
 
     println!("✅ Đã tạo file hello.html!");
 
-    // Đẩy code lên GitHub
-    push_github::push_to_github();
+    
+    push_github::push_to_github(); // Đẩy code lên GitHub
 }
