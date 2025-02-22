@@ -40,7 +40,7 @@ pub async fn handle_register(pool: MySqlPool, form: RegisterForm) -> Result<impl
                 <html>
                     <body>
                         <h3>Đăng ký thành công! Chuyển hướng...</h3>
-                       <script>window.location.href = "/hello";</script>
+                        <script>window.location.href = "/hello";</script>
                     </body>
                 </html>
             "#);
