@@ -76,11 +76,13 @@ pub fn register_page() -> String {
                 let messageBox = document.getElementById("message");
 
                 if (result.success) {
+                    messageBox.style.background = "rgba(179, 241, 112, 0.9)"; // Xanh lá
                     messageBox.style.color = "white";
                     messageBox.innerHTML = result.message;
                     messageBox.style.display = "block"; // Hiện thông báo
                     setTimeout(() => { window.location.href = "/hello"; }, 2000);
                 } else {
+                    messageBox.style.background = "rgba(255, 0, 0, 0.9)"; // Đỏ
                     messageBox.style.color = "white";
                     messageBox.innerHTML = result.message;
                     messageBox.style.display = "block"; // Hiện thông báo
