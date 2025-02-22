@@ -7,7 +7,6 @@ pub struct RegisterForm {
     password: String,
     email: String,
 }
-
 // Hàm kiểm tra username đã tồn tại chưa
 async fn username_exists(pool: &MySqlPool, username: &str) -> Result<bool, sqlx::Error> {
     let query = "SELECT COUNT(*) FROM users WHERE username = ?";
@@ -18,16 +17,13 @@ async fn username_exists(pool: &MySqlPool, username: &str) -> Result<bool, sqlx:
 
     Ok(count.0 > 0)
 }
-
 // 👉 Xử lý đăng ký nhiều tài khoản (POST /register)
 pub async fn handle_register(pool: MySqlPool, form: RegisterForm) -> Result<impl Reply, Rejection> {
     if username_exists(&pool, &form.username).await.unwrap_or(false) {
-        let response = warp::reply::html("<h3>Tên đăng nhập đã tồn tại, vui lòng chọn tên khác!</h3>");
-        return Ok(response);
+        return Ok(warp::redirect::temporary(warp::http::Uri::from_static("/register?message=Tên+đăng+nhập+đã+tồn+tại&type=error")));
     }
 
     let query = "INSERT INTO users (username, password, email) VALUES (?, ?, ?)";
-
     match sqlx::query(query)
         .bind(&form.username)
         .bind(&form.password)
@@ -35,25 +31,10 @@ pub async fn handle_register(pool: MySqlPool, form: RegisterForm) -> Result<impl
         .execute(&pool)
         .await 
     {
-        Ok(_) => {
-            let response = warp::reply::html(r#"
-                <html>
-                    <body>
-                        <h3>Đăng ký thành công! Chuyển hướng...</h3>
-                        <script>window.location.href = "/hello";</script>
-                    </body>
-                </html>
-            "#);
-            Ok(response)
-        }
-        Err(e) => {
-            eprintln!("Lỗi khi đăng ký: {:?}", e);
-            let response = warp::reply::html("<h3>Đăng ký thất bại, thử lại!</h3>");
-            Ok(response)
-        }
+        Ok(_) => Ok(warp::redirect::temporary(warp::http::Uri::from_static("/register?message=Đăng+ký+thành+công!"))),
+        Err(_) => Ok(warp::redirect::temporary(warp::http::Uri::from_static("/register?message=Đăng+ký+thất+bại!&type=error"))),
     }
 }
-
 
 // 👉 Hiển thị trang đăng ký (GET /register)
 pub fn register_page() -> String {
@@ -79,10 +60,37 @@ pub fn register_page() -> String {
                 <button type="submit">Đăng Ký</button>
             </form>
         </div>
+
+        <!-- Toast Notification -->
+        <div class="toast-container"></div>
+
+        <script>
+            function showToast(message, type = "success") {
+                const toastContainer = document.querySelector(".toast-container");
+                const toast = document.createElement("div");
+                toast.className = "toast " + (type === "error" ? "error-toast" : "success-toast");
+                toast.textContent = message;
+                toastContainer.appendChild(toast);
+                
+                setTimeout(() => toast.classList.add("show"), 100);
+                setTimeout(() => {
+                    toast.classList.remove("show");
+                    setTimeout(() => toast.remove(), 500);
+                }, 3000);
+            }
+
+            // Kiểm tra nếu có thông báo từ URL (dùng query params)
+            const params = new URLSearchParams(window.location.search);
+            if (params.has("message")) {
+                const message = params.get("message");
+                const type = params.get("type") || "success";
+                showToast(message, type);
+            }
+        </script>
     </body>
 </html>
-
     "#.to_string()
 }
+
 
 
