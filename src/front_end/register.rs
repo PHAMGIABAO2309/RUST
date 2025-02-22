@@ -76,7 +76,7 @@ pub fn register_page() -> String {
                 let messageBox = document.getElementById("message");
 
                 if (result.success) {
-                    messageBox.style.background = "rgba(140, 243, 31, 0.9)"; // Xanh lá
+                    messageBox.style.background = "rgba(98, 177, 14, 0.9)"; // Xanh lá
                     messageBox.style.color = "white";
                     messageBox.innerHTML = result.message;
                     messageBox.style.display = "block"; // Hiện thông báo
