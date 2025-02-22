@@ -89,19 +89,6 @@ pub fn register_page() -> String {
                 }
             }
         </script>
-        <style>
-            .message-box {
-                position: fixed;
-                top: 10px;
-                right: 10px;
-                background: rgba(255, 0, 0, 0.9);
-                color: white;
-                padding: 10px 20px;
-                border-radius: 5px;
-                display: none;
-                font-weight: bold;
-            }
-        </style>
     </head>
     <body>
         <div class="message-box" id="message"></div>
