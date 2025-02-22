@@ -18,21 +18,7 @@ pub async fn get_poem_content(pool: &Pool<MySql>) -> Result<String, sqlx::Error>
     Ok(row.0)
 }
 
-pub async fn register_user(pool: &Pool<MySql>, username: &str, password: &str) -> Result<(), sqlx::Error> {
-    let result = sqlx::query("INSERT INTO users (username, password) VALUES (?, ?)")
-        .bind(username)
-        .bind(password)
-        .execute(pool)
-        .await;
 
-    match result {
-        Ok(_) => Ok(()),
-        Err(e) => {
-            eprintln!("Lỗi khi đăng ký: {:?}", e);
-            Err(e)
-        }
-    }
-}
 
 
 
