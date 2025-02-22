@@ -18,14 +18,11 @@ async fn username_exists(pool: &MySqlPool, username: &str) -> Result<bool, sqlx:
     Ok(count.0 > 0)
 }
 // 👉 Xử lý đăng ký nhiều tài khoản (POST /register)
-use warp::reply::json;
-use serde_json::json;
-
 pub async fn handle_register(pool: MySqlPool, form: RegisterForm) -> Result<impl Reply, Rejection> {
     if username_exists(&pool, &form.username).await.unwrap_or(false) {
-        return Ok(json(&json!({ "success": false, "message": "Tên đăng nhập đã tồn tại!" })));
+        let response = warp::reply::html("<h3>Tên đăng nhập đã tồn tại, vui lòng chọn tên khác!</h3>");
+        return Ok(response);
     }
-
     let query = "INSERT INTO users (username, password, email) VALUES (?, ?, ?)";
     match sqlx::query(query)
         .bind(&form.username)
@@ -34,11 +31,24 @@ pub async fn handle_register(pool: MySqlPool, form: RegisterForm) -> Result<impl
         .execute(&pool)
         .await 
     {
-        Ok(_) => Ok(json(&json!({ "success": true }))),
-        Err(_) => Ok(json(&json!({ "success": false, "message": "Lỗi khi đăng ký!" }))),
+        Ok(_) => {
+            let response = warp::reply::html(r#"
+                <html>
+                    <body>
+                        <h3>Đăng ký thành công! Chuyển hướng...</h3>
+                        <script>window.location.href = "/hello";</script>
+                    </body>
+                </html>
+            "#);
+            Ok(response)
+        }
+        Err(e) => {
+            eprintln!("Lỗi khi đăng ký: {:?}", e);
+            let response = warp::reply::html("<h3>Đăng ký thất bại, thử lại!</h3>");
+            Ok(response)
+        }
     }
 }
-
 // 👉 Hiển thị trang đăng ký (GET /register)
 pub fn register_page() -> String {
     r#"
