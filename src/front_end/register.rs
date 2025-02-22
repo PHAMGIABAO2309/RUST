@@ -1,6 +1,8 @@
 
 use sqlx::MySqlPool;
+
 use serde::Deserialize;
+use warp::{Rejection, Reply};
 
 #[derive(Deserialize)]
 pub struct RegisterForm {
@@ -8,31 +10,26 @@ pub struct RegisterForm {
     password: String,
 }
 
-// 👉 Hiển thị trang đăng ký (GET /register)
-pub fn register_page() -> String {
-    r#"
-    <html>
-        <head><title>Đăng Ký</title></head>
-        <body>
-            <h2>Trang Đăng Ký</h2>
-            <form action="/register" method="post">
-                <label for="username">Tên đăng nhập:</label>
-                <input type="text" id="username" name="username" required>
-                <br>
-                <label for="password">Mật khẩu:</label>
-                <input type="password" id="password" name="password" required>
-                <br>
-                <button type="submit">Đăng Ký</button>
-            </form>
-        </body>
-    </html>
-    "#.to_string()
+// Hàm kiểm tra username đã tồn tại chưa
+async fn username_exists(pool: &MySqlPool, username: &str) -> Result<bool, sqlx::Error> {
+    let query = "SELECT COUNT(*) FROM users WHERE username = ?";
+    let count: (i64,) = sqlx::query_as(query)
+        .bind(username)
+        .fetch_one(pool)
+        .await?;
+
+    Ok(count.0 > 0)
 }
 
-// 👉 Xử lý đăng ký (POST /register)
-pub async fn handle_register(pool: MySqlPool, form: RegisterForm) -> Result<impl warp::Reply, warp::Rejection> {
+// 👉 Xử lý đăng ký nhiều tài khoản (POST /register)
+pub async fn handle_register(pool: MySqlPool, form: RegisterForm) -> Result<impl Reply, Rejection> {
+    if username_exists(&pool, &form.username).await.unwrap_or(false) {
+        let response = warp::reply::html("<h3>Tên đăng nhập đã tồn tại, vui lòng chọn tên khác!</h3>");
+        return Ok(response);
+    }
+
     let query = "INSERT INTO users (username, password) VALUES (?, ?)";
-    
+
     match sqlx::query(query)
         .bind(&form.username)
         .bind(&form.password)
@@ -57,3 +54,27 @@ pub async fn handle_register(pool: MySqlPool, form: RegisterForm) -> Result<impl
         }
     }
 }
+
+
+// 👉 Hiển thị trang đăng ký (GET /register)
+pub fn register_page() -> String {
+    r#"
+    <html>
+        <head><title>Đăng Ký</title></head>
+        <body>
+            <h2>Trang Đăng Ký</h2>
+            <form action="/register" method="post">
+                <label for="username">Tên đăng nhập:</label>
+                <input type="text" id="username" name="username" required>
+                <br>
+                <label for="password">Mật khẩu:</label>
+                <input type="password" id="password" name="password" required>
+                <br>
+                <button type="submit">Đăng Ký</button>
+            </form>
+        </body>
+    </html>
+    "#.to_string()
+}
+
+
