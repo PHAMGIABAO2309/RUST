@@ -2,8 +2,8 @@ use std::process::Command;
 use tokio::fs::{self, File};
 use tokio::io::AsyncWriteExt;
 use sqlx::{MySql, Pool};
-use hello_rust2::my_function; // Import function from the lib.rs
-pub mod content;
+use hello_rust2::{my_function, content::function_content}; // Import từ lib.rs
+
 
 
 /// Hàm tự động đẩy code lên GitHub
@@ -58,7 +58,7 @@ async fn main() {
 
     // Gọi `my_function()` để lấy nội dung cần ghi vào file
     let my_func_output = my_function(); // Lấy nội dung từ my_function()
-    let my_func_content = content::function_content();
+    let my_func_content = function_content();
     // Tạo nội dung HTML
     let html_content = format!(
         r#"<!DOCTYPE html>
