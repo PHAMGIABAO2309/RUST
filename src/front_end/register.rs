@@ -61,12 +61,11 @@ pub fn register_page() -> String {
     <html>
     <head>
         <title>Đăng Ký</title>
-        <link rel="stylesheet" href="/static/index.css">
+        <link rel="stylesheet" href="/static/register.css">
     </head>
     <body>
         <div class="container">
-            <img src="logo.png" alt="Logo" class="logo"> <!-- Thay logo.png bằng logo của bạn -->
-            <h2>Chào mừng bạn!</h2>
+            <h2>Đăng Ký Tài Khoản</h2>
             <form action="/register" method="post">
                 <label for="username">Tên đăng nhập:</label>
                 <input type="text" id="username" name="username" placeholder="Nhập tên..." required>
@@ -82,7 +81,6 @@ pub fn register_page() -> String {
         </div>
     </body>
 </html>
-
 
     "#.to_string()
 }

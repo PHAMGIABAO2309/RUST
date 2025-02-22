@@ -1,113 +1,65 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
-
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Poppins', sans-serif;
-}
-
 body {
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(to right, #667eea, #764ba2);
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background: linear-gradient(135deg, #74ebd5, #acb6e5);
-    overflow: hidden;
+    margin: 0;
 }
 
 .container {
-    text-align: center;
-    background: rgba(255, 255, 255, 0.2);
+    background: white;
     padding: 2rem;
-    border-radius: 12px;
-    backdrop-filter: blur(8px);
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.2);
+    text-align: center;
     width: 350px;
-    position: relative;
 }
 
-/* LOGO */
-.logo {
-    width: 80px;
-    margin-bottom: 10px;
-    animation: fadeIn 1.5s ease-in-out;
-}
-
-/* HIỆU ỨNG CHỮ */
 h2 {
-    color: white;
-    font-size: 22px;
-    font-weight: 600;
-    background: linear-gradient(90deg, #ff9a9e, #fad0c4);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    animation: fadeIn 2s ease-in-out;
+    color: #333;
+    margin-bottom: 1rem;
 }
 
-/* FORM */
 form {
     display: flex;
     flex-direction: column;
-    margin-top: 15px;
 }
 
 label {
-    color: white;
-    font-weight: 400;
-    text-align: left;
+    font-weight: 600;
     margin-bottom: 5px;
-    font-size: 14px;
+    text-align: left;
 }
 
 input {
     padding: 10px;
-    border: none;
-    border-radius: 8px;
-    background: rgba(255, 255, 255, 0.2);
-    color: white;
-    font-size: 14px;
-    transition: 0.3s;
-    margin-bottom: 10px;
-    outline: none;
-}
-
-input::placeholder {
-    color: rgba(255, 255, 255, 0.6);
+    margin-bottom: 15px;
+    border: 2px solid #ddd;
+    border-radius: 5px;
+    transition: 0.3s ease;
+    font-size: 16px;
 }
 
 input:focus {
-    background: rgba(255, 255, 255, 0.3);
-    box-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
+    border-color: #764ba2;
+    box-shadow: 0 0 8px rgba(118, 75, 162, 0.5);
+    outline: none;
 }
 
-/* NÚT ĐĂNG KÝ */
 button {
-    padding: 10px;
-    background: linear-gradient(90deg, #ff9a9e, #fad0c4);
+    background: linear-gradient(90deg, #ff758c, #ff7eb3);
     color: white;
-    font-size: 16px;
+    font-size: 18px;
+    padding: 10px;
     border: none;
-    border-radius: 8px;
+    border-radius: 5px;
     cursor: pointer;
     transition: 0.3s;
-    margin-top: 10px;
 }
 
 button:hover {
-    background: linear-gradient(90deg, #fad0c4, #ff9a9e);
-    box-shadow: 0px 4px 10px rgba(255, 154, 158, 0.4);
-    transform: scale(1.05);
-}
-
-/* ANIMATION */
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(-10px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+    background: linear-gradient(90deg, #ff7eb3, #ff758c);
+    box-shadow: 0px 5px 15px rgba(255, 117, 140, 0.3);
 }
