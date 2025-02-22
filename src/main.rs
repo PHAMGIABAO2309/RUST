@@ -1,9 +1,9 @@
 use std::process::Command;
 use tokio::fs::{self, File};
 use tokio::io::AsyncWriteExt;
-use sqlx::{MySql, Pool};
-use hello_rust2::{my_function, content::function_content}; // Import từ lib.rs
 
+use hello_rust2::{my_function, content::function_content}; // Import từ lib.rs
+mod database;
 
 
 /// Hàm tự động đẩy code lên GitHub
@@ -44,21 +44,12 @@ fn push_to_github() {
 #[tokio::main]
 async fn main() {
     // --- Phần kết nối MySQL ---
-    let db_url = "mysql://root@localhost:3366/my_database"; 
-    let pool = Pool::<MySql>::connect(db_url)
-        .await
-        .expect("Không thể kết nối tới MySQL");
-
-    // Lấy nội dung bài thơ từ database
-    let row: (String,) = sqlx::query_as("SELECT content FROM poems LIMIT 1")
-        .fetch_one(&pool)
-        .await
-        .expect("Không thể lấy dữ liệu từ MySQL");
-    let poem_content = row.0;
+    let poem_content = database::get_poem_content().await;
 
     // Gọi `my_function()` để lấy nội dung cần ghi vào file
     let my_func_output = my_function(); // Lấy nội dung từ my_function()
     let my_func_content = function_content();
+
     // Tạo nội dung HTML
     let html_content = format!(
         r#"<!DOCTYPE html>
