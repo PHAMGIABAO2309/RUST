@@ -2,7 +2,8 @@ use std::process::Command;
 use tokio::fs::{self, File};
 use tokio::io::AsyncWriteExt;
 use sqlx::{MySql, Pool};
-use hello_rust2::my_function;
+use hello_rust2::my_function; // Import function from the lib.rs
+pub mod content;
 
 
 /// Hàm tự động đẩy code lên GitHub
@@ -57,7 +58,7 @@ async fn main() {
 
     // Gọi `my_function()` để lấy nội dung cần ghi vào file
     let my_func_output = my_function(); // Lấy nội dung từ my_function()
-
+    let my_func_content = content::function_content();
     // Tạo nội dung HTML
     let html_content = format!(
         r#"<!DOCTYPE html>
@@ -71,9 +72,10 @@ async fn main() {
     <p>Hi from Rust</p>
     <pre>{}</pre>
     <p>{}</p> <!-- Chèn kết quả của my_function() -->
+    <p>{}</p> <!-- Chèn kết quả của function_content() -->
   </body>
 </html>"#,
-        poem_content, my_func_output
+        poem_content, my_func_output, my_func_content
     );
 
     // Tạo thư mục front-end nếu chưa tồn tại
