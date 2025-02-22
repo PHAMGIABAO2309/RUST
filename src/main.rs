@@ -5,47 +5,41 @@ use tokio::sync::Mutex;
 
 #[tokio::main]
 async fn main() {
-    // 🛠 Kết nối database một lần và dùng lại
-    let pool = database::connect_db().await.expect("Không thể kết nối tới MySQL");
+    // Kết nối database
+    let pool = database::connect_db().await.expect("Không thể kết nối MySQL");
 
-    // 🛠 Lấy dữ liệu thơ từ database
+    // Lấy dữ liệu thơ từ database
     let poem_content = match database::get_poem_content(&pool).await {
-        Ok(content) => Arc::new(Mutex::new(content)),
+        Ok(content) => Arc::new(Mutex::new(content)),  // Nếu dữ liệu có thể thay đổi
         Err(_) => Arc::new(Mutex::new("Không thể lấy dữ liệu thơ".to_string())),
     };
 
-    // 🛠 Lấy nội dung function_content() (không cần Mutex vì nó không thay đổi)
+    // Lấy nội dung function_content() (không thay đổi nên không cần Mutex)
     let my_func_content = Arc::new(content::function_content());
 
-    // 🛠 Tạo route `/hello`
-    let poem_clone = Arc::clone(&poem_content);
-    let func_clone = Arc::clone(&my_func_content);
-    
-    let hello_route = warp::path("hello").and_then(move || {
-        let poem_clone = Arc::clone(&poem_clone);
-        let func_clone = Arc::clone(&func_clone);
+    // Tạo route `/hello`
+    let hello_route = warp::path("hello").and_then(move || handle_hello(poem_content.clone(), my_func_content.clone()));
 
-        async move {
-            let poem = poem_clone.lock().await.clone();
-            let html = front_end::hello::generate_html(&poem, &func_clone);
-            Ok::<_, warp::Rejection>(warp::reply::html(html))
-        }
-    });
-
-    // 🛠 Route để phục vụ file tĩnh (CSS, JS, hình ảnh)
+    // Route file tĩnh (CSS, JS, hình ảnh)
     let static_files = warp::path("static").and(warp::fs::dir("./static"));
 
     println!("🚀 Server chạy tại http://localhost:8080/hello");
 
-    // 🔥 Chạy server và đợi tín hiệu Ctrl+C
-    let server = warp::serve(hello_route.or(static_files))
-        .run(([127, 0, 0, 1], 8080));
+    // Chạy server và đợi tín hiệu Ctrl+C
+    let server = warp::serve(hello_route.or(static_files)).run(([127, 0, 0, 1], 8080));
 
     tokio::select! {
-        _ = server => {},  // Chạy server
+        _ = server => {},
         _ = tokio::signal::ctrl_c() => {
             println!("📌 Nhận tín hiệu Ctrl+C, đẩy code lên GitHub...");
             push_github::push_to_github();
         }
     }
+}
+
+// 👉 Hàm xử lý request `/hello`
+async fn handle_hello(poem: Arc<Mutex<String>>, func: Arc<String>) -> Result<impl warp::Reply, warp::Rejection> {
+    let poem_content = poem.lock().await.clone();  // Lấy nội dung thơ
+    let html = front_end::hello::generate_html(&poem_content, &func);
+    Ok(warp::reply::html(html))
 }
