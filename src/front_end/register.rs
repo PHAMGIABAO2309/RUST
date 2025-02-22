@@ -65,22 +65,23 @@ pub fn register_page() -> String {
     </head>
     <body>
         <div class="container">
-            <h2>Trang Đăng Ký</h2>
+            <h2>Đăng Ký Tài Khoản</h2>
             <form action="/register" method="post">
                 <label for="username">Tên đăng nhập:</label>
-                <input type="text" id="username" name="username" required>
+                <input type="text" id="username" name="username" placeholder="Nhập tên..." required>
                 
                 <label for="password">Mật khẩu:</label>
-                <input type="password" id="password" name="password" required>
+                <input type="password" id="password" name="password" placeholder="Nhập mật khẩu..." required>
                 
                 <label for="email">Email:</label>
-                <input type="email" id="email" name="email" required>
+                <input type="email" id="email" name="email" placeholder="Nhập email..." required>
                 
                 <button type="submit">Đăng Ký</button>
             </form>
         </div>
     </body>
 </html>
+
     "#.to_string()
 }
 
