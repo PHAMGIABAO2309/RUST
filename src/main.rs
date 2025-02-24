@@ -1,7 +1,6 @@
 use warp::Filter;
 use hello_rust2::*;
 use std::sync::Arc;
- // 👉 Import Pool MySQL
 
 #[tokio::main]
 async fn main() {
