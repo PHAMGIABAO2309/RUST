@@ -80,7 +80,7 @@ pub fn register_page() -> String {
                     messageBox.style.color = "white";
                     messageBox.innerHTML = result.message;
                     messageBox.style.display = "block"; // Hiện thông báo
-                    setTimeout(() => { window.location.href = "/hello"; }, 2000);
+                    setTimeout(() => { window.location.href = "/login"; }, 2000);
                 } else {
                     messageBox.style.background = "rgba(255, 0, 0, 0.9)"; // Đỏ
                     messageBox.style.color = "white";

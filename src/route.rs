@@ -38,6 +38,20 @@ pub fn create_register_route(
                 async move { front_end::register::handle_register(conn_clone, form_data).await }
             }))
 }
+pub fn create_login_route(
+    conn: MySqlPool
+) -> impl warp::Filter<Extract = (impl warp::Reply,), Error = warp::Rejection> + Clone {
+    warp::path("login")
+        .and(warp::get())
+        .map(|| warp::reply::html(front_end::login::login_page())) // Hiển thị trang đăng nhập
+        .or(warp::path("login")
+            .and(warp::post())
+            .and(warp::body::form())
+            .and_then(move |form_data| {
+                let conn_clone = conn.clone();
+                async move { front_end::login::handle_login(conn_clone, form_data).await }
+            }))
+}
 
 // 👉 Route file tĩnh `/static`
 pub fn create_static_route() -> impl warp::Filter<Extract = (impl warp::Reply,), Error = warp::Rejection> + Clone {
@@ -63,3 +77,4 @@ pub async fn wait_for_exit(server: impl Future<Output = ()>) {
         }
     }
 }
+
