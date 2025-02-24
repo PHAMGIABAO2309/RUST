@@ -106,7 +106,7 @@ pub fn register_page() -> String {
 
                 <div>
                     <button type="submit">Đăng Ký</button>
-                    <button type="submit">Đăng Nhập</button>
+                    <button type="button" onclick="window.location.href='/login';">Đăng Nhập</button>
                 </div>
                 
             </form>
