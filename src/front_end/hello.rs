@@ -26,10 +26,10 @@ pub fn home(poem_content: &str) -> String {
         <span class="ml-2 text-sm text-gray-600">Tiện ích văn bản luật</span>
       </div>
       <div class="flex items-center space-x-4">
-        <button class="text-gray-600">Danh mục</button>
-        <span class="text-red-600">Tổng đài trực tuyến 19006192</span>
-        <button class="text-gray-600">Gói dịch vụ &amp; Giá</button>
-        <button class="text-gray-600">Tiếng Anh</button>
+        <button class="text-gray-600"></button>
+        <span class="text-red-600"></span>
+        <button class="text-gray-600"></button>
+        <button class="text-gray-600"></button>
         <button class="text-gray-600">Đăng ký / Đăng nhập</button>
       </div>
     </div>
