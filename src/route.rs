@@ -16,12 +16,12 @@ pub async fn get_poem_data(conn: &MySqlPool) -> Arc<Mutex<String>> {
     poem_content
 }
 // 👉 Route `/hello`
-pub fn create_hello_route(
+/*pub fn create_hello_route(
     poem: Arc<Mutex<String>>, 
     func: Arc<String>
 ) -> impl warp::Filter<Extract = (impl warp::Reply,), Error = warp::Rejection> + Clone {
     warp::path("hello").and_then(move || handle_hello(poem.clone(), func.clone()))
-}
+}*/
 
 // 👉 Route `/register`
 pub fn create_register_route(
@@ -62,14 +62,14 @@ pub fn create_static_route() -> impl warp::Filter<Extract = (impl warp::Reply,),
 
 
 // 👉 Hàm xử lý `/hello`
-async fn handle_hello(
+/*async fn handle_hello(
     poem: Arc<Mutex<String>>, 
     func: Arc<String>
 ) -> Result<impl warp::Reply, warp::Rejection> {
     let poem_content = poem.lock().await.clone();
     let html = front_end::hello::home(&poem_content, &func);
     Ok(warp::reply::html(html))
-}
+}*/
 
 pub async fn wait_for_exit(server: impl Future<Output = ()>) {
     tokio::select! {
