@@ -55,8 +55,11 @@ pub fn create_login_route(
 
 // 👉 Route file tĩnh `/static`
 pub fn create_static_route() -> impl warp::Filter<Extract = (impl warp::Reply,), Error = warp::Rejection> + Clone {
-    warp::path("static").and(warp::fs::dir("./static"))
+    let static_files = warp::path("static").and(warp::fs::dir("./static"));
+    let image_files = warp::path("images").and(warp::fs::dir("./images"));
+    static_files.or(image_files)
 }
+
 
 // 👉 Hàm xử lý `/hello`
 async fn handle_hello(

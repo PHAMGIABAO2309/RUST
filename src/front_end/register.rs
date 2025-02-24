@@ -107,6 +107,7 @@ pub fn register_page() -> String {
                 <div>
                     <button type="submit">Đăng Ký</button>
                     <button type="button" onclick="window.location.href='/login';">Đăng Nhập</button>
+                    <images src="/images/Home.jpg" alt="Home" width="100" height="100">
                 </div>
                 
             </form>
