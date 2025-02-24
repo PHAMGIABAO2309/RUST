@@ -1,3 +1,5 @@
+ // Thêm module content
+use crate::front_end::content::document_content;
 pub fn home(poem_content: &str) -> String {
   format!(
       r#"<!DOCTYPE html>
@@ -7,22 +9,14 @@ pub fn home(poem_content: &str) -> String {
   <meta content="width=device-width, initial-scale=1.0" name="viewport" />
   <title>Document</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <link
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
-    rel="stylesheet"
-  />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="/static/index.css" />
 </head>
 <body class="bg-gray-100">
   <header class="bg-white shadow">
     <div class="container mx-auto flex justify-between items-center py-4 px-6">
       <div class="flex items-center">
-        <img
-          alt="LuatVietnam logo"
-          class="h-10"
-          height="50"
-          src="https://storage.googleapis.com/a1aa/image/1id_n8_P-1fCXoyPjLLKZzD48YWK4FDjAV34G1wRj_k.jpg"
-          width="150"
-        />
+        <img alt="LuatVietnam logo" class="h-10" height="300" width="50" src="https://th.bing.com/th/id/OIP.-_GKfmytz61oq-HnVMf0NQHaHa?rs=1&pid=ImgDetMain" />
         <span class="ml-2 text-sm text-gray-600">Tiện ích văn bản luật</span>
       </div>
       <div class="flex items-center space-x-4">
@@ -35,26 +29,35 @@ pub fn home(poem_content: &str) -> String {
     </div>
   </header>
   <main class="container mx-auto py-6 px-6">
-    <h1 class="text-2xl font-bold mt-6">Nghị định 30/2020/NĐ-CP về công tác văn thư</h1>
-    <div class="bg-white p-4 mt-4 shadow">
-      <h2 class="text-xl font-bold">CHÍNH PHỦ</h2>
-      <p class="mt-2">Số: 30/2020/NĐ-CP</p>
-      <p class="mt-2">Hà Nội, ngày 05 tháng 3 năm 2020</p>
-      <img
-        alt="Official stamp"
-        class="mt-4"
-        height="100"
-        src="https://storage.googleapis.com/a1aa/image/heGjcg_7YbPP9Mcf-3wHvkQQ2k8FT_rDkc1k3NmthGk.jpg"
-        width="200"
-      />
+    <div class="flex items-center ">
+      <input class=" border border-gray-300 rounded-l px-4 py-2" style="width: 600px;" placeholder="Tìm kiếm văn bản..." type="text"/>
+      <button class="bg-red-600 text-white px-4 py-2 rounded-r">Tìm kiếm</button>
     </div>
-    <div class="bg-white p-4 mt-4 shadow">
-      <h2 class="text-xl font-bold">Nội dung</h2>
-      <p class="mt-2">{}</p>
+    <h1 class="text-2xl font-bold mt-2">Nghị định 30/2020/NĐ-CP về công tác văn thư</h1>
+    <div class="flex space-x-4 mt-4">
+      <button class="bg-gray-200 text-gray-800 px-4 py-2 rounded">Tóm tắt</button>
+      <button class="bg-yellow-500 text-white px-4 py-2 rounded"> Nội dung</button>
+      <button class="bg-gray-200 text-gray-800 px-4 py-2 rounded"> VB gốc</button>
+      <button class="bg-gray-200 text-gray-800 px-4 py-2 rounded">Tiếng Anh</button>
+      <button class="bg-gray-200 text-gray-800 px-4 py-2 rounded"> Hiệu lực</button>
+      <button class="bg-gray-200 text-gray-800 px-4 py-2 rounded">VB liên quan</button>
+      <button class="bg-gray-200 text-gray-800 px-4 py-2 rounded">Lược đồ</button>
+      <button class="bg-gray-200 text-gray-800 px-4 py-2 rounded">Nội dung MIX</button>
+      <button class="bg-gray-200 text-gray-800 px-4 py-2 rounded">Tải về</button>
     </div>
+    <div class="flex space-x-2 mt-2">
+      <button class="bg-gray-200 text-gray-800 px-4 py-2 rounded">Mục lục</button>
+        <button class="bg-red-600 text-white px-4 py-2 rounded">So sánh VB cũ/mới</button>
+        <button class="bg-red-600 text-white px-4 py-2 rounded">VB Song ngữ</button>
+        <button class="bg-gray-200 text-gray-800 px-4 py-2 rounded">Tải về</button>
+        <button class="bg-gray-200 text-gray-800 px-4 py-2 rounded">VB Lưu</button>
+        <button class="bg-gray-200 text-gray-800 px-4 py-2 rounded">Theo dõi VB</button>
+        <button class="bg-gray-200 text-gray-800 px-4 py-2 rounded">Ghi chú</button>
+    </div>
+    {}
   </main>
 </body>
 </html>"#,
-      poem_content
+        document_content(poem_content)
   )
 }
