@@ -77,7 +77,8 @@ pub fn login_page() -> String {
                 <input type="password" id="password" name="password" placeholder="Nhập mật khẩu..." required>
 
                 <button type="submit">Đăng Nhập</button>
-                <button type="submit">Đăng Ký</button>
+                <button type="button" onclick="window.location.href='/register';">Đăng Ký</button>
+
             </form>
         </div>
     </body>
