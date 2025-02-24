@@ -1,5 +1,5 @@
 use warp::Filter;
-use crate::database::get_poem_content;
+
 use crate::front_end; // Không dùng hello_rust2::front_end
 use std::sync::Arc;
 use tokio::sync::Mutex;
@@ -9,7 +9,7 @@ use std::future::Future;
 
 
 pub async fn get_poem_data(conn: &MySqlPool) -> Arc<Mutex<String>> {
-    let poem_content = match get_poem_content(conn).await {
+    let poem_content = match front_end::content::get_poem_content(conn).await {
         Ok(content) => Arc::new(Mutex::new(content)),
         Err(_) => Arc::new(Mutex::new("Không thể lấy dữ liệu thơ".to_string())),
     };

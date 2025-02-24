@@ -10,12 +10,7 @@ pub async fn connect_db() -> Result<Pool<MySql>, sqlx::Error> {
         .await
 }
 // Lấy nội dung thơ từ database
-pub async fn get_poem_content(pool: &Pool<MySql>) -> Result<String, sqlx::Error> {
-    let row: (String,) = sqlx::query_as("SELECT Content FROM content_documents LIMIT 1")
-        .fetch_one(pool)
-        .await?;
-    Ok(row.0)
-}
+
 
 
 

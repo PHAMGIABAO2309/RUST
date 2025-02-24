@@ -1,3 +1,12 @@
+use sqlx::{MySql, Pool};
+
+pub async fn get_poem_content(pool: &Pool<MySql>) -> Result<String, sqlx::Error> {
+    let row: (String,) = sqlx::query_as("SELECT Rules FROM content_documents LIMIT 1")
+        .fetch_one(pool)
+        .await?;
+    Ok(row.0)
+}
+
 pub fn document_content(poem_content: &str) -> String {
     format!(
         r#"
