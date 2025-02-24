@@ -6,3 +6,26 @@
 .no-scrollbar {
   scrollbar-width: none; 
 }
+
+.header-decree {
+  display: flex;
+  justify-content: space-between;
+  font-weight: bold;
+}
+.header-decree div {
+  text-align: center;
+}
+.doc-number {
+  margin-top: 10px;
+}
+.date {
+  text-align: center;
+  font: italic normal 16px sans-serif;
+  margin-top: 20px;
+}
+.underline {
+  display: block;
+  margin: 10px auto;
+  width: 200px;
+  border-bottom: 1px solid black;
+}

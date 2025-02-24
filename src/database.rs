@@ -1,7 +1,6 @@
 use sqlx::{MySql, Pool};
 use sqlx::mysql::MySqlPoolOptions;
 
-// Định nghĩa URL cố định
 const DB_URL: &str = "mysql://root@localhost:3366/my_database";
 
 // Kết nối tới database (trả về Pool<MySql>)

@@ -1,13 +1,13 @@
 use warp::Filter;
 use crate::database::get_poem_content;
-use crate::front_end; // Không dùng hello_rust2::front_end
+use crate::front_end;
+use sqlx::MySqlPool;
 use std::sync::Arc;
 use tokio::sync::Mutex;
-use sqlx::mysql::MySqlPool;
 use tokio::signal;
 use std::future::Future;
 
-
+// 👉 Hàm lấy dữ liệu thơ từ database
 pub async fn get_poem_data(conn: &MySqlPool) -> Arc<Mutex<String>> {
     let poem_content = match get_poem_content(conn).await {
         Ok(content) => Arc::new(Mutex::new(content)),
@@ -15,12 +15,46 @@ pub async fn get_poem_data(conn: &MySqlPool) -> Arc<Mutex<String>> {
     };
     poem_content
 }
-// 👉 Route `/hello`
+
+// 👉 Route `/hello/{chapter_name}`
 pub fn create_hello_route(
-    poem: Arc<Mutex<String>>, 
+    pool: MySqlPool,
 ) -> impl warp::Filter<Extract = (impl warp::Reply,), Error = warp::Rejection> + Clone {
-    warp::path("hello").and_then(move || handle_hello(poem.clone()))
+    warp::path!("hello" / String)
+        .and(with_db(pool))
+        .and_then(handle_hello)
 }
+
+// Middleware để truyền database pool vào handler
+fn with_db(
+    pool: MySqlPool,
+) -> impl Filter<Extract = (MySqlPool,), Error = std::convert::Infallible> + Clone {
+    warp::any().map(move || pool.clone())
+}
+
+// 👉 Hàm xử lý `/hello/{chapter_name}`
+async fn handle_hello(
+    chapter_name: String,
+    pool: MySqlPool,
+) -> Result<impl warp::Reply, warp::Rejection> {
+    match front_end::hello::home(&pool, &chapter_name).await {
+        Ok(html) => Ok(warp::reply::html(html)),
+        Err(_) => Err(warp::reject::not_found()),
+    }
+}
+
+
+pub async fn wait_for_exit(server: impl Future<Output = ()>) {
+    tokio::select! {
+        _ = server => {},
+        _ = signal::ctrl_c() => {
+            println!("📌 Nhận tín hiệu Ctrl+C, đẩy code lên GitHub...");
+            crate::push_github::push_to_github();
+        }
+    }
+}
+
+
 
 // 👉 Route `/register`
 pub fn create_register_route(
@@ -60,22 +94,7 @@ pub fn create_static_route() -> impl warp::Filter<Extract = (impl warp::Reply,),
 }
 
 
-// 👉 Hàm xử lý `/hello`
-async fn handle_hello(
-    poem: Arc<Mutex<String>>,
-) -> Result<impl warp::Reply, warp::Rejection> {
-    let poem_content = poem.lock().await.clone();
-    let html = front_end::hello::home(&poem_content);
-    Ok(warp::reply::html(html))
-}
 
-pub async fn wait_for_exit(server: impl Future<Output = ()>) {
-    tokio::select! {
-        _ = server => {},
-        _ = signal::ctrl_c() => {
-            println!("📌 Nhận tín hiệu Ctrl+C, đẩy code lên GitHub...");
-            crate::push_github::push_to_github();
-        }
-    }
-}
+
+
 

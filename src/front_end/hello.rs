@@ -1,7 +1,9 @@
  // Thêm module content
-use crate::front_end::content::document_content;
-pub fn home(poem_content: &str) -> String {
-  format!(
+ use crate::front_end::content:: get_document_content;
+ use sqlx::MySqlPool;
+ pub async fn home(pool: &MySqlPool, chapter_name: &str) -> Result<String, sqlx::Error> {
+  let content = get_document_content(pool, chapter_name).await?;
+  Ok(format!(
       r#"<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -62,6 +64,6 @@ pub fn home(poem_content: &str) -> String {
   </main>
 </body>
 </html>"#,
-        document_content(poem_content)
-  )
+        content
+  ))
 }
