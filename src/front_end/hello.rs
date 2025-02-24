@@ -29,35 +29,36 @@ pub fn home(poem_content: &str) -> String {
     </div>
   </header>
   <main class="container mx-auto py-6 px-6">
-    <div class="flex items-center ">
-      <input class=" border border-gray-300 rounded-l px-4 py-2" style="width: 600px;" placeholder="Tìm kiếm văn bản..." type="text"/>
-      <button class="bg-red-600 text-white px-4 py-2 rounded-r">Tìm kiếm</button>
-    </div>
-    <h1 class="text-2xl font-bold mt-2">Nghị định 30/2020/NĐ-CP về công tác văn thư</h1>
-    <div class="flex space-x-4 mt-4">
-      <button class="bg-gray-200 text-gray-800 px-4 py-2 rounded">Tóm tắt</button>
-      <button class="bg-yellow-500 text-white px-4 py-2 rounded"> Nội dung</button>
-      <button class="bg-gray-200 text-gray-800 px-4 py-2 rounded"> VB gốc</button>
-      <button class="bg-gray-200 text-gray-800 px-4 py-2 rounded">Tiếng Anh</button>
-      <button class="bg-gray-200 text-gray-800 px-4 py-2 rounded"> Hiệu lực</button>
-      <button class="bg-gray-200 text-gray-800 px-4 py-2 rounded">VB liên quan</button>
-      <button class="bg-gray-200 text-gray-800 px-4 py-2 rounded">Lược đồ</button>
-      <button class="bg-gray-200 text-gray-800 px-4 py-2 rounded">Nội dung MIX</button>
-      <button class="bg-gray-200 text-gray-800 px-4 py-2 rounded">Tải về</button>
-    </div>
-    <div class="flex space-x-2 mt-2">
-      <button class="bg-gray-200 text-gray-800 px-4 py-2 rounded">Mục lục</button>
-        <button class="bg-red-600 text-white px-4 py-2 rounded">So sánh VB cũ/mới</button>
-        <button class="bg-red-600 text-white px-4 py-2 rounded">VB Song ngữ</button>
+  <div>
+      <div class="flex items-center ">
+        <input class=" border border-gray-300 rounded-l px-4 py-2" style="width: 600px;" placeholder="Tìm kiếm văn bản..." type="text"/>
+        <button class="bg-red-600 text-white px-4 py-2 rounded-r">Tìm kiếm</button>
+      </div>
+      <h1 class="text-2xl font-bold mt-2">Nghị định 30/2020/NĐ-CP về công tác văn thư</h1>
+      <div class="flex space-x-4 mt-4">
+        <button class="bg-gray-200 text-gray-800 px-4 py-2 rounded">Tóm tắt</button>
+        <button class="bg-yellow-500 text-white px-4 py-2 rounded"> Nội dung</button>
+        <button class="bg-gray-200 text-gray-800 px-4 py-2 rounded"> VB gốc</button>
+        <button class="bg-gray-200 text-gray-800 px-4 py-2 rounded">Tiếng Anh</button>
+        <button class="bg-gray-200 text-gray-800 px-4 py-2 rounded"> Hiệu lực</button>
+        <button class="bg-gray-200 text-gray-800 px-4 py-2 rounded">VB liên quan</button>
+        <button class="bg-gray-200 text-gray-800 px-4 py-2 rounded">Lược đồ</button>
+        <button class="bg-gray-200 text-gray-800 px-4 py-2 rounded">Nội dung MIX</button>
         <button class="bg-gray-200 text-gray-800 px-4 py-2 rounded">Tải về</button>
-        <button class="bg-gray-200 text-gray-800 px-4 py-2 rounded">VB Lưu</button>
-        <button class="bg-gray-200 text-gray-800 px-4 py-2 rounded">Theo dõi VB</button>
-        <button class="bg-gray-200 text-gray-800 px-4 py-2 rounded">Ghi chú</button>
+      </div>
+      <div class="flex space-x-2 mt-2">
+        <button class="bg-gray-200 text-gray-800 px-4 py-2 rounded">Mục lục</button>
+          <button class="bg-red-600 text-white px-4 py-2 rounded">So sánh VB cũ/mới</button>
+          <button class="bg-red-600 text-white px-4 py-2 rounded">VB Song ngữ</button>
+          <button class="bg-gray-200 text-gray-800 px-4 py-2 rounded">Tải về</button>
+          <button class="bg-gray-200 text-gray-800 px-4 py-2 rounded">VB Lưu</button>
+          <button class="bg-gray-200 text-gray-800 px-4 py-2 rounded">Theo dõi VB</button>
+          <button class="bg-gray-200 text-gray-800 px-4 py-2 rounded">Ghi chú</button>
+      </div>
+      <div>
+      {}
+      </div>
     </div>
-    <div>
-    {}
-    </div>
-    
   </main>
 </body>
 </html>"#,
