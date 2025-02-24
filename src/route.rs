@@ -4,7 +4,8 @@ use crate::front_end; // Không dùng hello_rust2::front_end
 use std::sync::Arc;
 use tokio::sync::Mutex;
 use sqlx::mysql::MySqlPool;
-
+use tokio::signal;
+use std::future::Future;
 
 
 pub async fn get_poem_data(conn: &MySqlPool) -> Arc<Mutex<String>> {
@@ -53,3 +54,12 @@ async fn handle_hello(
     Ok(warp::reply::html(html))
 }
 
+pub async fn wait_for_exit(server: impl Future<Output = ()>) {
+    tokio::select! {
+        _ = server => {},
+        _ = signal::ctrl_c() => {
+            println!("📌 Nhận tín hiệu Ctrl+C, đẩy code lên GitHub...");
+            crate::push_github::push_to_github();
+        }
+    }
+}

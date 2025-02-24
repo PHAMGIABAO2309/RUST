@@ -22,17 +22,8 @@ async fn main() {
     let server = warp::serve(hello_route.or(register_route).or(static_files)) // 👉 Chạy server
         .run(([127, 0, 0, 1], 8080));
 
-    wait_for_exit(server).await;
+    route::wait_for_exit(server).await;
 }
 
 
-// 👉 Hàm đợi tín hiệu Ctrl+C để dừng server
-async fn wait_for_exit(server: impl std::future::Future<Output = ()>) {
-    tokio::select! {
-        _ = server => {},
-        _ = tokio::signal::ctrl_c() => {
-            println!("📌 Nhận tín hiệu Ctrl+C, đẩy code lên GitHub...");
-            push_github::push_to_github();
-        }
-    }
-}
+
