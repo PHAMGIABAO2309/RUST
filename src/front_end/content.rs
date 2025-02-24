@@ -4,7 +4,7 @@ pub async fn get_document_content(pool: &MySqlPool, chapter_name: &str) -> Resul
     let row = sqlx::query(
         r#"
         select Chapter, Title, Rules, Content
-            from Documents d, ContentDocuments ct
+            from documents d, content_documents ct
             where d.Chapter = ct.Rules
             and d.Chapter =  ?
         "#
