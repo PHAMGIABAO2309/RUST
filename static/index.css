@@ -66,4 +66,11 @@
       font-size: 14px;
     }
   }
-  
+  .home-image {
+    width: 200px; /* Độ rộng 200px */
+    height: auto; /* Chiều cao tự động theo tỷ lệ */
+    display: block; /* Để căn giữa */
+    margin: 20px auto;
+    border-radius: 10px; /* Bo góc ảnh */
+    box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3); /* Đổ bóng */
+}
