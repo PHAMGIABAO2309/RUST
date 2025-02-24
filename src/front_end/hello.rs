@@ -54,7 +54,10 @@ pub fn home(poem_content: &str) -> String {
         <button class="bg-gray-200 text-gray-800 px-4 py-2 rounded">Theo dõi VB</button>
         <button class="bg-gray-200 text-gray-800 px-4 py-2 rounded">Ghi chú</button>
     </div>
+    <div>
     {}
+    </div>
+    
   </main>
 </body>
 </html>"#,
