@@ -1,4 +1,4 @@
-pub fn home() -> String {
+pub fn home(poem_content: &str) -> String {
   format!(
       r#"<!DOCTYPE html>
 <html lang="en">
@@ -8,11 +8,11 @@ pub fn home() -> String {
 </head>
 <body>
   <h1>Tôi là Phạm Gia Bảo! Tôi đang test Localhost</h1>
- 
+  <pre>{}</pre>
   <img class="home-image" src="/images/Home.jpg" alt="Home">
   <a href="/register">Đăng ký</a>
 </body>
 </html>"#,
-      
+      poem_content
   )
 }
