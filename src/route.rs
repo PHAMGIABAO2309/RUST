@@ -1,20 +1,13 @@
 use warp::Filter;
-use crate::database::get_poem_content;
+
 use crate::front_end;
 use sqlx::MySqlPool;
-use std::sync::Arc;
-use tokio::sync::Mutex;
+
 use tokio::signal;
 use std::future::Future;
 
 // 👉 Hàm lấy dữ liệu thơ từ database
-pub async fn get_poem_data(conn: &MySqlPool) -> Arc<Mutex<String>> {
-    let poem_content = match get_poem_content(conn).await {
-        Ok(content) => Arc::new(Mutex::new(content)),
-        Err(_) => Arc::new(Mutex::new("Không thể lấy dữ liệu thơ".to_string())),
-    };
-    poem_content
-}
+
 
 // 👉 Route `/hello/{chapter_name}`
 pub fn create_hello_route(
