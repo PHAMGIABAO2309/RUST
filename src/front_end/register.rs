@@ -104,8 +104,11 @@ pub fn register_page() -> String {
                 <label for="email">Email:</label>
                 <input type="email" id="email" name="email" placeholder="Nhập email..." required>
 
-                <button type="submit">Đăng Ký</button>
-                <button type="submit">Đăng Nhập</button>
+                <div>
+                    <button type="submit">Đăng Ký</button>
+                    <button type="submit">Đăng Nhập</button>
+                </div>
+                
             </form>
         </div>
     </body>
