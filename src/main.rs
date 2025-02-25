@@ -5,15 +5,18 @@ use tokio::sync::Mutex;
 
 #[tokio::main]
 async fn main() {
-    let pool = database::connect_db().await.expect("Không thể kết nối MySQL"); // 👉 Kết nối database
-    
-    let poem_content = route::get_poem_data(&pool, "NGHỊ ĐỊNH").await; // 👉 Lấy dữ liệu thơ từ database
-    
-    // Giả sử poem_content trả về dữ liệu dạng (chapter_name, tiêu đề, quy tắc, nội dung)
-    let poem_data = poem_content.lock().await.clone(); 
+    let pool = database::connect_db().await.expect("Không thể kết nối MySQL");  // 👉 Kết nối database
+    let chapter_name = "NGHỊ ĐỊNH"; // Hoặc lấy từ config
+    let poem_content = route::get_poem_data(&pool, chapter_name).await;   // 👉 Lấy dữ liệu thơ từ database
 
-    let poem = Arc::new(Mutex::new(poem_data)); // Không cần khởi tạo `chapter_name` riêng
-    
+    // 👉 Chuyển đổi dữ liệu để phù hợp với `create_hello_route`
+    let poem = Arc::new(Mutex::new((
+        chapter_name.to_string(),
+        "Tiêu đề mặc định".to_string(),
+        "Quy tắc mặc định".to_string(),
+        poem_content.lock().await.clone(),
+    )));
+
     // 👉 Cấu hình các routes
     let hello_route = route::create_hello_route(poem.clone());
     let login_route = route::create_login_route(pool.clone());

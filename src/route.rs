@@ -7,25 +7,13 @@ use tokio::signal;
 use std::future::Future;
 
 
-pub async fn get_poem_data(conn: &MySqlPool, chapter_name: &str) -> Arc<Mutex<(String, String, String, String)>> {
-    let poem_data = match front_end::content::get_document_content(conn, chapter_name).await {
-        Ok(content) => (
-            chapter_name.to_string(),
-            "Tiêu đề mặc định".to_string(),
-            "Quy tắc mặc định".to_string(),
-            content,
-        ),
-        Err(_) => (
-            chapter_name.to_string(),
-            "Không có tiêu đề".to_string(),
-            "Không có quy tắc".to_string(),
-            "Không thể lấy dữ liệu thơ".to_string(),
-        ),
+pub async fn get_poem_data(conn: &MySqlPool, chapter_name: &str) -> Arc<Mutex<String>> {
+    let poem_content = match front_end::content::get_document_content(conn, chapter_name).await {
+        Ok(content) => Arc::new(Mutex::new(content)),
+        Err(_) => Arc::new(Mutex::new("Không thể lấy dữ liệu thơ".to_string())),
     };
-
-    Arc::new(Mutex::new(poem_data))
+    poem_content
 }
-
 // 👉 Route `/hello`
 pub fn create_hello_route(
     poem: Arc<Mutex<(String, String, String, String)>>, 

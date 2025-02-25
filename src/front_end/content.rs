@@ -3,10 +3,10 @@ use sqlx::{ MySqlPool, Row};
 pub async fn get_document_content(pool: &MySqlPool, chapter_name: &str) -> Result<String, sqlx::Error> {
     let row = sqlx::query(
         r#"
-        select Chapter, Title, Rules, Content
-            from documents d, content_documents ct
-            where d.Chapter = ct.Rules
-            and d.Chapter =  ?
+        SELECT d.Chapter, d.Title, ct.Rules, ct.Content
+        FROM documents d
+        INNER JOIN content_documents ct ON d.Chapter = ct.Rules
+        WHERE d.Chapter = ?
         "#
     )
     .bind(chapter_name)
@@ -37,12 +37,12 @@ pub fn document_content(chapter: &str, title: &str, rules: &str, content: &str) 
             </div>
         </div>
         <div class="content-section">
-            <h2>Chương: {chapter}</h2>
-            <h3>Tiêu đề: {title}</h3>
-            <h4>Điều khoản: {rules}</h4>
-            <p>Nội dung: {content}</p>
+            <h2>Chương: {}</h2>
+            <h3>Tiêu đề: {}</h3>
+            <h4>Điều khoản: {}</h4>
+            <p>Nội dung: {}</p>
         </div>
     </div>
-    "#
+    "#, chapter, title, rules, content
     )
 }
