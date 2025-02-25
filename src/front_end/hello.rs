@@ -58,23 +58,22 @@ pub fn home(chapter: &str, title: &str, rules: &str, content: &str) -> String {
                 <button class="bg-gray-200 text-gray-800 px-4 py-2 rounded">Ghi chú</button>
             </div>
             <div class="mt-4 bg-white p-4 shadow rounded">
-            <div class="bg-white p-4 mt-4 shadow w-[1000px] h-[430px] overflow-y-auto no-scrollbar ">
-                <div class="header-decree">
-                    <div>
-                        <p>CHÍNH PHỦ</p>
-                        <p>______</p>
-                        <p class="doc-number">Số: 30/2020/NĐ-CP</p>
+                <div class="bg-white p-4 mt-4 shadow w-[1000px] h-[430px] overflow-y-auto no-scrollbar ">
+                    <div class="header-decree">
+                        <div>
+                            <p>CHÍNH PHỦ</p>
+                            <p>______</p>
+                            <p class="doc-number">Số: 30/2020/NĐ-CP</p>
+                        </div>
+                        <div>
+                            <p>CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM</p>
+                            <p class="header-title">Độc lập - Tự do - Hạnh phúc</p>
+                            <span class="underline"></span>
+                            <p class="date">Hà Nội, ngày 05 tháng 3 năm 2020</p>
+                        </div>
                     </div>
-                    <div>
-                        <p>CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM</p>
-                        <p class="header-title">Độc lập - Tự do - Hạnh phúc</p>
-                        <span class="underline"></span>
-                        <p class="date">Hà Nội, ngày 05 tháng 3 năm 2020</p>
-                    </div>
+                    {document_html}
                 </div>
-                {document_html}
-            </div>
-                
             </div>
         </div>
     </main>

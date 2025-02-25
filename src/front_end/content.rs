@@ -23,11 +23,11 @@ pub fn document_content(chapter: &str, title: &str, rules: &str, content: &str) 
     format!(
         r#"
     <div class="content-section">
-                    <h2>Chương: {}</h2>
-                    <h3>Tiêu đề: {}</h3>
-                    <h4>Điều khoản: {}</h4>
-                    <p>Nội dung: {}</p>
-                </div>
+        <h2>Chương: {}</h2>
+        <h3>Tiêu đề: {}</h3>
+        <h4>Điều khoản: {}</h4>
+        <p>Nội dung: {}</p>
+    </div>
     "#, chapter, title, rules, content
     )
 }
