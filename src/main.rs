@@ -6,7 +6,7 @@ use tokio::sync::Mutex;
 #[tokio::main]
 async fn main() {
     let pool = database::connect_db().await.expect("Không thể kết nối MySQL");  // 👉 Kết nối database
-    let chapter_name = "chapter_1"; // Hoặc lấy từ config
+    let chapter_name = "NGHỊ ĐỊNH"; // Hoặc lấy từ config
     let poem_content = route::get_poem_data(&pool, chapter_name).await;   // 👉 Lấy dữ liệu thơ từ database
 
     // 👉 Chuyển đổi dữ liệu để phù hợp với `create_hello_route`
