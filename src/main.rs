@@ -12,8 +12,8 @@ async fn main() {
     // 👉 Chuyển đổi dữ liệu để phù hợp với `create_hello_route`
     let poem = Arc::new(Mutex::new((
         chapter_name.to_string(),
-        "Tiêu đề mặc định".to_string(),
-        "Quy tắc mặc định".to_string(),
+        "".to_string(),
+        "".to_string(),
         poem_content.lock().await.clone(),
     )));
 
