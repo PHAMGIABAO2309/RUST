@@ -1,5 +1,4 @@
 use warp::Filter;
-
 use crate::front_end; // Không dùng hello_rust2::front_end
 use std::sync::Arc;
 use tokio::sync::Mutex;
@@ -8,8 +7,8 @@ use tokio::signal;
 use std::future::Future;
 
 
-pub async fn get_poem_data(conn: &MySqlPool) -> Arc<Mutex<String>> {
-    let poem_content = match front_end::content::get_poem_content(conn).await {
+pub async fn get_poem_data(conn: &MySqlPool, chapter_name: &str) -> Arc<Mutex<String>> {
+    let poem_content = match front_end::content::get_document_content(conn, chapter_name).await {
         Ok(content) => Arc::new(Mutex::new(content)),
         Err(_) => Arc::new(Mutex::new("Không thể lấy dữ liệu thơ".to_string())),
     };
@@ -17,16 +16,17 @@ pub async fn get_poem_data(conn: &MySqlPool) -> Arc<Mutex<String>> {
 }
 // 👉 Route `/hello`
 pub fn create_hello_route(
-    poem: Arc<Mutex<String>>, 
+    poem: Arc<Mutex<(String, String, String, String)>>, 
 ) -> impl warp::Filter<Extract = (impl warp::Reply,), Error = warp::Rejection> + Clone {
     warp::path("hello").and_then(move || handle_hello(poem.clone()))
 }
+
 // 👉 Hàm xử lý `/hello`
 async fn handle_hello(
-    poem: Arc<Mutex<String>>,
+    poem: Arc<Mutex<(String, String, String, String)>>,
 ) -> Result<impl warp::Reply, warp::Rejection> {
-    let poem_content = poem.lock().await.clone();
-    let html = front_end::hello::home(&poem_content);
+    let (chapter, title, rules, content) = poem.lock().await.clone();
+    let html = front_end::hello::home(&chapter, &title, &rules, &content);
     Ok(warp::reply::html(html))
 }
 
