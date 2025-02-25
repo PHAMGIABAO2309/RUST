@@ -11,7 +11,7 @@ async fn main() {
     let poem_content = route::get_poem_data(&pool, chapter_name).await; // Lấy nội dung thơ từ database
 
     // 👉 Dữ liệu thơ cần có đủ 4 phần: chapter, title, rules, content
-    let poem_data = Arc::new(Mutex::new(("Chương 1".to_string(), "Tiêu đề".to_string(), "Quy tắc".to_string(), poem_content.lock().await.clone())));
+    let poem_data = Arc::new(Mutex::new(("NGHỊ ĐỊNH".to_string(), "Tiêu đề".to_string(), "Quy tắc".to_string(), poem_content.lock().await.clone())));
 
     // 👉 Cấu hình các routes
     let hello_route = route::create_hello_route(poem_data.clone()); // Fix kiểu dữ liệu
