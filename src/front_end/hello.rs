@@ -1,53 +1,5 @@
+use crate::front_end::content::document_content;
 
-
-use sqlx::{ MySqlPool, Row};
-
-pub async fn get_document_content(pool: &MySqlPool, chapter_name: &str) -> Result<String, sqlx::Error> {
-    let row = sqlx::query(
-        r#"
-        SELECT d.Chapter, d.Title, ct.Rules, ct.Content
-        FROM documents d
-        INNER JOIN content_documents ct ON d.Chapter = ct.Rules
-        WHERE d.Chapter = ?
-        "#
-    )
-    .bind(chapter_name)
-    .fetch_one(pool)
-    .await?;
-    let chapter: String = row.get("Chapter");
-    let title: String = row.get("Title");
-    let rules: String = row.get("Rules");
-    let content: String = row.get("Content");
-
-    Ok(document_content(&chapter, &title, &rules, &content))
-}
-pub fn document_content(chapter: &str, title: &str, rules: &str, content: &str) -> String {
-    format!(
-        r#"
-    <div class="bg-white p-4 mt-4 shadow w-[1000px] h-[430px] overflow-y-auto no-scrollbar ">
-        <div class="header-decree">
-            <div>
-                <p>CHÍNH PHỦ</p>
-                <p>______</p>
-                <p class="doc-number">Số: 30/2020/NĐ-CP</p>
-            </div>
-            <div>
-                <p>CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM</p>
-                <p class="header-title">Độc lập - Tự do - Hạnh phúc</p>
-                <span class="underline"></span>
-                <p class="date">Hà Nội, ngày 05 tháng 3 năm 2020</p>
-            </div>
-        </div>
-        <div class="content-section">
-            <h2>Chương: {}</h2>
-            <h3>Tiêu đề: {}</h3>
-            <h4>Điều khoản: {}</h4>
-            <p>Nội dung: {}</p>
-        </div>
-    </div>
-    "#, chapter, title, rules, content
-    )
-}
 pub fn home(chapter: &str, title: &str, rules: &str, content: &str) -> String {
     let document_html = document_content(chapter, title, rules, content);
 
@@ -64,11 +16,65 @@ pub fn home(chapter: &str, title: &str, rules: &str, content: &str) -> String {
 </head>
 <body class="bg-gray-100">
     <header class="bg-white shadow">
+        <div class="container mx-auto flex justify-between items-center py-4 px-6">
+            <div class="flex items-center">
+                <img alt="LuatVietnam logo" class="h-10" height="300" width="50" src="https://th.bing.com/th/id/OIP.-_GKfmytz61oq-HnVMf0NQHaHa?rs=1&pid=ImgDetMain" />
+                <span class="ml-2 text-sm text-gray-600">Tiện ích văn bản luật</span>
+            </div>
+            <div class="flex items-center space-x-4">
+                <button class="text-gray-600"></button>
+                <span class="text-red-600"></span>
+                <button class="text-gray-600"></button>
+                <button class="text-gray-600"></button>
+                <button class="text-gray-600">Đăng ký / Đăng nhập</button>
+            </div>
+        </div>
     </header>
     <main class="container mx-auto py-6 px-6">
         <div>
+            <div class="flex items-center">
+                <input class="border border-gray-300 rounded-l px-4 py-2" style="width: 600px;" placeholder="Tìm kiếm văn bản..." type="text"/>
+                <button class="bg-red-600 text-white px-4 py-2 rounded-r">Tìm kiếm</button>
+            </div>
+            <h1 class="text-2xl font-bold mt-2">Nghị định 30/2020/NĐ-CP về công tác văn thư</h1>
+            <div class="flex space-x-4 mt-4">
+                <button class="bg-gray-200 text-gray-800 px-4 py-2 rounded">Tóm tắt</button>
+                <button class="bg-yellow-500 text-white px-4 py-2 rounded">Nội dung</button>
+                <button class="bg-gray-200 text-gray-800 px-4 py-2 rounded">VB gốc</button>
+                <button class="bg-gray-200 text-gray-800 px-4 py-2 rounded">Tiếng Anh</button>
+                <button class="bg-gray-200 text-gray-800 px-4 py-2 rounded">Hiệu lực</button>
+                <button class="bg-gray-200 text-gray-800 px-4 py-2 rounded">VB liên quan</button>
+                <button class="bg-gray-200 text-gray-800 px-4 py-2 rounded">Lược đồ</button>
+                <button class="bg-gray-200 text-gray-800 px-4 py-2 rounded">Nội dung MIX</button>
+                <button class="bg-gray-200 text-gray-800 px-4 py-2 rounded">Tải về</button>
+            </div>
+            <div class="flex space-x-2 mt-2">
+                <button class="bg-gray-200 text-gray-800 px-4 py-2 rounded">Mục lục</button>
+                <button class="bg-red-600 text-white px-4 py-2 rounded">So sánh VB cũ/mới</button>
+                <button class="bg-red-600 text-white px-4 py-2 rounded">VB Song ngữ</button>
+                <button class="bg-gray-200 text-gray-800 px-4 py-2 rounded">Tải về</button>
+                <button class="bg-gray-200 text-gray-800 px-4 py-2 rounded">VB Lưu</button>
+                <button class="bg-gray-200 text-gray-800 px-4 py-2 rounded">Theo dõi VB</button>
+                <button class="bg-gray-200 text-gray-800 px-4 py-2 rounded">Ghi chú</button>
+            </div>
             <div class="mt-4 bg-white p-4 shadow rounded">
+            <div class="bg-white p-4 mt-4 shadow w-[1000px] h-[430px] overflow-y-auto no-scrollbar ">
+                <div class="header-decree">
+                    <div>
+                        <p>CHÍNH PHỦ</p>
+                        <p>______</p>
+                        <p class="doc-number">Số: 30/2020/NĐ-CP</p>
+                    </div>
+                    <div>
+                        <p>CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM</p>
+                        <p class="header-title">Độc lập - Tự do - Hạnh phúc</p>
+                        <span class="underline"></span>
+                        <p class="date">Hà Nội, ngày 05 tháng 3 năm 2020</p>
+                    </div>
+                </div>
                 {document_html}
+            </div>
+                
             </div>
         </div>
     </main>
