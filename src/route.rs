@@ -5,7 +5,7 @@ use tokio::sync::Mutex;
 use sqlx::mysql::MySqlPool;
 use tokio::signal;
 use std::future::Future;
-use serde_json::json;
+
 
 pub async fn get_poem_data(conn: &MySqlPool) -> Arc<Mutex<(String, String)>> {
     match front_end::content::get_document_content(conn).await {
