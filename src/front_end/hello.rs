@@ -10,7 +10,7 @@ pub fn home() -> String {
                 if (Array.isArray(data) && data.length > 0) {
                     let contentHTML = ""; // Chuỗi chứa toàn bộ nội dung
                     data.forEach(item => {
-                        contentHTML += `<h2>${item.title}</h2>`;  // Thêm tiêu đề từng bài
+                        contentHTML += `<br><br><h2>${item.title}</h2><br><br>`;  // Thêm tiêu đề từng bài
                         contentHTML += `<p>${item.content.replace(/\r\n/g, '<br><br>')}</p>`;  // Thêm nội dung bài
                     });
                     document.getElementById("content").innerHTML = contentHTML;
