@@ -30,6 +30,7 @@ pub fn document_content(title: &str, content: &str) -> String {
     </div>
     "#,
         title.replace("\n", "<br>"),
-        content.replace("\n", "<br>")
+        content.replace("\n", "<br>").replace("Điều 1.", "<b>")
     )
 }
+
