@@ -31,7 +31,7 @@ pub fn document_content(title: &str, content: &str) -> String {
     });
 
     // Chuyển đổi xuống dòng `\r\n` thành `<br>` để hiển thị đúng trên HTML
-    let formatted_content = formatted_content.replace("\r\n", "<br>");
+    let formatted_content = formatted_content.replace("\r\n", "<br><br>");
 
     format!(
         r#"
@@ -40,7 +40,7 @@ pub fn document_content(title: &str, content: &str) -> String {
         <p>{}</p>
     </div>
     "#,
-        title.replace("\r\n", "<br><br>"),
+        title.replace("\r\n", "<br>"),
         formatted_content
     )
 }
