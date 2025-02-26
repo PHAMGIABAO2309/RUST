@@ -12,7 +12,6 @@ pub fn home() -> String {
                     data.forEach(item => {
                         contentHTML += `<h2>${item.title}</h2>`;  // Thêm tiêu đề từng bài
                         contentHTML += `<p>${item.content.replace(/\r\n/g, '<br><br>')}</p>`;  // Thêm nội dung bài
-                        
                     });
                     document.getElementById("content").innerHTML = contentHTML;
                 } else {
@@ -94,7 +93,7 @@ pub fn home() -> String {
                         <p class="date">Hà Nội, ngày 05 tháng 3 năm 2020</p>
                     </div>
                 </div>
-                <h1 id="title">Đang tải...</h1>
+                <h1 id="title"></h1>
                 <p id="content">Vui lòng chờ...</p>
             </div>
         </div>
