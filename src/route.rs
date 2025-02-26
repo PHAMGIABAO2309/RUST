@@ -24,7 +24,6 @@ pub fn create_api_route(
             }
         })
 }
-
 // 📌 Route HTML: Hiển thị nội dung trên trình duyệt
 pub fn create_html_route(
     poem: Arc<Mutex<(String, String)>>,
@@ -40,9 +39,6 @@ async fn handle_hello(
     Ok(warp::reply::html(html))
 }
 
-
-
-
 pub async fn get_poem_data(conn: &MySqlPool) -> Arc<Mutex<(String, String)>> {
     match front_end::content::get_document_content(conn).await {
         Ok(content) => Arc::new(Mutex::new(("".to_string(), content))),
@@ -51,12 +47,6 @@ pub async fn get_poem_data(conn: &MySqlPool) -> Arc<Mutex<(String, String)>> {
 }
 
 
-// 👉 Route `/hello`
-pub fn create_hello_route(
-    poem: Arc<Mutex<( String, String)>>, 
-) -> impl warp::Filter<Extract = (impl warp::Reply,), Error = warp::Rejection> + Clone {
-    warp::path("hello").and_then(move || handle_hello(poem.clone()))
-}
 
 
 
@@ -112,4 +102,3 @@ pub async fn wait_for_exit(server: impl Future<Output = ()>) {
         }
     }
 }
-
