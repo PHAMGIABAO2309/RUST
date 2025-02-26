@@ -1,4 +1,5 @@
 use sqlx::{MySqlPool, Row};
+use regex::Regex;
 
 pub async fn get_document_content(pool: &MySqlPool) -> Result<String, sqlx::Error> {
     let rows = sqlx::query(
@@ -22,15 +23,19 @@ pub async fn get_document_content(pool: &MySqlPool) -> Result<String, sqlx::Erro
 }
 
 pub fn document_content(title: &str, content: &str) -> String {
+    let bold_regex = Regex::new(r"(Điều \d+\..*?)\n").unwrap();
+    let formatted_content = bold_regex.replace_all(content, |caps: &regex::Captures| {
+        format!("<strong>{}</strong>", &caps[1])
+    });
+
     format!(
         r#"
     <div class="content-section">
-        <h2 style="font-weight: bold; text-align: center;"> {}</h2>
-        <p> {}</p>
+        <h2 style="font-weight: bold; text-align: center;">{}</h2>
+        <p>{}</p>
     </div>
     "#,
         title.replace("\n", "<br>"),
-        content.replace("\n", "<br>")
-        
+        formatted_content.replace("\n", "<br>")
     )
 }
