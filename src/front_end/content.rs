@@ -27,7 +27,7 @@ pub fn document_content(title: &str, content: &str) -> String {
     
     // Bôi đậm các dòng "Điều X."
     let formatted_content = bold_regex.replace_all(content, |caps: &regex::Captures| {
-        format!("<strong>{}</strong><br>", &caps[1])
+        format!("<strong>{}</strong><br><br>", &caps[1])
     });
 
     // Chuyển đổi xuống dòng `\r\n` thành `<br>` để hiển thị đúng trên HTML
