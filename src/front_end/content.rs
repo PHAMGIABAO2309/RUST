@@ -3,7 +3,7 @@ use sqlx::{ MySqlPool, Row};
 pub async fn get_document_content(pool: &MySqlPool, chapter_name: &str) -> Result<String, sqlx::Error> {
     let row = sqlx::query(
         r#"
-        SELECT d.Chapter, d.Title,  ct.Content
+        SELECT d.Chapter, d.Title, ct.Rules, ct.Content
         FROM documents d
         INNER JOIN content_documents ct ON d.Chapter = ct.Rules
         WHERE d.Chapter = ?

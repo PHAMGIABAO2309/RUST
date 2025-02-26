@@ -1,8 +1,6 @@
 use crate::front_end::content::document_content;
-
 pub fn home(chapter: &str, title: &str, rules: &str, content: &str) -> String {
     let document_html = document_content(chapter, title, rules, content);
-
     format!(
         r#"<!DOCTYPE html>
 <html lang="en">
