@@ -1,33 +1,35 @@
-use sqlx::{ MySqlPool, Row};
+use sqlx::{MySqlPool, Row};
 
-pub async fn get_document_content(pool: &MySqlPool, chapter_name: &str) -> Result<String, sqlx::Error> {
-    let row = sqlx::query(
+pub async fn get_document_content(pool: &MySqlPool) -> Result<String, sqlx::Error> {
+    let rows = sqlx::query(
         r#"
-        SELECT d.Chapter, d.Title, ct.Rules, ct.Content
-        FROM documents d
-        INNER JOIN content_documents ct ON d.Chapter = ct.Rules
-        WHERE d.Chapter = ?
+        SELECT Title, Content FROM documents;
         "#
     )
-    .bind(chapter_name)
-    .fetch_one(pool)
+    .fetch_all(pool)
     .await?;
-    let chapter: String = row.get("Chapter");
-    let title: String = row.get("Title");
-    let rules: String = row.get("Rules");
-    let content: String = row.get("Content");
 
-    Ok(document_content(&chapter, &title, &rules, &content))
+    let mut html_content = String::new();
+
+    for row in rows {
+        let title: String = row.get("Title");
+        let content: String = row.get("Content");
+
+        html_content.push_str(&document_content(&title, &content));
+    }
+
+    Ok(html_content)
 }
-pub fn document_content(chapter: &str, title: &str, rules: &str, content: &str) -> String {
+
+pub fn document_content(title: &str, content: &str) -> String {
     format!(
         r#"
     <div class="content-section">
         <h2>Chương: {}</h2>
-        <h3>Tiêu đề: {}</h3>
-        <h4>Điều khoản: {}</h4>
-        <p>Nội dung: {}</p>
+        <p>Tiêu đề: {}</p>
     </div>
-    "#, chapter, title, rules, content
+    "#,
+        title.replace("\n", "<br>"),
+        content.replace("\n", "<br>")
     )
 }

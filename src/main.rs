@@ -1,22 +1,15 @@
 use warp::Filter;
 use hello_rust2::*;
-use std::sync::Arc;
-use tokio::sync::Mutex;
+use hello_rust2::database;
+use crate::route::{get_poem_data, create_hello_route};
 
 #[tokio::main]
 async fn main() {
     let pool = database::connect_db().await.expect("Không thể kết nối MySQL");  // 👉 Kết nối database 
-    let poem_content = route::get_poem_data(&pool, "NGHỊ ĐỊNH").await;   // 👉 Lấy dữ liệu thơ từ database
-    // 👉 Chuyển đổi dữ liệu để phù hợp với `create_hello_route`
-    let poem = Arc::new(Mutex::new((
-        "NGHỊ ĐỊNH".to_string(),
-        "".to_string(),
-        "".to_string(),
-        poem_content.lock().await.clone(),
-    )));
-
-    // 👉 Cấu hình các routes
-    let hello_route = route::create_hello_route(poem.clone());
+    let poem_data = get_poem_data(&pool).await;
+    
+    // Khởi tạo route `/hello`
+    let hello_route = create_hello_route(poem_data.clone());
     let login_route = route::create_login_route(pool.clone());
     let call_login = login_route.with(warp::cors().allow_any_origin());
     let register_route = route::create_register_route(pool.clone());
