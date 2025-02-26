@@ -1,25 +1,40 @@
-use crate::front_end::content::document_content;
-pub fn home( title: &str,  content: &str) -> String {
-    let document_html = document_content( title,  content);
+pub fn home(title: String, content: String) -> String {
+    let js_code = r#"
+    async function loadContent() {
+        try {
+            let response = await fetch('/api/content');
+            let data = await response.json();
+
+            document.getElementById('title').innerText = data.title;
+            document.getElementById('content').innerHTML = data.content.replace(/\r\n/g, '<br><br>');
+        } catch (error) {
+            console.error('Lỗi tải dữ liệu:', error);
+        }
+    }
+
+    window.onload = loadContent;
+    "#;
+
     format!(
         r#"<!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
 <head>
-    <meta charset="utf-8" />
-    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <title>Document</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{title}</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="/static/index.css" />
 </head>
 <body class="bg-gray-100">
     <main class="container mx-auto py-6 px-6">
-        <div>
-                {document_html}
-            </div>
-        </div>
+        <h2 id="title" class="text-center font-bold text-2xl">{title}</h2>
+        <div id="content" class="content-section">{content}</div>
     </main>
+    <script>
+        {js_code}
+    </script>
 </body>
 </html>"#,
+        title = title,
+        content = content
     )
 }

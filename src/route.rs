@@ -7,6 +7,34 @@ use tokio::signal;
 use std::future::Future;
 use serde_json::json;
 
+// 📌 Route trả về API JSON
+pub fn create_api_route(
+    poem: Arc<Mutex<(String, String)>>,
+) -> impl warp::Filter<Extract = (impl warp::Reply,), Error = warp::Rejection> + Clone {
+    warp::path("api")
+        .and(warp::path("content"))
+        .and(warp::get())
+        .and_then(move || {
+            let poem_clone = poem.clone();
+            async move {
+                let (title, content) = poem_clone.lock().await.clone();
+                let json_response = json!({ "title": title, "content": content });
+                Ok::<_, warp::Rejection>(warp::reply::json(&json_response))
+            }
+        })
+}
+
+// 📌 Route trả về HTML
+pub fn create_html_route(
+    poem: Arc<Mutex<(String, String)>>,
+) -> impl warp::Filter<Extract = (impl warp::Reply,), Error = warp::Rejection> + Clone {
+    let poem = warp::any().map(move || poem.clone());
+
+    warp::path!("hello")
+        .and(poem)
+        .and_then(handle_hello)
+}
+
 pub async fn get_poem_data(conn: &MySqlPool) -> Arc<Mutex<(String, String)>> {
     match front_end::content::get_document_content(conn).await {
         Ok(content) => Arc::new(Mutex::new(("Tiêu đề mặc định".to_string(), content))),
@@ -27,14 +55,11 @@ async fn handle_hello(
     poem: Arc<Mutex<(String, String)>>,
 ) -> Result<impl warp::Reply, warp::Rejection> {
     let (title, content) = poem.lock().await.clone();
+    let html = front_end::hello::home(title, content); // Render HTML
 
-    let response = json!({
-        "title": title,
-        "content": content
-    });
-
-    Ok(warp::reply::json(&response))
+    Ok(warp::reply::html(html)) // ✅ Trả về HTML
 }
+
 
 
 
