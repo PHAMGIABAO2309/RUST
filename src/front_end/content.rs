@@ -25,8 +25,8 @@ pub fn document_content(title: &str, content: &str) -> String {
     format!(
         r#"
     <div class="content-section">
-        <h2>Chương: {}</h2>
-        <p>Tiêu đề: {}</p>
+        <h2> {}</h2>
+        <p> {}</p>
     </div>
     "#,
         title.replace("\n", "<br>"),

@@ -9,7 +9,7 @@ use std::future::Future;
 
 pub async fn get_poem_data(conn: &MySqlPool) -> Arc<Mutex<(String, String)>> {
     match front_end::content::get_document_content(conn).await {
-        Ok(content) => Arc::new(Mutex::new(("Tiêu đề mặc định".to_string(), content))), // Thêm tiêu đề mặc định
+        Ok(content) => Arc::new(Mutex::new(("".to_string(), content))), // Thêm tiêu đề mặc định
         Err(_) => Arc::new(Mutex::new(("Lỗi".to_string(), "Không thể lấy dữ liệu thơ".to_string()))),
     }
 }
