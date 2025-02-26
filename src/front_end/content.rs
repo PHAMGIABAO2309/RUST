@@ -36,7 +36,7 @@ pub fn document_content(title: &str, content: &str) -> String {
     format!(
         r#"
     <div class="content-section">
-        <h2 style="font-weight: bold; text-align: center;">{}</h2>
+        <h2 style="font-weight: bold; text-align: center;">{}</h2><br>
         <p>{}</p>
     </div>
     "#,
