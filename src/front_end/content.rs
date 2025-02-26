@@ -1,21 +1,21 @@
 use sqlx::{MySqlPool, Row};
 use regex::Regex;
+use serde_json::json;
 
-pub async fn get_document_content(pool: &MySqlPool) -> Result<String, sqlx::Error> {
-    let rows = sqlx::query(
-        r#"
-        SELECT Title, Content FROM documents;
-        "#,
-    )
-    .fetch_all(pool)
-    .await?;
-    let mut html_content = String::new();
-    for row in rows {
-        let title: String = row.get("Title");
-        let content: String = row.get("Content");
-        html_content.push_str(&document_content(&title, &content));
-    }
-    Ok(html_content)
+pub async fn get_document_content(pool: &MySqlPool) -> Result<serde_json::Value, sqlx::Error> {
+    let rows = sqlx::query("SELECT Title, Content FROM documents;")
+        .fetch_all(pool)
+        .await?;
+    
+    let documents: Vec<_> = rows.into_iter()
+        .map(|row| {
+            let title: String = row.get("Title");
+            let content: String = row.get("Content");
+            json!({ "title": title, "content": content })
+        })
+        .collect();
+    
+    Ok(json!(documents))
 }
 pub fn document_content(title: &str, content: &str) -> String {
     let bold_regex = Regex::new(r"(Điều \d+\..*?)\r\n").unwrap();

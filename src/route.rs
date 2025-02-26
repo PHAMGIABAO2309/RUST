@@ -5,12 +5,13 @@ use tokio::sync::Mutex;
 use sqlx::mysql::MySqlPool;
 use tokio::signal;
 use std::future::Future;
-use serde_json::json;
+
+use serde_json::Value;
 
 // 📌 Route trả về API JSON
 // 📌 API JSON: Trả về nội dung dưới dạng JSON
 pub fn create_api_route(
-    poem: Arc<Mutex<(String, String)>>,
+    poem: Arc<Mutex<serde_json::Value>>,
 ) -> impl warp::Filter<Extract = (impl warp::Reply,), Error = warp::Rejection> + Clone {
     warp::path("api")
         .and(warp::path("content"))
@@ -18,31 +19,32 @@ pub fn create_api_route(
         .and_then(move || {
             let poem_clone = poem.clone();
             async move {
-                let (title, content) = poem_clone.lock().await.clone();
-                let json_response = json!({ "title": title, "content": content });
+                let json_response = poem_clone.lock().await.clone();
                 Ok::<_, warp::Rejection>(warp::reply::json(&json_response))
             }
         })
 }
+
 // 📌 Route HTML: Hiển thị nội dung trên trình duyệt
 pub fn create_html_route(
-    poem: Arc<Mutex<(String, String)>>,
+    poem: Arc<Mutex<serde_json::Value>>,
 ) -> impl warp::Filter<Extract = (impl warp::Reply,), Error = warp::Rejection> + Clone {
     warp::path("hello").and_then(move || handle_hello(poem.clone()))
 }
 
 // 👉 Hàm xử lý HTML `/hello`
 async fn handle_hello(
-    _poem: Arc<Mutex<(String, String)>>, // Không cần dùng biến này nữa
+    _poem: Arc<Mutex<serde_json::Value>>, // Không cần dùng biến này nữa
 ) -> Result<impl warp::Reply, warp::Rejection> {
     let html = front_end::hello::home(); // Gọi không truyền tham số
     Ok(warp::reply::html(html))
 }
 
-pub async fn get_poem_data(conn: &MySqlPool) -> Arc<Mutex<(String, String)>> {
+
+pub async fn get_poem_data(conn: &MySqlPool) -> Arc<Mutex<Value>> {
     match front_end::content::get_document_content(conn).await {
-        Ok(content) => Arc::new(Mutex::new(("".to_string(), content))),
-        Err(_) => Arc::new(Mutex::new(("Lỗi".to_string(), "Không thể lấy dữ liệu".to_string()))),
+        Ok(content) => Arc::new(Mutex::new(content)),  // Giữ nguyên kiểu JSON
+        Err(_) => Arc::new(Mutex::new(serde_json::json!({ "error": "Không thể lấy dữ liệu" }))),
     }
 }
 

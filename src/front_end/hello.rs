@@ -1,15 +1,30 @@
 pub fn home() -> String {
+    // JavaScript để lấy dữ liệu từ API và hiển thị lên trang HTML
     let js_code = r#"
     document.addEventListener("DOMContentLoaded", function () {
+        // Gửi yêu cầu đến API `/api/content` để lấy danh sách dữ liệu
         fetch("/api/content")
-            .then(response => response.json())
+            .then(response => response.json())  // Chuyển đổi phản hồi sang JSON
             .then(data => {
-                document.getElementById("title").innerText = data.title;
-                document.getElementById("content").innerHTML = data.content.replace(/\r\n/g, '<br><br>');
+                // Kiểm tra nếu API trả về danh sách JSON có ít nhất một phần tử
+                if (Array.isArray(data) && data.length > 0) {
+                    let contentHTML = ""; // Chuỗi chứa toàn bộ nội dung
+                    data.forEach(item => {
+                        contentHTML += `<h2>${item.title}</h2>`;  // Thêm tiêu đề từng bài
+                        contentHTML += `<p>${item.content.replace(/\r\n/g, '<br><br>')}</p>`;  // Thêm nội dung bài
+                        contentHTML += `<hr>`;  // Thêm đường phân cách giữa các bài
+                    });
+                    document.getElementById("content").innerHTML = contentHTML;
+                } else {
+                    // Nếu API không có dữ liệu, hiển thị thông báo "Không có dữ liệu"
+                    document.getElementById("content").innerHTML = "<p>Không có dữ liệu</p>";
+                }
             })
+            // Bắt lỗi nếu có lỗi khi tải dữ liệu từ API
             .catch(error => console.error("Lỗi tải dữ liệu:", error));
     });
     "#;
+
 
     format!(
         r#"<!DOCTYPE html>
