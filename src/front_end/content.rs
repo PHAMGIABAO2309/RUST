@@ -25,7 +25,7 @@ pub fn document_content(title: &str, content: &str) -> String {
     format!(
         r#"
     <div class="content-section">
-        <h2> {}</h2>
+        <h2 style="font-weight: bold; align-item: center"> {}</h2>
         <p> {}</p>
     </div>
     "#,
