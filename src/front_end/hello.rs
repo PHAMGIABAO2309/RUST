@@ -1,40 +1,33 @@
-pub fn home(title: String, content: String) -> String {
+pub fn home() -> String {
     let js_code = r#"
-    async function loadContent() {
-        try {
-            let response = await fetch('/api/content');
-            let data = await response.json();
-
-            document.getElementById('title').innerText = data.title;
-            document.getElementById('content').innerHTML = data.content.replace(/\r\n/g, '<br><br>');
-        } catch (error) {
-            console.error('Lỗi tải dữ liệu:', error);
-        }
-    }
-
-    window.onload = loadContent;
+    document.addEventListener("DOMContentLoaded", function () {
+        fetch("/api/content")
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById("title").innerText = data.title;
+                document.getElementById("content").innerHTML = data.content.replace(/\r\n/g, '<br><br>');
+            })
+            .catch(error => console.error("Lỗi tải dữ liệu:", error));
+    });
     "#;
 
     format!(
         r#"<!DOCTYPE html>
 <html lang="vi">
 <head>
-    <meta charset="utf-8">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{title}</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Trang Poem</title>
+    <link rel="stylesheet" href="/static/style.css">
 </head>
-<body class="bg-gray-100">
-    <main class="container mx-auto py-6 px-6">
-        <h2 id="title" class="text-center font-bold text-2xl">{title}</h2>
-        <div id="content" class="content-section">{content}</div>
-    </main>
+<body>
+    <h1 id="title">Đang tải...</h1>
+    <p id="content">Vui lòng chờ...</p>
+
     <script>
         {js_code}
     </script>
 </body>
-</html>"#,
-        title = title,
-        content = content
+</html>"#
     )
 }

@@ -8,6 +8,7 @@ use std::future::Future;
 use serde_json::json;
 
 // 📌 Route trả về API JSON
+// 📌 API JSON: Trả về nội dung dưới dạng JSON
 pub fn create_api_route(
     poem: Arc<Mutex<(String, String)>>,
 ) -> impl warp::Filter<Extract = (impl warp::Reply,), Error = warp::Rejection> + Clone {
@@ -24,20 +25,27 @@ pub fn create_api_route(
         })
 }
 
-// 📌 Route trả về HTML
+// 📌 Route HTML: Hiển thị nội dung trên trình duyệt
 pub fn create_html_route(
     poem: Arc<Mutex<(String, String)>>,
 ) -> impl warp::Filter<Extract = (impl warp::Reply,), Error = warp::Rejection> + Clone {
-    let poem = warp::any().map(move || poem.clone());
-
-    warp::path!("hello")
-        .and(poem)
-        .and_then(handle_hello)
+    warp::path("hello").and_then(move || handle_hello(poem.clone()))
 }
+
+// 👉 Hàm xử lý HTML `/hello`
+async fn handle_hello(
+    _poem: Arc<Mutex<(String, String)>>, // Không cần dùng biến này nữa
+) -> Result<impl warp::Reply, warp::Rejection> {
+    let html = front_end::hello::home(); // Gọi không truyền tham số
+    Ok(warp::reply::html(html))
+}
+
+
+
 
 pub async fn get_poem_data(conn: &MySqlPool) -> Arc<Mutex<(String, String)>> {
     match front_end::content::get_document_content(conn).await {
-        Ok(content) => Arc::new(Mutex::new(("Tiêu đề mặc định".to_string(), content))),
+        Ok(content) => Arc::new(Mutex::new(("".to_string(), content))),
         Err(_) => Arc::new(Mutex::new(("Lỗi".to_string(), "Không thể lấy dữ liệu".to_string()))),
     }
 }
@@ -50,15 +58,7 @@ pub fn create_hello_route(
     warp::path("hello").and_then(move || handle_hello(poem.clone()))
 }
 
-// 👉 Hàm xử lý `/hello`
-async fn handle_hello(
-    poem: Arc<Mutex<(String, String)>>,
-) -> Result<impl warp::Reply, warp::Rejection> {
-    let (title, content) = poem.lock().await.clone();
-    let html = front_end::hello::home(title, content); // Render HTML
 
-    Ok(warp::reply::html(html)) // ✅ Trả về HTML
-}
 
 
 
