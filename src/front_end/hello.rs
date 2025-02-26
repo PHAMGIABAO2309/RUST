@@ -12,7 +12,7 @@ pub fn home() -> String {
                     data.forEach(item => {
                         contentHTML += `<h2>${item.title}</h2>`;  // Thêm tiêu đề từng bài
                         contentHTML += `<p>${item.content.replace(/\r\n/g, '<br><br>')}</p>`;  // Thêm nội dung bài
-                        contentHTML += `<hr>`;  // Thêm đường phân cách giữa các bài
+                        
                     });
                     document.getElementById("content").innerHTML = contentHTML;
                 } else {
