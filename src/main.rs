@@ -56,10 +56,6 @@ async fn main() {
     tokio::select! {
         _ = server_8080 => {},
         _ = server_9090 => {},
-        _ = shutdown_signal => {
-            println!("🔄 Đang tắt server...");
-        },
+        _ = shutdown_signal => {},
     }
-    
-    println!("✅ Server đã dừng an toàn.");
 }
