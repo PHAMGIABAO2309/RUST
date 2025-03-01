@@ -33,6 +33,7 @@ actix-web = "4.9.0"
 bcrypt = "0.17.0"
 serde_urlencoded = "0.7"
 regex = "1.10"
+dotenv = "0.15.0"
 
 
 [lib]
