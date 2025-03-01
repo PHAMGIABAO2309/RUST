@@ -3,14 +3,14 @@ use regex::Regex;
 use serde_json::json;
 
 pub async fn get_document_content(pool: &MySqlPool) -> Result<serde_json::Value, sqlx::Error> {
-    let rows = sqlx::query("SELECT Title, Content FROM documents;")
+    let rows = sqlx::query("SELECT TieuDe, NoiDung FROM thongtinvanban;")
         .fetch_all(pool)
         .await?;
     
     let documents: Vec<_> = rows.into_iter()
         .map(|row| {
-            let title: String = row.get("Title");
-            let content: String = row.get("Content");
+            let title: String = row.get("TieuDe");
+            let content: String = row.get("NoiDung");
             json!({ "title": title, "content": content })
         })
         .collect();
