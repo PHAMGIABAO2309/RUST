@@ -49,7 +49,6 @@ async fn main() {
         signal::ctrl_c().await.expect("Không thể bắt tín hiệu Ctrl+C");
         println!("📌 Nhận tín hiệu Ctrl+C, đang đẩy code lên GitHub...");
         hello_rust2::push_github::push_to_github(); // Gọi hàm đẩy GitHub
-        println!("✅ Hoàn thành! Đang tắt server...");
     };
 
     // 👉 Chạy cả hai server cùng với tín hiệu dừng
