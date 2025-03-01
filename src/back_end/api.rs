@@ -5,7 +5,7 @@ use serde_json::{Value, Map};
 use sqlx::mysql::MySqlPoolOptions;
 use std::sync::Arc;
 
-const DB_URL: &str = "mysql://root@localhost:3366/kholuutruvanban";
+const DB_URL: &str = "mysql://root@localhost:3366/storages_documents";
 
 // Kết nối tới database (trả về Arc<Pool<MySql>> để có thể clone)
 pub async fn connect_db() -> Result<Arc<MySqlPool>, sqlx::Error> {
@@ -18,8 +18,8 @@ pub async fn connect_db() -> Result<Arc<MySqlPool>, sqlx::Error> {
 /// Lấy dữ liệu từ tất cả các bảng trong database
 pub async fn get_all_tables(db: Arc<MySqlPool>) -> Result<impl Reply, Rejection> {
     let tables = vec![
-        "TaiKhoan", "ChucVu", "CoQuan", "LoaiVanBan", 
-        "HoSo", "ChuKy", "NgonNgu", "ThongTinVanBan"
+        "account", "files", "languages", "organization", 
+        "positions", "signatures", "type_documents", "infomation_documents_out", "infomation_documents_arrival"
     ];
 
     let mut response = Map::new();
