@@ -2,7 +2,7 @@ use sqlx::{MySqlPool, Row};
 use serde_json::json;
 
 pub async fn get_document_content(pool: &MySqlPool) -> Result<serde_json::Value, sqlx::Error> {
-    let rows = sqlx::query("SELECT SoVanBan, NamHinhThanh, TieuDe, TrichYeuNoiDung, NoiDung FROM thongtinvanban;")
+    let rows = sqlx::query("SELECT CodeNumber, NamHinhThanh, TieuDe, TrichYeuNoiDung, NoiDung FROM infomation_documents_out;")
         .fetch_all(pool)
         .await?;
 
