@@ -45,13 +45,6 @@ pub async fn get_poem_data(conn: &MySqlPool) -> Arc<Mutex<Value>> {
     }
 }
 
-
-
-
-
-
-
-
 // 👉 Route `/register`
 pub fn create_register_route(
     conn: MySqlPool
@@ -88,7 +81,3 @@ pub fn create_static_route() -> impl warp::Filter<Extract = (impl warp::Reply,),
     let image_files = warp::path("images").and(warp::fs::dir("./images"));
     static_files.or(image_files)
 }
-
-
-
-

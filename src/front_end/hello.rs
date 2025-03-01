@@ -1,29 +1,7 @@
-pub fn home() -> String {
-    // JavaScript để lấy dữ liệu từ API và hiển thị lên trang HTML
-    let js_code = r#"
-    document.addEventListener("DOMContentLoaded", function () {
-        // Gửi yêu cầu đến API `/api/content` để lấy danh sách dữ liệu
-        fetch("/api/content")
-            .then(response => response.json())  // Chuyển đổi phản hồi sang JSON
-            .then(data => {
-                // Kiểm tra nếu API trả về danh sách JSON có ít nhất một phần tử
-                if (Array.isArray(data) && data.length > 0) {
-                    let contentHTML = ""; // Chuỗi chứa toàn bộ nội dung
-                    data.forEach(item => {
-                        contentHTML += `<br><br><h2 style="font-weight: bold; text-align: center;">${item.title}</h2><br><br>`;  // Thêm tiêu đề từng bài
-                        contentHTML += `<p>${item.content.replace(/\r\n/g, '<br><br>')}</p>`;  // Thêm nội dung bài
-                    });
-                    document.getElementById("content").innerHTML = contentHTML;
-                } else {
-                    // Nếu API không có dữ liệu, hiển thị thông báo "Không có dữ liệu"
-                    document.getElementById("content").innerHTML = "<p>Không có dữ liệu</p>";
-                }
-            })
-            // Bắt lỗi nếu có lỗi khi tải dữ liệu từ API
-            .catch(error => console.error("Lỗi tải dữ liệu:", error));
-    });
-    "#;
+use crate::front_end;
 
+pub fn home() -> String {
+    let js_code = front_end::content::get_js_code();
 
     format!(
         r#"<!DOCTYPE html>
@@ -52,7 +30,7 @@ pub fn home() -> String {
             </div>
         </div>
     </header>
-        <main class="container mx-auto py-6 px-6">
+    <main class="container mx-auto py-6 px-6">
         <div>
             <div class="flex items-center">
                 <input class="border border-gray-300 rounded-l px-4 py-2" style="width: 600px;" placeholder="Tìm kiếm văn bản..." type="text"/>
@@ -82,19 +60,16 @@ pub fn home() -> String {
             <div class="bg-white p-4 mt-4 shadow rounded w-[1000px] h-[430px] overflow-y-auto no-scrollbar ">
                 <div class="header-decree">
                     <div>
-                        <p>CHÍNH PHỦ</p>
-                        <p>______</p>
-                        <p class="doc-number">Số: 30/2020/NĐ-CP</p>
+                        <p1 id="sovanban"></p1>
                     </div>
                     <div>
-                        <p>CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM</p>
-                        <p class="header-title">Độc lập - Tự do - Hạnh phúc</p>
-                        <span class="underline"></span>
-                        <p class="date">Hà Nội, ngày 05 tháng 3 năm 2020</p>
+                        <p id="namhinhthanh"></p>
                     </div>
                 </div>
-                <h1 id="title"></h1>
-                <p id="content">Vui lòng chờ...</p>
+                <div class="content-section">
+                    <h1 id="title"></h1>
+                    <p id="content">Vui lòng chờ...</p>
+                </div>
             </div>
         </div>
     </main>
