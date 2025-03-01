@@ -19,7 +19,7 @@ pub async fn get_document_content(pool: &MySqlPool) -> Result<serde_json::Value,
 }
 pub fn document_content(title: &str, content: &str) -> String {
     let bold_regex = Regex::new(r"(Điều \d+\..*?)\r\n").unwrap();
-     // Bôi đậm các dòng "Điều X."
+     // Bôi đậm các dòng "Điều X."ca  
     let formatted_content = bold_regex.replace_all(content, |caps: &regex::Captures| {
         format!("<strong>{}</strong><br><br>", &caps[1])
     });
