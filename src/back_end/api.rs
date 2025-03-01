@@ -1,18 +1,22 @@
 use sqlx::{mysql::MySqlPool, Row};
 use warp::{Reply, Rejection};
 use serde_json::{Value, Map};
-use dotenv::dotenv;
-use std::env;
 
-/// Hàm kết nối MySQL từ biến môi trường DATABASE_URL
-pub async fn connect_db() -> MySqlPool {
-    dotenv().ok();
-    let database_url = env::var("mysql://root@localhost:3366/kholuutruvanban").expect("DATABASE_URL không được tìm thấy trong .env");
-    MySqlPool::connect(&database_url).await.expect("Không thể kết nối MySQL")
+use sqlx::mysql::MySqlPoolOptions;
+use std::sync::Arc;
+
+const DB_URL: &str = "mysql://root@localhost:3366/kholuutruvanban";
+
+// Kết nối tới database (trả về Arc<Pool<MySql>> để có thể clone)
+pub async fn connect_db() -> Result<Arc<MySqlPool>, sqlx::Error> {
+    let pool = MySqlPoolOptions::new()
+        .connect(DB_URL)
+        .await?;
+    Ok(Arc::new(pool))
 }
 
 /// Lấy dữ liệu từ tất cả các bảng trong database
-pub async fn get_all_tables(db: MySqlPool) -> Result<impl Reply, Rejection> {
+pub async fn get_all_tables(db: Arc<MySqlPool>) -> Result<impl Reply, Rejection> {
     let tables = vec![
         "TaiKhoan", "ChucVu", "CoQuan", "LoaiVanBan", 
         "HoSo", "ChuKy", "NgonNgu", "ThongTinVanBan"
@@ -26,7 +30,7 @@ pub async fn get_all_tables(db: MySqlPool) -> Result<impl Reply, Rejection> {
         // Lấy schema của bảng
         let describe_query = format!("DESCRIBE {}", table);
         let column_names: Vec<String> = match sqlx::query(&describe_query)
-            .fetch_all(&db)
+            .fetch_all(&*db) // Sử dụng `&*db` để giải Arc
             .await
         {
             Ok(columns) => columns
@@ -39,7 +43,7 @@ pub async fn get_all_tables(db: MySqlPool) -> Result<impl Reply, Rejection> {
             }
         };
 
-        match sqlx::query(&query).fetch_all(&db).await {
+        match sqlx::query(&query).fetch_all(&*db).await {
             Ok(rows) => {
                 let mut result: Vec<Value> = Vec::new();
                 

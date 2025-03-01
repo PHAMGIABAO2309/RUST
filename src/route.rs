@@ -5,7 +5,6 @@ use tokio::sync::Mutex;
 use sqlx::mysql::MySqlPool;
 use tokio::signal;
 use std::future::Future;
-
 use serde_json::Value;
 
 // 📌 Route trả về API JSON

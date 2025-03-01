@@ -12,7 +12,7 @@ pub struct LoginForm {
 
 // Hàm kiểm tra thông tin đăng nhập
 async fn check_credentials(pool: &MySqlPool, username: &str, password: &str) -> Result<bool, sqlx::Error> {
-    let query = "SELECT COUNT(*) FROM users WHERE username = ? AND password = ?";
+    let query = "SELECT COUNT(*) FROM taikhoan WHERE TenDangNhap = ? AND MatKhau = ?";
     let count: (i64,) = sqlx::query_as(query)
         .bind(username)
         .bind(password)
