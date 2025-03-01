@@ -44,6 +44,7 @@ pub fn get_js_code() -> String {
                         
                         // Bôi đậm "Điều X."
                         let formattedContent = item.content.replace(/\r\n/g, '<br><br>');
+                        formattedContent = formattedContent.replace(/(Mục .*?)<br>/g, '<h2 style="text-align: center;"><strong>$1</strong></h2>');
                         formattedContent = formattedContent.replace(/(Chương .*?)<br>/g, '<h2 style="text-align: center;"><strong>$1</strong></h2><br>');
                         formattedContent = formattedContent.replace(/(Điều \d+\..*?)<br><br>/g, '<strong>$1</strong><br><br>');
 
