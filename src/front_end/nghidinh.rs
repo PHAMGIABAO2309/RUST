@@ -96,7 +96,6 @@ pub fn home() -> String {
                             </div>
                             <p style="font-size: 15px; top: -5px; margin-right: 10px; position: relative;">Ghi chú</p>
                         </div>
-
                         <hr>
                         <br>
                         <div class="header-decree">
@@ -117,9 +116,14 @@ pub fn home() -> String {
                         </div>
                     </div>
                 </div>
+                <!-- page_two (Trang Tóm Tắt) -->
                 {summary}
+                <!-- ------------------------ -->
             </div>
-            {side_right} <!-- Gọi phần sidebar từ module -->
+            
+            <!-- (Trang side_right) -->
+            {side_right} 
+            <!-- ----------------- -->
         </div>
     </main>
     <script>
