@@ -10,7 +10,7 @@ pub fn home() -> String {
     <title>Nghị định 30/2020/NĐ-CP về công tác văn thư</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="/static/index.css">
+    <link rel="stylesheet" href="static/nghidinh.css">
     <script src="handle/handlepage.js"></script>
 </head>
 <body>
@@ -39,7 +39,7 @@ pub fn home() -> String {
             <div class="contain_button">
                 <div class="flex space-x-4 mt-4">
                     <button class="bg-gray-200 text-gray-800 px-4 py-2 rounded item" data-target="page_two">Tóm tắt</button>
-                    <button class="bg-yellow-500 text-white px-4 py-2 rounded  item" data-target="page_first">Nội dung</button>
+                    <button class="bg-blue-500 text-white px-4 py-2 rounded    item active_item"  data-target="page_first">Nội dung</button>
                     <button class="bg-gray-200 text-gray-800 px-4 py-2 rounded item">VB gốc</button>
                     <button class="bg-gray-200 text-gray-800 px-4 py-2 rounded item">Tiếng Anh</button>
                     <button class="bg-gray-200 text-gray-800 px-4 py-2 rounded item">Hiệu lực</button>
@@ -47,7 +47,7 @@ pub fn home() -> String {
                     <button class="bg-gray-200 text-gray-800 px-4 py-2 rounded item">Lược đồ</button>
                     <button class="bg-gray-200 text-gray-800 px-4 py-2 rounded item">Nội dung MIX</button>
                     <button class="bg-gray-200 text-gray-800 px-4 py-2 rounded item">Tải về</button>
-                </div> 
+                </div>
             </div>
 
             <div class="change page active_page" id="page_first">
@@ -64,14 +64,15 @@ pub fn home() -> String {
                 </div>
                 <div class="bg-white p-4 mt-4 shadow rounded w-[1000px] h-[430px] overflow-y-auto">
                     <div style="height: 25px; display: flex; align-items: center; justify-content: space-between;">
-    <div style="display: flex; align-items: center;">
-        <p style="font-size: 15px; margin-right: 10px; position: relative; top: -5px;">Tình trạng hiệu lực:</p>
-        <p style="font-size: 15px; top: -5px; margin-right: 10px; position: relative;">Đã biết</p>
-    </div>
-    <p>Ghi chú</p>
-</div>
+                        <div style="display: flex; align-items: center;">
+                            <p style="font-size: 15px; margin-right: 10px; position: relative; top: -5px;">Tình trạng hiệu lực:</p>
+                            <strong><p style="font-size: 15px; top: -5px; margin-right: 10px; position: relative;" id="validitystatus"></p></strong>
+                        </div>
+                        <p style="font-size: 15px; top: -5px; margin-right: 10px; position: relative;">Ghi chú</p>
+                    </div>
 
                     <hr>
+                    <br>
                     <div class="header-decree">
                         <div>
                             <p>CHÍNH PHỦ</p>

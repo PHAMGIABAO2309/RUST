@@ -53,6 +53,11 @@ pub fn get_js_code() -> String {
                         if (firstDoc.receives) el.innerText = firstDoc.receives;
                     });
 
+                    let hieulucElements = document.querySelectorAll("[id='validitystatus']");
+                    hieulucElements.forEach(el => {
+                        if (firstDoc.validitystatus) el.innerText = firstDoc.validitystatus;
+                    });
+
                     let contentHTML = "";
                     data.forEach(item => {
                         if (item.subject) {

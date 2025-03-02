@@ -6,8 +6,9 @@ document.addEventListener("DOMContentLoaded", function () {
         button.addEventListener("click", () => {
             // Xóa class active_item trên mục đang được chọn trước đó
             document.querySelector('.contain_button .item.active_item')?.classList.remove('active_item');
+            
+            buttons.forEach(btn => btn.classList.remove("active_item"));
             button.classList.add('active_item');
-
             // Ẩn tất cả các trang
             pages.forEach(page => page.classList.add('hidden'));
 
