@@ -79,5 +79,6 @@ pub fn create_login_route(
 pub fn create_static_route() -> impl warp::Filter<Extract = (impl warp::Reply,), Error = warp::Rejection> + Clone {
     let static_files = warp::path("static").and(warp::fs::dir("./static"));
     let image_files = warp::path("images").and(warp::fs::dir("./images"));
-    static_files.or(image_files)
+    let handle_files = warp::path("handle").and(warp::fs::dir("./handle"));
+    static_files.or(image_files).or(handle_files)
 }
