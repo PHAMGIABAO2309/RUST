@@ -7,7 +7,7 @@ pub fn home() -> String {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Trang Poem</title>
+    <title>Nghị định 30/2020/NĐ-CP về công tác văn thư</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="/static/index.css">
@@ -47,59 +47,85 @@ pub fn home() -> String {
                     <button class="bg-gray-200 text-gray-800 px-4 py-2 rounded item">Lược đồ</button>
                     <button class="bg-gray-200 text-gray-800 px-4 py-2 rounded item">Nội dung MIX</button>
                     <button class="bg-gray-200 text-gray-800 px-4 py-2 rounded item">Tải về</button>
+                </div> 
+            </div>
+
+            <div class="change page active_page" id="page_first">
+                <div class="bg-gray p-1 mt-4 pl-4 shadow rounded w-[1000px] h-[70px]">
+                    <div class="flex space-x-2 mt-2">
+                        <button class="bg-gray-200 text-gray-800 px-4 py-2 rounded item">Mục lục</button>
+                        <button class="bg-red-600 text-white px-4 py-2 rounded     item">So sánh VB cũ/mới</button>
+                        <button class="bg-red-600 text-white px-4 py-2 rounded     item">VB Song ngữ</button>
+                        <button class="bg-gray-200 text-gray-800 px-4 py-2 rounded item">Tải về</button>
+                        <button class="bg-gray-200 text-gray-800 px-4 py-2 rounded item">VB Lưu</button>
+                        <button class="bg-gray-200 text-gray-800 px-4 py-2 rounded item">Theo dõi VB</button>
+                        <button class="bg-gray-200 text-gray-800 px-4 py-2 rounded item">Ghi chú</button>
+                    </div>
                 </div>
+                <div class="bg-white p-4 mt-4 shadow rounded w-[1000px] h-[430px] overflow-y-auto">
+                    <div style="height: 25px; display: flex; align-items: center; justify-content: space-between;">
+    <div style="display: flex; align-items: center;">
+        <p style="font-size: 15px; margin-right: 10px; position: relative; top: -5px;">Tình trạng hiệu lực:</p>
+        <p style="font-size: 15px; top: -5px; margin-right: 10px; position: relative;">Đã biết</p>
+    </div>
+    <p>Ghi chú</p>
+</div>
+
+                    <hr>
+                    <div class="header-decree">
+                        <div>
+                            <p>CHÍNH PHỦ</p>
+                            <p>______</p>
+                            Số: <span id="sovanban"></span>/<span id="namhinhthanh"></span>/NĐ-CP
+                        </div>
+                        <div>
+                            <p>CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM</p>
+                            <p class="header-title">Độc lập - Tự do - Hạnh phúc</p>
+                            <span class="underline"></span>
+                            <span id="noinhan"></span>, ngày 05 tháng 3 năm <span id="namhinhthanh"></span>
+                        </div>
+                    </div>
+                    <div class="content-section">
+                        <p id="content">Vui lòng chờ...</p>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="change page hidden" id="page_two">
                 <div class="flex space-x-2 mt-2">
-                    <button class="bg-gray-200 text-gray-800 px-4 py-2 rounded item">Mục lục</button>
-                    <button class="bg-red-600 text-white px-4 py-2 rounded     item">So sánh VB cũ/mới</button>
                     <button class="bg-red-600 text-white px-4 py-2 rounded     item">VB Song ngữ</button>
-                    <button class="bg-gray-200 text-gray-800 px-4 py-2 rounded item">Tải về</button>
-                    <button class="bg-gray-200 text-gray-800 px-4 py-2 rounded item">VB Lưu</button>
-                    <button class="bg-gray-200 text-gray-800 px-4 py-2 rounded item">Theo dõi VB</button>
-                    <button class="bg-gray-200 text-gray-800 px-4 py-2 rounded item">Ghi chú</button>
+                    <button class="bg-gray-200 text-gray-800 px-4 py-2 rounded item">Tải VB</button>
+                    <button class="bg-gray-200 text-gray-800 px-4 py-2 rounded item"> Lưu</button>
+                    <button class="bg-gray-200 text-gray-800 px-4 py-2 rounded item"> Theo dõi VB</button>
+                    <button class="bg-gray-200 text-gray-800 px-4 py-2 rounded item"> Báo lỗi</button>
+                </div>
+                <div class=" bg-white p-4 mt-4 shadow rounded w-[1000px] h-[430px] overflow-y-auto no-scrollbar " >
+                    <div class="header-decree">
+                        <div>
+                            <p>CHÍNH PHỦ</p>
+                            <p>______</p>
+                            Số: <span id="sovanban"></span>/<span id="namhinhthanh"></span>/NĐ-CP
+                        </div>
+                        <div>
+                            <p>CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM</p>
+                            <p class="header-title">Độc lập - Tự do - Hạnh phúc</p>
+                            <span class="underline"></span>
+                            <span id="noinhan"></span>, ngày 05 tháng 3 năm <span id="namhinhthanh"></span>
+                        </div>
+                    </div>
+                    <div class="content-section">
+                        <p id="content">Vui lòng chờ...</p>
+                    </div>
                 </div>
             </div>
-            <div class="change page active_page bg-white p-4 mt-4 shadow rounded w-[1000px] h-[430px] overflow-y-auto " id="page_first">
-                <div class="header-decree">
-                    <div>
-                        <p>CHÍNH PHỦ</p>
-                        <p>______</p>
-                        Số: <span id="sovanban"></span>/<span id="namhinhthanh"></span>/NĐ-CP
-                    </div>
-                    <div>
-                        <p>CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM</p>
-                        <p class="header-title">Độc lập - Tự do - Hạnh phúc</p>
-                        <span class="underline"></span>
-                        <span id="noinhan"></span>, ngày 05 tháng 3 năm <span id="namhinhthanh"></span>
-                    </div>
-                </div>
-                <div class="content-section">
-                    <p id="content">Vui lòng chờ...</p>
-                </div>
-            </div>
-            <div class="change page bg-white p-4 mt-4 shadow rounded w-[1000px] h-[430px] overflow-y-auto no-scrollbar hidden" id="page_two">
-                <div class="header-decree">
-                    <div>
-                        <p>CHÍNH PHỦ</p>
-                        <p>______</p>
-                        Số: <span id="sovanban"></span>/<span id="namhinhthanh"></span>/NĐ-CP
-                    </div>
-                    <div>
-                        <p>CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM</p>
-                        <p class="header-title">Độc lập - Tự do - Hạnh phúc</p>
-                        <span class="underline"></span>
-                        <span id="noinhan"></span>, ngày 05 tháng 3 năm <span id="namhinhthanh"></span>
-                    </div>
-                </div>
-                <div class="content-section">
-                    <p id="content">Vui lòng chờ...</p>
-                </div>
-            </div>
+
+
         </div>
     </main>
     <script>
         {js_code}
-    </script
-    
+    </script 
 </body>
 </html>"#
     )

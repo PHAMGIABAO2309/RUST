@@ -2,7 +2,8 @@ use sqlx::{MySqlPool, Row};
 use serde_json::json;
 
 pub async fn get_document_content(pool: &MySqlPool) -> Result<serde_json::Value, sqlx::Error> {
-    let rows = sqlx::query("SELECT CodeNumber, FileCatalog, Receives, Subject FROM infomation_documents_out;")
+    let rows = sqlx::query("SELECT CodeNumber, FileCatalog, Receives, Subject, ValidityStatus
+    FROM infomation_documents_out;")
         .fetch_all(pool)
         .await?;
 
@@ -12,12 +13,14 @@ pub async fn get_document_content(pool: &MySqlPool) -> Result<serde_json::Value,
             let filecatalog: String = row.get("FileCatalog");
             let subject: String = row.get("Subject");
             let receives: String = row.get("Receives");
+            let validitystatus: String = row.get("ValidityStatus");
 
             json!({
                 "codenumber": codenumber,
                 "filecatalog": filecatalog,
                 "subject": subject,
                 "receives": receives,
+                "validitystatus": validitystatus,
             })
         })
         .collect();
