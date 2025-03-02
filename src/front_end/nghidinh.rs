@@ -60,14 +60,18 @@ pub fn home() -> String {
             <div class="bg-white p-4 mt-4 shadow rounded w-[1000px] h-[430px] overflow-y-auto no-scrollbar ">
                 <div class="header-decree">
                     <div>
-                        <p1 id="sovanban"></p1>
+                        <p>CHÍNH PHỦ</p>
+                        <p>______</p>
+                        Số: <span id="sovanban"></span>/<span id="namhinhthanh"></span>/NĐ-CP
                     </div>
                     <div>
-                        <p id="namhinhthanh"></p>
+                        <p>CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM</p>
+                        <p class="header-title">Độc lập - Tự do - Hạnh phúc</p>
+                        <span class="underline"></span>
+                        <span id="noinhan"></span>, ngày 05 tháng 3 năm <span id="namhinhthanh"></span>
                     </div>
                 </div>
                 <div class="content-section">
-                    <h1 id="title"></h1>
                     <p id="content">Vui lòng chờ...</p>
                 </div>
             </div>

@@ -26,14 +26,14 @@ pub fn create_api_route(
 pub fn create_html_route(
     poem: Arc<Mutex<serde_json::Value>>,
 ) -> impl warp::Filter<Extract = (impl warp::Reply,), Error = warp::Rejection> + Clone {
-    warp::path("hello").and_then(move || handle_hello(poem.clone()))
+    warp::path("nghidinh").and_then(move || handle_hello(poem.clone()))
 }
 
 // 👉 Hàm xử lý HTML `/hello`
 async fn handle_hello(
     _poem: Arc<Mutex<serde_json::Value>>, // Không cần dùng biến này nữa
 ) -> Result<impl warp::Reply, warp::Rejection> {
-    let html = front_end::hello::home(); // Gọi không truyền tham số
+    let html = front_end::nghidinh::home(); // Gọi không truyền tham số
     Ok(warp::reply::html(html))
 }
 
