@@ -1,7 +1,6 @@
 use sqlx::{mysql::MySqlPool, Row};
 use warp::{Reply, Rejection};
 use serde_json::{Value, Map};
-
 use sqlx::mysql::MySqlPoolOptions;
 use std::sync::Arc;
 
