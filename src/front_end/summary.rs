@@ -15,7 +15,53 @@ pub fn summary() -> String {
             </div>
             <div class=" bg-white p-4 mt-4 shadow rounded w-[850px] h-[430px] overflow-y-auto no-scrollbar " >
                 
+                    <h1 class="text-xl font-bold mb-2">THUỘC TÍNH NGHỊ ĐỊNH 30/2020/NĐ-CP</h1>
+                    <p class="mb-4">Nghị định 30/2020/NĐ-CP của Chính phủ về công tác văn thư</p>
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full bg-white border border-gray-300">
+                            <tbody>
+                                <tr class="border-b">
+                                    <td class="px-4 py-2 font-semibold border-r bg-gray-100">Cơ quan ban hành:</td>
+                                    <td class="px-4 py-2 border-r">Chính phủ</td>
+                                    <td class="px-4 py-2 font-semibold border-r bg-gray-100">Số công báo:</td>
+                                    <td class="px-4 py-2 text-red-500">Đã biết <i class="fas fa-info-circle"></i></td>
+                                </tr>
+                                <tr class="border-b">
+                                    <td class="px-4 py-2 font-semibold border-r bg-gray-100">Số hiệu:</td>
+                                    <td class="px-4 py-2 border-r">30/2020/NĐ-CP</td>
+                                    <td class="px-4 py-2 font-semibold border-r bg-gray-100">Ngày đăng công báo:</td>
+                                    <td class="px-4 py-2 text-red-500">Đã biết <i class="fas fa-info-circle"></i></td>
+                                </tr>
+                                <tr class="border-b">
+                                    <td class="px-4 py-2 font-semibold border-r bg-gray-100">Loại văn bản:</td>
+                                    <td class="px-4 py-2 border-r">Nghị định</td>
+                                    <td class="px-4 py-2 font-semibold border-r bg-gray-100">Người ký:</td>
+                                    <td class="px-4 py-2">Nguyễn Xuân Phúc</td>
+                                </tr>
+                                <tr class="border-b">
+                                    <td class="px-4 py-2 font-semibold border-r bg-gray-100">Ngày ban hành:</td>
+                                    <td class="px-4 py-2 border-r">05/03/2020</td>
+                                    <td class="px-4 py-2 font-semibold border-r bg-gray-100">Ngày hết hiệu lực:</td>
+                                    <td class="px-4 py-2 text-gray-500">Đang cập nhật</td>
+                                </tr>
+                                <tr class="border-b">
+                                    <td class="px-4 py-2 font-semibold border-r bg-gray-100">Áp dụng:</td>
+                                    <td class="px-4 py-2 text-red-500 border-r">Đã biết <i class="fas fa-info-circle"></i></td>
+                                    <td class="px-4 py-2 font-semibold border-r bg-gray-100">Tình trạng hiệu lực:</td>
+                                    <td class="px-4 py-2 text-red-500">Đã biết <i class="fas fa-info-circle"></i></td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-2 font-semibold border-r bg-gray-100">Lĩnh vực:</td>
+                                    <td class="px-4 py-2 border-r">Hành chính</td>
+                                    <td class="px-4 py-2 border-r bg-gray-100"></td>
+                                    <td class="px-4 py-2"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+               
             </div>
+
         </div>
         "#
     )
