@@ -21,7 +21,7 @@ async fn username_exists(pool: &MySqlPool, username: &str) -> Result<bool, sqlx:
 }
 // Hàm kiểm tra email đã tồn tại chưa
 pub async fn email_exists(pool: &MySqlPool, email: &str) -> Result<bool, sqlx::Error> {
-    let query = "SELECT COUNT(*) FROM taikhoan WHERE Email = ?";
+    let query = "SELECT COUNT(*) FROM account WHERE Email = ?";
     let count: (i64,) = sqlx::query_as(query)
         .bind(email)
         .fetch_one(pool)
@@ -32,7 +32,7 @@ pub async fn email_exists(pool: &MySqlPool, email: &str) -> Result<bool, sqlx::E
 
 // Hàm tạo MaTK tự động tăng: ND01, ND02, ND03, ...
 async fn generate_new_matk(pool: &MySqlPool) -> Result<String, sqlx::Error> {
-    let query = "SELECT MaTK FROM taikhoan WHERE MaTK LIKE 'ND%' ORDER BY MaTK DESC LIMIT 1";
+    let query = "SELECT ID FROM account WHERE ID LIKE 'ND%' ORDER BY ID DESC LIMIT 1";
     let last_matk: Option<String> = sqlx::query_scalar(query).fetch_optional(pool).await?;
 
     let new_matk = if let Some(last_matk) = last_matk {
@@ -67,7 +67,7 @@ pub async fn handle_register(pool: MySqlPool, form: RegisterForm) -> Result<impl
         }
     };
 
-    let query = "INSERT INTO taikhoan (MaTK, TenDangNhap, HoTen, MatKhau, Email) VALUES (?, ?, ?, ?, ?)";
+    let query = "INSERT INTO account (ID, Username, FullName, Password, Email) VALUES (?, ?, ?, ?, ?)";
     match sqlx::query(query)
         .bind(&matk)
         .bind(&form.username)
