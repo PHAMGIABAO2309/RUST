@@ -14,22 +14,7 @@ pub fn summary() -> String {
                 </div>
             </div>
             <div class=" bg-white p-4 mt-4 shadow rounded w-[850px] h-[430px] overflow-y-auto no-scrollbar " >
-                <div class="header-decree">
-                    <div>
-                        <p>CHÍNH PHỦ</p>
-                        <p>______</p>
-                        Số: <span id="sovanban"></span>/<span id="namhinhthanh"></span>/NĐ-CP
-                    </div>
-                    <div>
-                        <p>CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM</p>
-                        <p class="header-title">Độc lập - Tự do - Hạnh phúc</p>
-                        <span class="underline"></span>
-                        <span id="noinhan"></span>, ngày 05 tháng 3 năm <span id="namhinhthanh"></span>
-                    </div>
-                </div>
-                <div class="content-section">
-                    <p id="content">Vui lòng chờ...</p>
-                </div>
+                
             </div>
         </div>
         "#
