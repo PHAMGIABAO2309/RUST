@@ -12,7 +12,7 @@ pub struct LoginForm {
 
 // Hàm kiểm tra thông tin đăng nhập
 async fn check_credentials(pool: &MySqlPool, username: &str, password: &str) -> Result<bool, sqlx::Error> {
-    let query = "SELECT COUNT(*) FROM taikhoan WHERE TenDangNhap = ? AND MatKhau = ?";
+    let query = "SELECT COUNT(*) FROM account WHERE Username = ? AND Password = ?";
     let count: (i64,) = sqlx::query_as(query)
         .bind(username)
         .bind(password)
@@ -55,7 +55,7 @@ pub fn login_page() -> String {
                     messageBox.style.color = "white";
                     messageBox.innerHTML = result.message;
                     messageBox.style.display = "block";
-                    setTimeout(() => { window.location.href = "/hello"; }, 2000);
+                    setTimeout(() => { window.location.href = "/nghidinh"; }, 2000);
                 } else {
                     messageBox.style.background = "rgba(255, 0, 0, 0.9)"; // Đỏ
                     messageBox.style.color = "white";
