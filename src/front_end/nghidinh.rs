@@ -128,7 +128,7 @@ pub fn home() -> String {
     </main>
     <script>
         {js_code}
-    </script 
+    </script>
 </body>
 </html>"#
     )

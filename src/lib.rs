@@ -1,5 +1,4 @@
-// ✅ Thêm library  
-pub mod content;  
+// ✅ Thêm library   
 pub mod database;
 pub mod push_github;
 pub mod front_end;

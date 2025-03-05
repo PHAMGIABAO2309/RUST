@@ -1,9 +1,35 @@
 use warp::Filter;
-use crate::front_end; // Không dùng hello_rust2::front_end
+use crate::front_end;
 use std::sync::Arc;
+use warp::{ Rejection, Reply};
 use tokio::sync::Mutex;
 use sqlx::mysql::MySqlPool;
 use serde_json::Value;
+use warp::reply;
+use serde_json::json;
+use warp::http::StatusCode;
+
+
+pub async fn summary_handler() -> Result<impl Reply, Rejection> {
+    match front_end::summary::fetch_summary().await {
+        Ok(data) => Ok(reply::with_status(reply::json(&data), StatusCode::OK)), // Ép kiểu cho giống nhau
+        Err(_) => Ok(reply::with_status(
+            reply::json(&json!({"error": "Lỗi lấy dữ liệu từ API 9090"})), 
+            StatusCode::INTERNAL_SERVER_ERROR
+        )),
+    }
+}
+
+
+
+pub fn create_summary_route() -> impl Filter<Extract = (impl Reply,), Error = Rejection> + Clone {
+    warp::path("summary")
+        .and(warp::get().clone())  // Clone để tránh vấn đề ownership
+        .and_then(summary_handler)
+}
+
+
+
 
 // 📌 Route trả về API JSON
 // 📌 API JSON: Trả về nội dung dưới dạng JSON
@@ -21,6 +47,8 @@ pub fn create_api_route(
             }
         })
 }
+
+
 
 // 📌 Route HTML: Hiển thị nội dung trên trình duyệt
 pub fn create_html_route(

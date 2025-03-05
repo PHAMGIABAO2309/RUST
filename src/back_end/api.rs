@@ -3,10 +3,11 @@ use warp::{Reply, Rejection};
 use serde_json::{Value, Map};
 use sqlx::mysql::MySqlPoolOptions;
 use std::sync::Arc;
+use chrono::NaiveDate;
 
 const DB_URL: &str = "mysql://root@localhost:3366/storages_documents";
 
-// Kết nối tới database (trả về Arc<Pool<MySql>> để có thể clone)
+// Kết nối tới database
 pub async fn connect_db() -> Result<Arc<MySqlPool>, sqlx::Error> {
     let pool = MySqlPoolOptions::new()
         .connect(DB_URL)
@@ -29,7 +30,7 @@ pub async fn get_all_tables(db: Arc<MySqlPool>) -> Result<impl Reply, Rejection>
         // Lấy schema của bảng
         let describe_query = format!("DESCRIBE {}", table);
         let column_names: Vec<String> = match sqlx::query(&describe_query)
-            .fetch_all(&*db) // Sử dụng `&*db` để giải Arc
+            .fetch_all(&*db)
             .await
         {
             Ok(columns) => columns
@@ -50,10 +51,20 @@ pub async fn get_all_tables(db: Arc<MySqlPool>) -> Result<impl Reply, Rejection>
                     let mut json_row = Map::new();
 
                     for (i, column_name) in column_names.iter().enumerate() {
-                        let value: Value = match row.try_get::<Option<String>, _>(i) {
-                            Ok(Some(val)) => Value::String(val),
-                            Ok(None) => Value::Null,
-                            Err(_) => Value::String("Lỗi đọc dữ liệu".to_string()),
+                        let value: Value = if column_name.to_lowercase().contains("date") {
+                            // Xử lý cột DATE
+                            match row.try_get::<Option<NaiveDate>, _>(i) {
+                                Ok(Some(date)) => Value::String(date.format("%Y-%m-%d").to_string()), // Chuyển thành chuỗi
+                                Ok(None) => Value::Null,
+                                Err(_) => Value::String("Lỗi đọc ngày".to_string()),
+                            }
+                        } else {
+                            // Xử lý các cột khác
+                            match row.try_get::<Option<String>, _>(i) {
+                                Ok(Some(val)) => Value::String(val),
+                                Ok(None) => Value::Null,
+                                Err(_) => Value::String("Lỗi đọc dữ liệu".to_string()),
+                            }
                         };
 
                         json_row.insert(column_name.clone(), value);

@@ -13,6 +13,7 @@ async fn main() {
     let poem_data = route::get_poem_data(&pool).await;
 
     // 👉 Khởi tạo các route cho server 8080
+    let summary_route = route::create_summary_route();
     let hello_route = route::create_html_route(poem_data.clone());
     let api_route = route::create_api_route(poem_data.clone());
     let login_route = route::create_login_route(pool.clone());
@@ -26,7 +27,7 @@ async fn main() {
 
     // 👉 Chạy server trên cổng 8080 trong một task riêng
     let server_8080 = tokio::spawn(async move {
-        warp::serve(hello_route.or(api_route).or(register_route).or(static_files).or(call_login))
+        warp::serve(hello_route.or(api_route).or(register_route).or(static_files).or(call_login).or(summary_route) )
             .run(([127, 0, 0, 1], 8080))
             .await;
     });
