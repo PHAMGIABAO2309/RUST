@@ -1,17 +1,6 @@
-use reqwest;
+
 use sqlx::{MySqlPool, Row};
 use serde_json::json;
-
-use serde_json::Value;
-use std::error::Error;
-
-pub async fn fetch_summary() -> Result<Value, Box<dyn Error>> {
-    let url = "http://localhost:9090/api/all";  
-    let response = reqwest::get(url).await?.json::<Value>().await?;
-    Ok(response)
-}
-
-
 pub async fn get_summary(pool: &MySqlPool) -> Result<serde_json::Value, sqlx::Error> {
     let rows = sqlx::query(
         "SELECT 
@@ -33,8 +22,7 @@ pub async fn get_summary(pool: &MySqlPool) -> Result<serde_json::Value, sqlx::Er
     .fetch_all(pool)
     .await?;
 
-    let documents: Vec<_> = rows
-        .into_iter()
+    let documents: Vec<_> = rows.into_iter()
         .map(|row| {
             json!({
                 "oran_name": row.get::<String, _>("OranName"),
@@ -52,10 +40,10 @@ pub async fn get_summary(pool: &MySqlPool) -> Result<serde_json::Value, sqlx::Er
     Ok(json!(documents))
 }
 
-pub fn get_js_code () -> String {
+pub fn get_js_code_sum () -> String {
     r#"
         document.addEventListener("DOMContentLoaded", function () {
-            fetch("http://localhost:8080/summary")
+            fetch("/summary")
             .then(response => response.json())
             .then(data => {
                 if (Array.isArray(data) && data.length > 0) {
@@ -75,7 +63,7 @@ pub fn get_js_code () -> String {
 
 
 pub fn summary() -> String {
-    let js_code = get_js_code();
+    let js_code = get_js_code_sum();
     format! (
         r#"
         <div class="change page hidden" id="page_two">

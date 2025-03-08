@@ -8,10 +8,17 @@ use serde_json::Value;
 use warp::reply;
 use serde_json::json;
 use warp::http::StatusCode;
+use reqwest;
+use std::error::Error;
 
+pub async fn fetch_summary() -> Result<Value, Box<dyn Error>> {
+    let url = "http://localhost:9090/api/all";  
+    let response = reqwest::get(url).await?.json::<Value>().await?;
+    Ok(response)
+}
 
 pub async fn summary_handler() -> Result<impl Reply, Rejection> {
-    match front_end::summary::fetch_summary().await {
+    match fetch_summary().await {
         Ok(data) => Ok(reply::with_status(reply::json(&data), StatusCode::OK)), // Ép kiểu cho giống nhau
         Err(_) => Ok(reply::with_status(
             reply::json(&json!({"error": "Lỗi lấy dữ liệu từ API 9090"})), 
@@ -19,25 +26,22 @@ pub async fn summary_handler() -> Result<impl Reply, Rejection> {
         )),
     }
 }
-
-
-
 pub fn create_summary_route() -> impl Filter<Extract = (impl Reply,), Error = Rejection> + Clone {
-    warp::path("summary")
+    warp::path("all")
         .and(warp::get().clone())  // Clone để tránh vấn đề ownership
         .and_then(summary_handler)
 }
-
-
-
-
-// 📌 Route trả về API JSON
+pub async fn get_poem_data(conn: &MySqlPool) -> Arc<Mutex<Value>> {
+    match front_end::content::get_document_content(conn).await {
+        Ok(content) => Arc::new(Mutex::new(content)),  // Giữ nguyên kiểu JSON
+        Err(_) => Arc::new(Mutex::new(serde_json::json!({ "error": "Không thể lấy dữ liệu" }))),
+    }
+}
 // 📌 API JSON: Trả về nội dung dưới dạng JSON
 pub fn create_api_route(
     poem: Arc<Mutex<serde_json::Value>>,
 ) -> impl warp::Filter<Extract = (impl warp::Reply,), Error = warp::Rejection> + Clone {
-    warp::path("api")
-        .and(warp::path("content"))
+    warp::path("summary")
         .and(warp::get())
         .and_then(move || {
             let poem_clone = poem.clone();
@@ -47,9 +51,6 @@ pub fn create_api_route(
             }
         })
 }
-
-
-
 // 📌 Route HTML: Hiển thị nội dung trên trình duyệt
 pub fn create_html_route(
     poem: Arc<Mutex<serde_json::Value>>,
@@ -66,12 +67,7 @@ async fn handle_hello(
 }
 
 
-pub async fn get_poem_data(conn: &MySqlPool) -> Arc<Mutex<Value>> {
-    match front_end::content::get_document_content(conn).await {
-        Ok(content) => Arc::new(Mutex::new(content)),  // Giữ nguyên kiểu JSON
-        Err(_) => Arc::new(Mutex::new(serde_json::json!({ "error": "Không thể lấy dữ liệu" }))),
-    }
-}
+
 
 // 👉 Route `/register`
 pub fn create_register_route(

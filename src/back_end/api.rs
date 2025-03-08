@@ -5,7 +5,7 @@ use sqlx::mysql::MySqlPoolOptions;
 use std::sync::Arc;
 use chrono::NaiveDate;
 
-const DB_URL: &str = "mysql://root@localhost:3366/storages_documents";
+const DB_URL: &str = "mysql://root@localhost/storages_documents";
 
 // Kết nối tới database
 pub async fn connect_db() -> Result<Arc<MySqlPool>, sqlx::Error> {

@@ -31,7 +31,7 @@ pub async fn get_document_content(pool: &MySqlPool) -> Result<serde_json::Value,
 pub fn get_js_code() -> String {
     r#"
     document.addEventListener("DOMContentLoaded", function () {
-        fetch("/api/content")
+        fetch("/summary")
             .then(response => response.json())
             .then(data => {
                 if (Array.isArray(data) && data.length > 0) {
