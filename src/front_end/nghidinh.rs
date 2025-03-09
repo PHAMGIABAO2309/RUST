@@ -18,7 +18,21 @@ pub fn home() -> String {
     <script src="handle/handlepage.js"></script>
 </head>
 <body>
-   
+    <header class="bg-white shadow">
+        <div class="container mx-auto flex justify-between items-center py-4 px-6">
+            <div class="flex items-center">
+                <img alt="LuatVietnam logo" class="h-10" height="300" width="50" src="https://th.bing.com/th/id/OIP.-_GKfmytz61oq-HnVMf0NQHaHa?rs=1&pid=ImgDetMain" />
+                <span class="ml-2 text-sm text-gray-600">Tiện ích văn bản luật</span>
+            </div>
+            <div class="flex items-center space-x-4">
+                <button class="text-gray-600"></button>
+                <span class="text-red-600"></span>
+                <button class="text-gray-600"></button>
+                <button class="text-gray-600"></button>
+                <button class="text-gray-600">Đăng ký / Đăng nhập</button>
+            </div>
+        </div>
+    </header>
     <nav class="bg-gray-50 shadow">
         <div class="container mx-auto flex justify-between items-center py-2 px-6">
             <div class="flex space-x-4">
