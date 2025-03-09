@@ -4,82 +4,9 @@ pub fn get_json_code() -> String {
             fetch("/content")
                 .then(response => response.json())
                 .then(data => {
-                    if (data && data.documents && data.summary) {
-                        const documents = data.documents;
-                        const summaries = data.summary;
-
-                        if (documents.length > 0) {
-                            const firstDoc = documents[0]; // Lấy phần tử đầu tiên
-
-                            let noinhanElements = document.querySelectorAll("[id='noinhan']");
-                            noinhanElements.forEach(el => {
-                                if (firstDoc.receives) el.innerText = firstDoc.receives;
-                            });
-
-                            let hieulucElements = document.querySelectorAll("[id='validitystatus']");
-                            hieulucElements.forEach(el => {
-                                if (firstDoc.validitystatus) el.innerText = firstDoc.validitystatus;
-                            });
-                        }
-
-                        if (summaries.length > 0) {
-                            const firstSummary = summaries[0];
-
-                            if (firstSummary.oran_name) {
-                                let tencoquanEl = document.getElementById("chinhphu");
-                                if (tencoquanEl) tencoquanEl.innerText = firstSummary.oran_name;
-                            }
-
-                            if (firstSummary.code_number) {
-                                let sovanbanEl = document.getElementById("sovanban");
-                                if (sovanbanEl) sovanbanEl.innerText = firstSummary.code_number;
-                            }
-
-                            if (firstSummary.file_catalog) {
-                                let namhinhthanhElements = document.querySelectorAll("[id='namhinhthanh']");
-                                namhinhthanhElements.forEach(el => {
-                                    el.innerText = firstSummary.file_catalog;
-                                });
-                            }
-
-                            if (firstSummary.type_name) {
-                                let loaiVanBanEl = document.getElementById("loaivanban");
-                                if (loaiVanBanEl) loaiVanBanEl.innerText = firstSummary.type_name;
-                            }
-
-                            if (firstSummary.full_name) {
-                                let nguoikyEl = document.getElementById("nguoiky");
-                                if (nguoikyEl) nguoikyEl.innerText = firstSummary.full_name;
-                            }
-
-                            if (firstSummary.start_date) {
-                                let ngayBatDauEl = document.getElementById("ngaybatdau");
-                                if (ngayBatDauEl) ngayBatDauEl.innerText = firstSummary.start_date;
-                            }
-
-                            if (firstSummary.end_date) {
-                                let ngayKetThucEl = document.getElementById("ngayketthuc");
-                                if (ngayKetThucEl) ngayKetThucEl.innerText = firstSummary.end_date;
-                            }
-                        }
-
-                        let contentHTML = "";
-                        documents.forEach(item => {
-                            if (item.subject) {
-                                let formattedContent = item.subject.replace(/\r\n/g, '<br><br>');
-                                formattedContent = formattedContent.replace(/(NGHỊ .*?)<br>/g, '<br><br><h2 style="text-align: center;"><strong>$1</strong></h2><br>');
-                                formattedContent = formattedContent.replace(/(Mục .*?)<br>/g, '<h2 style="text-align: center;"><strong>$1</strong></h2>');
-                                formattedContent = formattedContent.replace(/(Chương .*?)<br>/g, '<h2 style="text-align: center;"><strong>$1</strong></h2><br>');
-                                formattedContent = formattedContent.replace(/(Điều \d+\..*?)<br><br>/g, '<strong>$1</strong><br><br>');
-
-                                contentHTML += `<p>${formattedContent}</p>`;
-                            }
-                        });
-
-                        let contentEl = document.getElementById("content");
-                        if (contentEl) {
-                            contentEl.innerHTML = contentHTML;
-                        }
+                    if (data) {
+                        if (data.documents) handleDocuments(data.documents);
+                        if (data.summary) handleSummary(data.summary);
                     } else {
                         let contentEl = document.getElementById("content");
                         if (contentEl) contentEl.innerHTML = "<p>Không có dữ liệu</p>";
@@ -88,8 +15,106 @@ pub fn get_json_code() -> String {
                 .catch(error => console.error("Lỗi tải dữ liệu:", error));
         });
 
+        function handleDocuments(documents) {
+            let contentHTML = "";
+            documents.forEach(item => {
+                if (item.subject) {
+                    let formattedContent = item.subject.replace(/\r\n/g, '<br><br>');
+                    formattedContent = formattedContent.replace(/(NGHỊ .*?)<br>/g, '<br><br><h2 style="text-align: center;"><strong>$1</strong></h2><br>');
+                    formattedContent = formattedContent.replace(/(Mục .*?)<br>/g, '<h2 style="text-align: center;"><strong>$1</strong></h2>');
+                    formattedContent = formattedContent.replace(/(Chương .*?)<br>/g, '<h2 style="text-align: center;"><strong>$1</strong></h2><br>');
+                    formattedContent = formattedContent.replace(/(Điều \d+\..*?)<br><br>/g, '<strong>$1</strong><br><br>');
+
+                    contentHTML += `<p>${formattedContent}</p>`;
+                }
+            });
+
+            let contentEl = document.getElementById("content");
+            if (contentEl) {
+                contentEl.innerHTML = contentHTML;
+            }
+
+            if (documents.length > 0) {
+                const firstDoc = documents[0];
+
+                let noinhanElements = document.querySelectorAll("[id='noinhan']");
+                noinhanElements.forEach(el => {
+                    if (firstDoc.receives) el.innerText = firstDoc.receives;
+                });
+
+                let hieulucElements = document.querySelectorAll("[id='validitystatus']");
+                hieulucElements.forEach(el => {
+                    if (firstDoc.validitystatus) el.innerText = firstDoc.validitystatus;
+                });
+
+                if (firstDoc.codenumber) {
+                    let sovanbanEl = document.getElementById("sovanban");
+                    if (sovanbanEl) sovanbanEl.innerText = firstDoc.codenumber;
+                }
+
+                if (firstDoc.filecatalog) {
+                    let namhinhthanhElements = document.querySelectorAll("[id='namhinhthanh']");
+                    namhinhthanhElements.forEach(el => {
+                        el.innerText = firstDoc.filecatalog;
+                    });
+                }
+            }
+        }
+
+        function handleSummary(summaries) {
+            if (summaries.length === 0) return;
+
+            const firstSummary = summaries[0];
+
+            if (firstSummary.oran_name) {
+                let tencoquanEl = document.getElementById("chinhphu");
+                if (tencoquanEl) tencoquanEl.innerText = firstSummary.oran_name;
+            }
+
+            if (firstSummary.file_nonation) {
+                let sohieuvanbannnEl = document.getElementById("sohieuuu");
+                if (sohieuvanbannnEl) sohieuvanbannnEl.innerText = firstSummary.file_nonation;
+            }
+
+            if (firstSummary.full_name) {
+                let nguoikyEl = document.getElementById("nguoikyy");
+                if (nguoikyEl) nguoikyEl.innerText = firstSummary.full_name;
+            }
+
+            if (firstSummary.type_name) {
+                let loaiVanBanEl = document.getElementById("loaivanban");
+                if (loaiVanBanEl) loaiVanBanEl.innerText = firstSummary.type_name;
+            }
+
+            if (firstSummary.full_name) {
+                let nguoikyEl = document.getElementById("nguoiky");
+                if (nguoikyEl) nguoikyEl.innerText = firstSummary.full_name;
+            }
+
+            if (firstSummary.start_date) {
+                let ngayBatDauEl = document.getElementById("ngaybanhanhh");
+                if (ngayBatDauEl) {
+                    let date = new Date(firstSummary.start_date);
+                    let formattedDate = ("0" + date.getDate()).slice(-2) + "/" + 
+                                        ("0" + (date.getMonth() + 1)).slice(-2) + "/" + 
+                                        date.getFullYear();
+                    ngayBatDauEl.innerText = formattedDate;
+                }
+            }
+
+            if (firstSummary.end_date && firstSummary.end_date !== "N/A") {
+                let ngayKetThucEl = document.getElementById("ngayhethieuluc");
+                if (ngayKetThucEl) {
+                    let date = new Date(firstSummary.end_date);
+                    let formattedDate = ("0" + date.getDate()).slice(-2) + "/" + 
+                                        ("0" + (date.getMonth() + 1)).slice(-2) + "/" + 
+                                        date.getFullYear();
+                    ngayKetThucEl.innerText = formattedDate;
+                }
+            } else {
+                let ngayKetThucEl = document.getElementById("ngayhethieuluc");
+                if (ngayKetThucEl) ngayKetThucEl.innerText = "Đang cập nhật";
+            }
+        }
     "#.to_string()
 }
-
-
-

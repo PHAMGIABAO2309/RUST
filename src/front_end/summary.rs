@@ -1,5 +1,4 @@
 pub fn summary() -> String {
-   
     format! (
         r#"
         <div class="change page hidden" id="page_two">
@@ -27,21 +26,21 @@ pub fn summary() -> String {
                                 </tr>
                                 <tr class="border-b">
                                     <td class="px-4 py-2 font-semibold border-r bg-gray-100">Số hiệu:</td>
-                                    <td class="px-4 py-2 border-r">30/2020/NĐ-CP</td>
+                                    <td class="px-4 py-2 border-r" id="sohieuuu"></td>
                                     <td class="px-4 py-2 font-semibold border-r bg-gray-100">Ngày đăng công báo:</td>
                                     <td class="px-4 py-2 text-red-500">Đã biết <i class="fas fa-info-circle"></i></td>
                                 </tr>
                                 <tr class="border-b">
                                     <td class="px-4 py-2 font-semibold border-r bg-gray-100">Loại văn bản:</td>
-                                    <td class="px-4 py-2 border-r">Nghị định</td>
+                                    <td class="px-4 py-2 border-r" id="loaivanban"></td>
                                     <td class="px-4 py-2 font-semibold border-r bg-gray-100">Người ký:</td>
-                                    <td class="px-4 py-2">Nguyễn Xuân Phúc</td>
+                                    <td class="px-4 py-2" id="nguoikyy"></td>
                                 </tr>
                                 <tr class="border-b">
                                     <td class="px-4 py-2 font-semibold border-r bg-gray-100">Ngày ban hành:</td>
-                                    <td class="px-4 py-2 border-r">05/03/2020</td>
+                                    <td class="px-4 py-2 border-r" id="ngaybanhanhh"></td>
                                     <td class="px-4 py-2 font-semibold border-r bg-gray-100">Ngày hết hiệu lực:</td>
-                                    <td class="px-4 py-2 text-gray-500">Đang cập nhật</td>
+                                    <td class="px-4 py-2 text-gray-500" id="ngayhethieuluc"></td>
                                 </tr>
                                 <tr class="border-b">
                                     <td class="px-4 py-2 font-semibold border-r bg-gray-100">Áp dụng:</td>
@@ -59,8 +58,13 @@ pub fn summary() -> String {
                         </table>
                     </div>
                 </div>
-            </div>
 
+                <div>
+                    <strong><h1>TÓM TẮT VĂN BẢN </h1></strong>
+                    <br>
+                    <strong><p>Hướng dẫn mới nhất về kỹ thuật trình bày văn bản hành chính</p></strong>
+                </div>
+            </div>
         </div>
         "#
     )

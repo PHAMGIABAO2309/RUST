@@ -6,7 +6,7 @@ pub async fn get_sql(pool: &MySqlPool) -> Result<serde_json::Value, sqlx::Error>
         .fetch_all(pool)
         .await?;
     let summary_rows = sqlx::query(
-        "SELECT org.OranName, doc.CodeNumber, doc.FileCatalog, doc.CodeNotation, typeDoc.TypeName, acc.FullName, f.StartDate, f.EndDate
+        "SELECT org.OranName, doc.CodeNumber, doc.FileCatalog, f.FileNonation, doc.CodeNotation, typeDoc.TypeName, acc.FullName, f.StartDate, f.EndDate
         FROM organization org
         JOIN account acc ON org.ID = acc.ID
         JOIN Files f ON org.OranId = f.OranId
@@ -35,6 +35,7 @@ pub async fn get_sql(pool: &MySqlPool) -> Result<serde_json::Value, sqlx::Error>
                 "oran_name": row.get::<String, _>("OranName"),
                 "code_number": row.get::<String, _>("CodeNumber"),
                 "file_catalog": row.get::<String, _>("FileCatalog"),
+                "file_nonation": row.get::<String, _>("FileNonation"),
                 "code_notation": row.get::<String, _>("CodeNotation"),
                 "type_name": row.get::<String, _>("TypeName"),
                 "full_name": row.get::<String, _>("FullName"),

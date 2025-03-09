@@ -1,5 +1,4 @@
 use crate::front_end;
-
 pub fn home() -> String {
     let js_code_sum = front_end::get_json::get_json_code();
     let side_right = front_end::side_right::side_panel();

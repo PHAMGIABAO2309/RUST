@@ -2,8 +2,8 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Máy chủ: 127.0.0.1:3366
--- Thời gian đã tạo: Th3 06, 2025 lúc 05:04 AM
+-- Máy chủ: 127.0.0.1
+-- Thời gian đã tạo: Th3 09, 2025 lúc 01:05 PM
 -- Phiên bản máy phục vụ: 10.4.32-MariaDB
 -- Phiên bản PHP: 8.2.12
 
@@ -41,7 +41,8 @@ CREATE TABLE `account` (
 --
 
 INSERT INTO `account` (`ID`, `Username`, `FullName`, `Password`, `Email`, `PhoneNumber`) VALUES
-('ND01', 'nguyenxuanphuc', 'Nguyễn Xuân Phúc', '123456', 'phuc@gmail.com', NULL);
+('ND01', 'nguyenxuanphuc', 'Nguyễn Xuân Phúc', '123456', 'phuc@gmail.com', NULL),
+('ND02', 'PhamGiaBao', 'Phạm Gia Bảo', '123456', 'bao@gmail.com', NULL);
 
 -- --------------------------------------------------------
 
@@ -190,6 +191,17 @@ CREATE TABLE `signatures` (
 
 INSERT INTO `signatures` (`SignId`, `SignDate`, `FileCode`) VALUES
 ('ND01', '2020-03-05', 'HS01');
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `summary_documents`
+--
+
+CREATE TABLE `summary_documents` (
+  `id` varchar(20) NOT NULL,
+  `content` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
