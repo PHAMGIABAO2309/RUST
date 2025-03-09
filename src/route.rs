@@ -32,7 +32,7 @@ pub fn create_summary_route() -> impl Filter<Extract = (impl Reply,), Error = Re
         .and_then(summary_handler)
 }
 pub async fn get_poem_data(conn: &MySqlPool) -> Arc<Mutex<Value>> {
-    match front_end::content::get_document_content(conn).await {
+    match front_end::query_sql::get_sql(conn).await {
         Ok(content) => Arc::new(Mutex::new(content)),  // Giữ nguyên kiểu JSON
         Err(_) => Arc::new(Mutex::new(serde_json::json!({ "error": "Không thể lấy dữ liệu" }))),
     }
@@ -41,7 +41,7 @@ pub async fn get_poem_data(conn: &MySqlPool) -> Arc<Mutex<Value>> {
 pub fn create_api_route(
     poem: Arc<Mutex<serde_json::Value>>,
 ) -> impl warp::Filter<Extract = (impl warp::Reply,), Error = warp::Rejection> + Clone {
-    warp::path("summary")
+    warp::path("content")
         .and(warp::get())
         .and_then(move || {
             let poem_clone = poem.clone();

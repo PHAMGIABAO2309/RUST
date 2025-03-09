@@ -29,7 +29,7 @@ async fn main() {
     // 👉 Chạy server trên cổng 8080 trong một task riêng
     let server_8080 = tokio::spawn(async move {
         warp::serve(hello_route.or(api_route).or(register_route).or(static_files).or(call_login) )
-            .run(([127, 0, 0, 1], 7070))
+            .run(([127, 0, 0, 1], 8080))
             .await;
     });
 

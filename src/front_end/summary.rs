@@ -1,69 +1,5 @@
-
-use sqlx::{MySqlPool, Row};
-use serde_json::json;
-pub async fn get_summary(pool: &MySqlPool) -> Result<serde_json::Value, sqlx::Error> {
-    let rows = sqlx::query(
-        "SELECT 
-            org.OranName, 
-            doc.CodeNumber, 
-            doc.FileCatalog, 
-            doc.CodeNotation, 
-            typeDoc.TypeName, 
-            acc.FullName, 
-            f.StartDate,
-            f.EndDate
-        FROM organization org
-        JOIN account acc ON org.ID = acc.ID
-        JOIN Files f ON org.OranId = f.OranId
-        JOIN infomation_documents_out doc ON f.FileCode = doc.FileCode
-        JOIN type_documents typeDoc ON doc.TypeId = typeDoc.TypeId
-        WHERE typeDoc.OranId = org.OranId;"
-    )
-    .fetch_all(pool)
-    .await?;
-
-    let documents: Vec<_> = rows.into_iter()
-        .map(|row| {
-            json!({
-                "oran_name": row.get::<String, _>("OranName"),
-                "code_number": row.get::<String, _>("CodeNumber"),
-                "file_catalog": row.get::<String, _>("FileCatalog"),
-                "code_notation": row.get::<String, _>("CodeNotation"),
-                "type_name": row.get::<String, _>("TypeName"),
-                "full_name": row.get::<String, _>("FullName"),
-                "start_date": row.get::<chrono::NaiveDate, _>("StartDate").to_string(),
-                "end_date": row.get::<chrono::NaiveDate, _>("EndDate").to_string(),
-            })
-        })
-        .collect();
-
-    Ok(json!(documents))
-}
-
-pub fn get_js_code_sum () -> String {
-    r#"
-        document.addEventListener("DOMContentLoaded", function () {
-            fetch("/summary")
-            .then(response => response.json())
-            .then(data => {
-                if (Array.isArray(data) && data.length > 0) {
-                    const firstDoc = data[0];
-
-                    if (firstDoc.oran_name) {
-                        let tencoquanEl = document.getElementById("chinhphu");
-                        if (tencoquanEl) tencoquanEl.innerText = firstDoc.oran_name;
-                    }
-                }
-            })
-            .catch(error => console.error("Error fetching data:", error));
-        });
-    "#.to_string()
-}
-
-
-
 pub fn summary() -> String {
-    let js_code = get_js_code_sum();
+   
     format! (
         r#"
         <div class="change page hidden" id="page_two">
@@ -126,9 +62,6 @@ pub fn summary() -> String {
             </div>
 
         </div>
-        <script>
-            {js_code}
-        </script>
         "#
     )
 }

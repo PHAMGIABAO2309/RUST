@@ -1,10 +1,9 @@
 use crate::front_end;
 
 pub fn home() -> String {
-    let js_code_sum = front_end::content::get_js_code();
+    let js_code_sum = front_end::get_json::get_json_code();
     let side_right = front_end::side_right::side_panel();
     let summary = front_end::summary::summary();
-    let js_code = front_end::summary::get_js_code_sum();
     format!(
         r#"<!DOCTYPE html>
 <html lang="vi">
@@ -127,12 +126,10 @@ pub fn home() -> String {
             <!-- ----------------- -->
         </div>
     </main>
+    
     <script>
-        {js_code}
+        {js_code_sum}
     </script>
-    <script>
-            {js_code_sum}
-        </script>
 </body>
 </html>"#
     )
