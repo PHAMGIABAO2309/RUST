@@ -60,9 +60,7 @@ pub fn summary() -> String {
                 </div>
 
                 <div>
-                    <strong><h1>TÓM TẮT VĂN BẢN </h1></strong>
-                    <br>
-                    <strong><p>Hướng dẫn mới nhất về kỹ thuật trình bày văn bản hành chính</p></strong>
+                    <p id="tomtat"></p>
                 </div>
             </div>
         </div>

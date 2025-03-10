@@ -116,5 +116,7 @@ pub fn get_json_code() -> String {
                 if (ngayKetThucEl) ngayKetThucEl.innerText = "Đang cập nhật";
             }
         }
+
+        
     "#.to_string()
 }

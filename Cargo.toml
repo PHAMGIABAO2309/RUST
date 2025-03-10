@@ -36,6 +36,7 @@ regex = "1.10"
 dotenv = "0.15.0"
 chrono = { version = "0.4", features = ["serde"] }
 reqwest = { version = "0.11", features = ["json"] }
+crossterm = "0.26"
 
 
 [lib]

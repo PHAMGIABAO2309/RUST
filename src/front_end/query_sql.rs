@@ -17,6 +17,10 @@ pub async fn get_sql(pool: &MySqlPool) -> Result<serde_json::Value, sqlx::Error>
     .fetch_all(pool)
     .await?;
 
+    let summary_content = sqlx::query("SELECT content FROM summary;")
+    .fetch_all(pool)
+    .await?;
+
     let documents: Vec<_> = document_rows.into_iter()
         .map(|row| {
             json!({
@@ -48,11 +52,20 @@ pub async fn get_sql(pool: &MySqlPool) -> Result<serde_json::Value, sqlx::Error>
             })
         })
         .collect();
+
+        let summary_content: Vec<_> = summary_content.into_iter()
+        .map(|row| {
+            json!({
+                "content": row.get::<String, _>("content"),
+            })
+        })
+        .collect();
     
 
     Ok(json!({
         "documents": documents,
-        "summary": summaries
+        "summary": summaries,
+        "summary_content": summary_content,
     }))
 }
 
