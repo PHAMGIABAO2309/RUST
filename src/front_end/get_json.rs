@@ -7,6 +7,7 @@ pub fn get_json_code() -> String {
                     if (data) {
                         if (data.documents) handleDocuments(data.documents);
                         if (data.summary) handleSummary(data.summary);
+                        if (data.summary_content) handleSummaryContent(data.summary_content);
                     } else {
                         let contentEl = document.getElementById("content");
                         if (contentEl) contentEl.innerHTML = "<p>Không có dữ liệu</p>";
@@ -117,6 +118,22 @@ pub fn get_json_code() -> String {
             }
         }
 
-        
+        function handleSummaryContent(summary_content) {
+            if (summary_content.length === 0) return;
+
+            const firstSummaryContent = summary_content[0];
+
+            if (firstSummaryContent.content) {
+                let contentEl = document.getElementById("tomtat");
+                if (contentEl) {
+                    let formattedContent = firstSummaryContent.content
+                        .replace(/- /g, "<br>- ") 
+                        .replace(/TÓM TẮT VĂN BẢN/, "<strong>TÓM TẮT VĂN BẢN</strong>") 
+                        .replace(/\n/g, "<br>"); 
+                    
+                    contentEl.innerHTML = formattedContent;
+                }
+            }
+        }
     "#.to_string()
 }
