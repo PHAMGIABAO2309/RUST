@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th3 09, 2025 lúc 01:05 PM
+-- Thời gian đã tạo: Th3 11, 2025 lúc 01:47 PM
 -- Phiên bản máy phục vụ: 10.4.32-MariaDB
 -- Phiên bản PHP: 8.2.12
 
@@ -195,13 +195,20 @@ INSERT INTO `signatures` (`SignId`, `SignDate`, `FileCode`) VALUES
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `summary_documents`
+-- Cấu trúc bảng cho bảng `summary`
 --
 
-CREATE TABLE `summary_documents` (
-  `id` varchar(20) NOT NULL,
+CREATE TABLE `summary` (
+  `InfoId` varchar(50) NOT NULL,
   `content` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `summary`
+--
+
+INSERT INTO `summary` (`InfoId`, `content`) VALUES
+('TT01', 'TÓM TẮT VĂN BẢN\r\nHướng dẫn mới nhất về kỹ thuật trình bày văn bản hành chính\r\n\r\nChính phủ đã ban hành Nghị định 30/2020/NĐ-CP về công tác văn thư ngày 05/3/2020 với một số nội dung đáng chú ý như sau: \r\n- Văn bản hành chính được trình bày trên khổ giấy A4 (210 mm X 297 mm).\r\n\r\n- Phông chữ tiếng Việt Times New Roman, bộ mã ký tự Unicode theo Tiêu chuẩn Việt Nam TCVN 6909:2001, màu đen.\r\n\r\n- Số trang văn bản được đánh từ số 1, bằng chữ số Ả Rập, cỡ chữ 13 đến 14, kiểu chữ đứng, được đặt canh giữa theo chiều ngang trong phần lề trên của văn bản, không hiển thị số trang thứ nhất.\r\n\r\n- Thời gian ban hành văn bản phải được viết đầy đủ; các số thể hiện ngày, tháng, năm dùng chữ số Ả Rập; đối với những số thể hiện ngày nhỏ hơn 10 và tháng 1, 2 phải ghi thêm số 0 phía trước.\r\n\r\n- Khi viện dẫn lần đầu văn bản có liên quan, phải ghi đầy đủ tên loại, số, ký hiệu của văn bản, thời gian ban hành văn bản, tên cơ quan, tổ chức ban hành văn bản và trích yếu nội dung văn bản (đối với Luật và Pháp lệnh chỉ ghi tên loại và tên của Luật, Pháp lệnh); trong các lần viện dẫn tiếp theo, chỉ ghi tên loại và số, ký hiệu của văn bản đó…\r\n\r\n- Trước họ tên của người ký, không ghi học hàm, học vị và các danh hiệu danh dự khác. Việc ghi thêm quân hàm, học hàm, học vị trước họ tên người ký đối với văn bản của các đơn vị vũ trang nhân dân, các tổ chức sự nghiệp giáo dục, y tế, khoa học do người đứng đầu cơ quan quản lý ngành, lĩnh vực quy định.\r\n\r\nNghị định này có hiệu lực từ ngày 05/3/2020.');
 
 -- --------------------------------------------------------
 
