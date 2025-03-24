@@ -7,18 +7,19 @@ use tokio::signal;
 #[tokio::main]
 async fn main() {
     // 👉 Kết nối database
-    let pool = database::connect_db().await.expect("Không thể kết nối MySQL");
+    let sql = database::connect_db().await.expect("Không thể kết nối MySQL");
     
     // 👉 Lấy dữ liệu từ database
-    let poem_data = route::get_poem_data(&pool).await;
+    let sql_data = route::get_poem_data(&sql).await;
 
     // 👉 Khởi tạo các route cho server 8080
     //let summary_route = route::create_summary_route();
-    let hello_route = route::create_html_route(poem_data.clone());
-    let api_route = route::create_api_route(poem_data.clone());
+    let nghidinh_route = route::create_html_route(sql_data.clone());
+    let home_route = route::create_html_route_home(sql_data.clone());
+    let api_route = route::create_api_route(sql_data.clone());
     
-    let login_route = route::create_login_route(pool.clone());
-    let register_route = route::create_register_route(pool.clone());
+    let login_route = route::create_login_route(sql.clone());
+    let register_route = route::create_register_route(sql.clone());
     let static_files = route::create_static_route();
 
     // 👉 Áp dụng CORS cho route đăng nhập
@@ -28,7 +29,7 @@ async fn main() {
 
     // 👉 Chạy server trên cổng 8080 trong một task riêng
     let server_8080 = tokio::spawn(async move {
-        warp::serve(hello_route.or(api_route).or(register_route).or(static_files).or(call_login) )
+        warp::serve(nghidinh_route.or(home_route).or(api_route).or(register_route).or(static_files).or(call_login) )
             .run(([127, 0, 0, 1], 8080))
             .await;
     });

@@ -1,10 +1,8 @@
-use crate::front_end;
-pub fn home() -> String {
-    let js_code_sum = front_end::get_json::get_json_code();
-    let side_right = front_end::side_right::side_panel();
-    let summary = front_end::summary::summary();
+
+pub fn homemain() -> String {
     format!(
-        r#"<!DOCTYPE html>
+        r#"
+        <!DOCTYPE html>
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
@@ -35,7 +33,7 @@ pub fn home() -> String {
     <nav class="bg-gray-50 shadow">
         <div class="container mx-auto flex justify-between items-center py-2 px-6">
             <div class="flex space-x-4">
-                <a class="text-gray-600 hover:text-gray-800" href="javascript:void(0);" onclick="window.location.href='/trangchu'"><i class="fas fa-home"></i> Văn bản mới</a>
+                <a class="text-gray-600 hover:text-gray-800" href=""><i class="fas fa-home"></i>Văn bản mới</a>
                 <a class="text-gray-600 hover:text-gray-800" href="">Tra cứu văn bản</a>
                 <a class="text-gray-600 hover:text-gray-800" href=""> Dự thảo </a>
                 <a class="text-gray-600 hover:text-gray-800" href="">Tin văn bản mới</a>
@@ -50,9 +48,9 @@ pub fn home() -> String {
     </nav>
     <main class="container mx-auto py-6 px-6">
         <div class="flex items-center space-x-2 text-gray-600 text-sm" >
-            <a class="hover:underline" href=""> Văn bản pháp luật </a>
+            <a class="hover:underline" href=""> Văn bản mới </a>
             <span> / </span>
-            <a class="hover:underline" href=""> Hành chính </a>
+           
         </div>
         <div class="flex">
             <div class="mt-6">
@@ -64,28 +62,14 @@ pub fn home() -> String {
                 <h1 class="text-2xl font-bold mt-2">Nghị định 30/2020/NĐ-CP về công tác văn thư</h1>
                 <div class="contain_button">
                     <div class="flex space-x-4 mt-4">
-                        <button class="bg-gray-200 text-gray-800 px-4 py-2 rounded item" data-target="page_two">Tóm tắt</button>
-                        <button class="bg-blue-500 text-white px-4 py-2 rounded    item active_item"  data-target="page_first">Nội dung</button>
-                        <button class="bg-gray-200 text-gray-800 px-4 py-2 rounded item">VB gốc</button>
-                        <button class="bg-gray-200 text-gray-800 px-4 py-2 rounded item">Tiếng Anh</button>
-                        <button class="bg-gray-200 text-gray-800 px-4 py-2 rounded item">Hiệu lực</button>
-                        <button class="bg-gray-200 text-gray-800 px-4 py-2 rounded item">VB liên quan</button>
-                        <button class="bg-gray-200 text-gray-800 px-4 py-2 rounded item">Lược đồ</button>
-                        <button class="bg-gray-200 text-gray-800 px-4 py-2 rounded item">Nội dung MIX</button>
-                        <button class="bg-gray-200 text-gray-800 px-4 py-2 rounded item">Tải về</button>
+                        
                     </div>
                 </div>
 
                 <div class="change page active_page" id="page_first">
                     <div class="bg-gray p-1 mt-4 pl-4 shadow rounded w-[850px] h-[70px]">
                         <div class="flex space-x-2 mt-2">
-                            <button class="bg-gray-200 text-gray-800 px-4 py-2 rounded item">Mục lục</button>
-                            <button class="bg-red-600 text-white px-4 py-2 rounded     item">So sánh VB cũ/mới</button>
-                            <button class="bg-red-600 text-white px-4 py-2 rounded     item">VB Song ngữ</button>
-                            <button class="bg-gray-200 text-gray-800 px-4 py-2 rounded item">Tải về</button>
-                            <button class="bg-gray-200 text-gray-800 px-4 py-2 rounded item">VB Lưu</button>
-                            <button class="bg-gray-200 text-gray-800 px-4 py-2 rounded item">Theo dõi VB</button>
-                            <button class="bg-gray-200 text-gray-800 px-4 py-2 rounded item">Ghi chú</button>
+                           
                         </div>
                     </div>
                     <div class="bg-white p-4 mt-4 shadow rounded w-[850px] h-[430px] overflow-y-auto">
@@ -99,38 +83,21 @@ pub fn home() -> String {
                         <hr>
                         <br>
                         <div class="header-decree">
-                            <div>
-                                <p>CHÍNH PHỦ</p>
-                                <p>______</p>
-                                Số: <span id="sovanban"></span>/<span id="namhinhthanh"></span>/NĐ-CP
-                            </div>
-                            <div>
-                                <p>CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM</p>
-                                <p class="header-title">Độc lập - Tự do - Hạnh phúc</p>
-                                <span class="underline"></span>
-                                <span id="noinhan"></span>, ngày 05 tháng 3 năm <span id="namhinhthanh"></span>
-                            </div>
+                            
                         </div>
                         <div class="content-section">
-                            <p id="content">Vui lòng chờ...</p>
+                           
                         </div>
                     </div>
                 </div>
-                <!-- page_two (Trang Tóm Tắt) -->
-                {summary}
-                <!-- ------------------------ -->
+                
             </div>
             
-            <!-- (Trang side_right) -->
-            {side_right} 
-            <!-- ----------------- -->
+           
         </div>
     </main>
-    
-    <script>
-        {js_code_sum}
-    </script>
 </body>
-</html>"#
+</html>
+        "#
     )
 }

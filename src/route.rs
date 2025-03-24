@@ -1,36 +1,12 @@
 use warp::Filter;
 use crate::front_end;
 use std::sync::Arc;
-use warp::{ Rejection, Reply};
 use tokio::sync::Mutex;
 use sqlx::mysql::MySqlPool;
 use serde_json::Value;
-use warp::reply;
-use serde_json::json;
-use warp::http::StatusCode;
-use reqwest;
-use std::error::Error;
 
-pub async fn fetch_summary() -> Result<Value, Box<dyn Error>> {
-    let url = "http://localhost:9090/api/all";  
-    let response = reqwest::get(url).await?.json::<Value>().await?;
-    Ok(response)
-}
 
-pub async fn summary_handler() -> Result<impl Reply, Rejection> {
-    match fetch_summary().await {
-        Ok(data) => Ok(reply::with_status(reply::json(&data), StatusCode::OK)), // Ép kiểu cho giống nhau
-        Err(_) => Ok(reply::with_status(
-            reply::json(&json!({"error": "Lỗi lấy dữ liệu từ API 9090"})), 
-            StatusCode::INTERNAL_SERVER_ERROR
-        )),
-    }
-}
-pub fn create_summary_route() -> impl Filter<Extract = (impl Reply,), Error = Rejection> + Clone {
-    warp::path("all")
-        .and(warp::get().clone())  // Clone để tránh vấn đề ownership
-        .and_then(summary_handler)
-}
+
 pub async fn get_poem_data(conn: &MySqlPool) -> Arc<Mutex<Value>> {
     match front_end::query_sql::get_sql(conn).await {
         Ok(content) => Arc::new(Mutex::new(content)),  // Giữ nguyên kiểu JSON
@@ -55,15 +31,21 @@ pub fn create_api_route(
 pub fn create_html_route(
     poem: Arc<Mutex<serde_json::Value>>,
 ) -> impl warp::Filter<Extract = (impl warp::Reply,), Error = warp::Rejection> + Clone {
-    warp::path("nghidinh").and_then(move || handle_hello(poem.clone()))
+    warp::path("nghidinh").map(move || {
+        let _poem = poem.lock();
+        warp::reply::html(front_end::nghidinh::home())
+    })
 }
 
-// 👉 Hàm xử lý HTML `/hello`
-async fn handle_hello(
-    _poem: Arc<Mutex<serde_json::Value>>, // Không cần dùng biến này nữa
-) -> Result<impl warp::Reply, warp::Rejection> {
-    let html = front_end::nghidinh::home(); // Gọi không truyền tham số
-    Ok(warp::reply::html(html))
+
+
+pub fn create_html_route_home(
+    poem: Arc<Mutex<serde_json::Value>>,
+) -> impl warp::Filter<Extract = (impl warp::Reply,), Error = warp::Rejection> + Clone {
+    warp::path("trangchu").map(move || {
+        let _poem = poem.lock(); // Giữ lại biến nhưng không dùng
+        warp::reply::html(front_end::home::homemain())
+    })
 }
 
 
