@@ -5,8 +5,6 @@ use tokio::sync::Mutex;
 use sqlx::mysql::MySqlPool;
 use serde_json::Value;
 
-
-
 pub async fn get_poem_data(conn: &MySqlPool) -> Arc<Mutex<Value>> {
     match front_end::query_sql::get_sql(conn).await {
         Ok(content) => Arc::new(Mutex::new(content)),  // Giữ nguyên kiểu JSON
@@ -44,7 +42,7 @@ pub fn create_html_route_home(
 ) -> impl warp::Filter<Extract = (impl warp::Reply,), Error = warp::Rejection> + Clone {
     warp::path("trangchu").map(move || {
         let _poem = poem.lock(); // Giữ lại biến nhưng không dùng
-        warp::reply::html(front_end::home::homemain())
+        warp::reply::html(front_end::trangchu::home::homemain())
     })
 }
 

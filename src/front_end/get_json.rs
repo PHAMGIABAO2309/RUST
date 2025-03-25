@@ -8,6 +8,7 @@ pub fn get_json_code() -> String {
                         if (data.documents) handleDocuments(data.documents);
                         if (data.summary) handleSummary(data.summary);
                         if (data.summary_content) handleSummaryContent(data.summary_content);
+                        if (data.list_title) handleListTitle(data.list_title);
                     } else {
                         let contentEl = document.getElementById("content");
                         if (contentEl) contentEl.innerHTML = "<p>Không có dữ liệu</p>";
@@ -135,5 +136,60 @@ pub fn get_json_code() -> String {
                 }
             }
         }
+        function handleListTitle(list_titles) {
+            let container = document.getElementById("listContainer");
+            container.innerHTML = ""; // Xóa nội dung cũ
+
+            list_titles.forEach((item, index) => {
+                let formattedTitle = item.title || "Không có tiêu đề";
+                let formattedPath = item.path;
+                let formattedStartDate = item.startdate ? new Date(item.startdate).toLocaleDateString("vi-VN") : "Không có";
+                let formattedUpdateDate = item.dateupdate ? new Date(item.dateupdate).toLocaleDateString("vi-VN") : "Không có";
+
+                let listItem = `
+                    <div class="flex border-t border-gray-300 pt-2 ">
+                        <div class="flex space-x-2">
+                            <span class="font-bold">${index + 1}</span>
+                            <div>
+                                 <p class="text-gray-800 font-bold cursor-pointer" 
+                       onclick="window.location.href='${formattedPath}'">
+                        ${formattedTitle}
+                    </p>
+                                <div class="flex space-x-4 text-gray-600 mt-2">
+                                    <a href="" class="hover:underline">Tóm tắt</a>
+                                    <a href="" class="hover:underline">VB liên quan</a>
+                                    <a href="" class="hover:underline">Hiệu lực</a>
+                                    <a href="" class="hover:underline">Lược đồ</a>
+                                    <a href="" class="hover:underline">Tiếng Anh</a>
+                                    <a href="" class="hover:underline">Tải về</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex justify-between text-sm text-gray-600 mt-2 ml-40">
+                            <div class="flex flex-col space-y-1">
+                                <div class="flex justify-between">
+                                    <span class="w-20">Ban hành:</span>
+                                    <span class="text-orange-600">${formattedStartDate}</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="w-20">Áp dụng:</span>
+                                    <span class="text-orange-600">Đã biết</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="w-20">Hiệu lực:</span>
+                                    <span class="text-orange-600">Đã biết</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="w-20">Cập nhật:</span>
+                                    <span class="text-orange-600">${formattedUpdateDate}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                container.innerHTML += listItem;
+            });
+        }
+
     "#.to_string()
 }

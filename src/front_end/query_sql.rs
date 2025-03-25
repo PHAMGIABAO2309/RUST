@@ -21,6 +21,11 @@ pub async fn get_sql(pool: &MySqlPool) -> Result<serde_json::Value, sqlx::Error>
     .fetch_all(pool)
     .await?;
 
+    let list_title_rows = sqlx::query("SELECT Title, StartDate, dateupdate, path from files;")
+    .fetch_all(pool)
+    .await?;
+
+
     let documents: Vec<_> = document_rows.into_iter()
         .map(|row| {
             json!({
@@ -60,12 +65,28 @@ pub async fn get_sql(pool: &MySqlPool) -> Result<serde_json::Value, sqlx::Error>
             })
         })
         .collect();
+        
+        let list_title: Vec<_> = list_title_rows.into_iter()
+        .map(|row| {
+            json!({
+                "title": row.get::<String,_>("Title"),
+                "path": row.get::<String,_>("path"),
+                "startdate": row.get::<Option<chrono::NaiveDate>, _>("StartDate")
+                .map(|d| d.to_string())
+                    .unwrap_or("N/A".to_string()),
+                "dateupdate":row.get::<Option<chrono::NaiveDate>, _>("dateupdate")
+                .map(|d| d.to_string())
+                    .unwrap_or("N/A".to_string()),
+            })
+        })
+        .collect();
     
 
     Ok(json!({
         "documents": documents,
         "summary": summaries,
         "summary_content": summary_content,
+        "list_title": list_title,
     }))
 }
 
