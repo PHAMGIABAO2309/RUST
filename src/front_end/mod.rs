@@ -6,3 +6,4 @@ pub mod side_right;
 pub mod summary;
 pub mod get_json;
 pub mod trangchu;
+pub mod nghidinh138;
