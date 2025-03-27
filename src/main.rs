@@ -11,6 +11,7 @@ async fn main() {
     
     // 👉 Lấy dữ liệu từ database
     let sql_data = route::get_poem_data(&sql).await;
+   
 
     // 👉 Khởi tạo các route cho server 8080
     //let summary_route = route::create_summary_route();

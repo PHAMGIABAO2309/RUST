@@ -1,7 +1,7 @@
 use crate::front_end;
 pub fn home() -> String {
     let js_code_sum = front_end::get_json::get_json_code();
-    let side_right = front_end::side_right::side_panel();
+    
     
     format!(
         r#"<!DOCTYPE html>
@@ -61,7 +61,7 @@ pub fn home() -> String {
                     <button class="bg-red-600 text-white px-4 py-2 rounded-r">Tìm kiếm</button>
                     <button class="ml-2 text-gray-600"><i class="fas fa-cogs"> </i>Tìm năng cao</button>
                 </div>
-                <h1 class="text-2xl font-bold mt-2">Nghị định 30/2020/NĐ-CP về công tác văn thư</h1>
+                <h1 class="text-2xl font-bold mt-2" id="title_nghidinh138"></h1>
                 <div class="contain_button">
                     <div class="flex space-x-4 mt-4">
                         <button class="bg-gray-200 text-gray-800 px-4 py-2 rounded item" data-target="page_two">Tóm tắt</button>
@@ -105,10 +105,7 @@ pub fn home() -> String {
                                 Số: <span id="sovanban"></span>/<span id="namhinhthanh"></span>/NĐ-CP
                             </div>
                             <div>
-                                <p>CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM</p>
-                                <p class="header-title">Độc lập - Tự do - Hạnh phúc</p>
-                                <span class="underline"></span>
-                                <span id="noinhan"></span>, ngày 05 tháng 3 năm <span id="namhinhthanh"></span>
+                                
                             </div>
                         </div>
                         <div class="content-section">
@@ -119,9 +116,7 @@ pub fn home() -> String {
                 
             </div>
             
-            <!-- (Trang side_right) -->
-            {side_right} 
-            <!-- ----------------- -->
+           -- ----------------- -->
         </div>
     </main>
     

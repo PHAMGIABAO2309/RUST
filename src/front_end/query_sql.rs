@@ -2,7 +2,16 @@ use sqlx::{MySqlPool, Row};
 use serde_json::json;
 
 pub async fn get_sql(pool: &MySqlPool) -> Result<serde_json::Value, sqlx::Error> {
-    let document_rows = sqlx::query("SELECT CodeNumber, FileCatalog, Receives, Subject, ValidityStatus FROM infomation_documents_out;")
+    let document_rows = sqlx::query("SELECT CodeNumber, FileCatalog, Receives, Subject, ValidityStatus , Title
+        FROM infomation_documents_out ido , files f 
+        WHERE ido.FileCode = f.FileCode
+        and f.FileCode = 'HS01';")
+        .fetch_all(pool)
+        .await?;
+    let document_nghidinh138_rows = sqlx::query("SELECT CodeNumber, FileCatalog, Receives, Subject, ValidityStatus , Title
+        FROM infomation_documents_out ido , files f 
+        WHERE ido.FileCode = f.FileCode
+        and f.FileCode = 'HS02';")
         .fetch_all(pool)
         .await?;
     let summary_rows = sqlx::query(
@@ -34,6 +43,7 @@ pub async fn get_sql(pool: &MySqlPool) -> Result<serde_json::Value, sqlx::Error>
                 "subject": row.get::<String, _>("Subject"),
                 "receives": row.get::<String, _>("Receives"),
                 "validitystatus": row.get::<String, _>("ValidityStatus"),
+                "title": row.get::<String,_>("Title"),
             })
         })
         .collect();
@@ -81,12 +91,26 @@ pub async fn get_sql(pool: &MySqlPool) -> Result<serde_json::Value, sqlx::Error>
         })
         .collect();
     
+        let documents_nghidinh138: Vec<_> = document_nghidinh138_rows.into_iter()
+        .map(|row| {
+            json!({
+                "codenumber": row.get::<String, _>("CodeNumber"),
+                "filecatalog": row.get::<String, _>("FileCatalog"),
+                "subject": row.get::<String, _>("Subject"),
+                "receives": row.get::<String, _>("Receives"),
+                "validitystatus": row.get::<String, _>("ValidityStatus"),
+                "title": row.get::<String,_>("Title"),
+            })
+        })
+        .collect();
+    
 
     Ok(json!({
         "documents": documents,
         "summary": summaries,
         "summary_content": summary_content,
         "list_title": list_title,
+        "documents_nghidinh138": documents_nghidinh138,
     }))
 }
 

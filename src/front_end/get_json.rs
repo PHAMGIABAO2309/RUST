@@ -9,6 +9,7 @@ pub fn get_json_code() -> String {
                         if (data.summary) handleSummary(data.summary);
                         if (data.summary_content) handleSummaryContent(data.summary_content);
                         if (data.list_title) handleListTitle(data.list_title);
+                         if (data.documents_nghidinh138) handleDocuments_Nghidinh138(data.documents_nghidinh138);
                     } else {
                         let contentEl = document.getElementById("content");
                         if (contentEl) contentEl.innerHTML = "<p>Không có dữ liệu</p>";
@@ -16,6 +17,56 @@ pub fn get_json_code() -> String {
                 })
                 .catch(error => console.error("Lỗi tải dữ liệu:", error));
         });
+        function handleDocuments_Nghidinh138(documents_nghidinh138) {
+    let contentHTML = "";
+    documents_nghidinh138.forEach(item => {
+        if (item.subject) {
+            let formattedContent = item.subject.replace(/\r\n/g, '<br><br>');
+            formattedContent = formattedContent.replace(/(NGHỊ .*?)<br>/g, '<br><br><h2 style="text-align: center;"><strong>$1</strong></h2><br>');
+            formattedContent = formattedContent.replace(/(Mục .*?)<br>/g, '<h2 style="text-align: center;"><strong>$1</strong></h2>');
+            formattedContent = formattedContent.replace(/(Chương .*?)<br>/g, '<h2 style="text-align: center;"><strong>$1</strong></h2><br>');
+            formattedContent = formattedContent.replace(/(Điều \d+\..*?)<br><br>/g, '<strong>$1</strong><br><br>');
+
+            contentHTML += `<p>${formattedContent}</p>`;
+        }
+    });
+
+    let contentEl = document.getElementById("content");
+    if (contentEl) {
+        contentEl.innerHTML = contentHTML;
+    }
+
+    if (documents_nghidinh138.length > 0) {
+        const firstDocc = documents_nghidinh138[0];
+
+        let noinhanElements = document.querySelectorAll("[id='noinhan']");
+        noinhanElements.forEach(el => {
+            if (firstDocc.receives) el.innerText = firstDocc.receives;
+        });
+
+        let hieulucElements = document.querySelectorAll("[id='validitystatus']");
+        hieulucElements.forEach(el => {
+            if (firstDocc.validitystatus) el.innerText = firstDocc.validitystatus;
+        });
+
+        if (firstDocc.codenumber) {
+            let sovanbanEl = document.getElementById("sovanban");
+            if (sovanbanEl) sovanbanEl.innerText = firstDocc.codenumber;
+        }
+
+        if (firstDocc.filecatalog) {
+            let namhinhthanhElements = document.querySelectorAll("[id='namhinhthanh']");
+            namhinhthanhElements.forEach(el => {
+                el.innerText = firstDocc.filecatalog;
+            });
+        }
+        if (firstDocc.title) {
+            let titleEl = document.getElementById("title_nghidinh138");
+            if (titleEl) titleEl.innerText = firstDocc.title;
+        }
+    }
+}
+
 
         function handleDocuments(documents) {
             let contentHTML = "";
@@ -59,6 +110,10 @@ pub fn get_json_code() -> String {
                     namhinhthanhElements.forEach(el => {
                         el.innerText = firstDoc.filecatalog;
                     });
+                }
+                if (firstDoc.title) {
+                    let titleEl = document.getElementById("title");
+                    if(titleEl) titleEl.innerText = firstDoc.title;
                 }
             }
         }

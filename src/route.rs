@@ -11,6 +11,7 @@ pub async fn get_poem_data(conn: &MySqlPool) -> Arc<Mutex<Value>> {
         Err(_) => Arc::new(Mutex::new(serde_json::json!({ "error": "Không thể lấy dữ liệu" }))),
     }
 }
+
 // 📌 API JSON: Trả về nội dung dưới dạng JSON
 pub fn create_api_route(
     poem: Arc<Mutex<serde_json::Value>>,

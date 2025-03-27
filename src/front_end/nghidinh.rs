@@ -61,7 +61,7 @@ pub fn home() -> String {
                     <button class="bg-red-600 text-white px-4 py-2 rounded-r">Tìm kiếm</button>
                     <button class="ml-2 text-gray-600"><i class="fas fa-cogs"> </i>Tìm năng cao</button>
                 </div>
-                <h1 class="text-2xl font-bold mt-2">Nghị định 30/2020/NĐ-CP về công tác văn thư</h1>
+                <h1 class="text-2xl font-bold mt-2" id="title"> </h1>
                 <div class="contain_button">
                     <div class="flex space-x-4 mt-4">
                         <button class="bg-gray-200 text-gray-800 px-4 py-2 rounded item" data-target="page_two">Tóm tắt</button>
