@@ -41,7 +41,7 @@ pub fn homemain() -> String {
     <main class="container mx-auto py-6 px-6">
         <div class="flex items-center space-x-2 text-gray-600 text-sm" >
             <a class="hover:underline" href=""> Văn bản pháp luật </a>
-            <span> / </span>
+            <span> \ </span>
             <a class="hover:underline" href=""> Hành chính </a>
         </div>
         <div class="flex">
