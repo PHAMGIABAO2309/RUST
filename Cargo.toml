@@ -46,7 +46,7 @@ mysql = "24.0"
 
 [lib]
 crate-type = ["cdylib", "rlib"]
-name = "hello_rust2"  # Tên thư viện (thường là tên project)
+name = "hello_rust2_lib"  # Tên thư viện (thường là tên project)
 path = "src/lib.rs"
 
 [features]
