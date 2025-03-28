@@ -1,7 +1,7 @@
 use warp::Filter;
-use hello_rust2::*;
-use hello_rust2::database;
-use hello_rust2::back_end::{api, routes};
+use hello_rust2_lib::*;
+use hello_rust2_lib::database;
+use hello_rust2_lib::back_end::{api, routes};
 use tokio::signal;
 
 #[tokio::main]
@@ -53,7 +53,7 @@ async fn main() {
     let shutdown_signal = async {
         signal::ctrl_c().await.expect("Không thể bắt tín hiệu Ctrl+C");
         println!("📌 Nhận tín hiệu Ctrl+C, đang đẩy code lên GitHub...");
-        hello_rust2::push_github::push_to_github(); // Gọi hàm đẩy GitHub
+        hello_rust2_lib::push_github::push_to_github(); // Gọi hàm đẩy GitHub
     };
 
     // 👉 Chạy cả hai server cùng với tín hiệu dừng
