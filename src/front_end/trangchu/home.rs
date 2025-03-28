@@ -35,7 +35,7 @@ pub fn homemain() -> String {
     <nav class="bg-gray-50 shadow">
         <div class="container mx-auto flex justify-between items-center py-2 px-6">
             <div class="flex space-x-4">
-                <a class="text-gray-600 hover:text-gray-800" href=""><i class="fas fa-home"></i>Văn bản mới</a>
+                <a class="text-gray-600 hover:text-gray-800" href="javascript:void(0); " onclick="window.location.href='/trangchu'"><i class="fas fa-home"></i>Văn bản mới</a>
                 <a class="text-gray-600 hover:text-gray-800" href="">Tra cứu văn bản</a>
                 <a class="text-gray-600 hover:text-gray-800" href=""> Dự thảo </a>
                 <a class="text-gray-600 hover:text-gray-800" href="">Tin văn bản mới</a>
