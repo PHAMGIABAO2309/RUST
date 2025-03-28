@@ -1,4 +1,5 @@
 pub fn get_json_code() -> String {
+    
     r#"
         document.addEventListener("DOMContentLoaded", function () {
             fetch("/content")
@@ -9,7 +10,7 @@ pub fn get_json_code() -> String {
                         if (data.summary) handleSummary(data.summary);
                         if (data.summary_content) handleSummaryContent(data.summary_content);
                         if (data.list_title) handleListTitle(data.list_title);
-                         if (data.documents_nghidinh138) handleDocuments_Nghidinh138(data.documents_nghidinh138);
+                        if (data.documents_nghidinh) handleDocumentsNghidinh(data.documents_nghidinh);
                     } else {
                         let contentEl = document.getElementById("content");
                         if (contentEl) contentEl.innerHTML = "<p>Không có dữ liệu</p>";
@@ -17,57 +18,32 @@ pub fn get_json_code() -> String {
                 })
                 .catch(error => console.error("Lỗi tải dữ liệu:", error));
         });
-        function handleDocuments_Nghidinh138(documents_nghidinh138) {
-    let contentHTML = "";
-    documents_nghidinh138.forEach(item => {
-        if (item.subject) {
-            let formattedContent = item.subject.replace(/\r\n/g, '<br><br>');
-            formattedContent = formattedContent.replace(/(NGHỊ .*?)<br>/g, '<br><br><h2 style="text-align: center;"><strong>$1</strong></h2><br>');
-            formattedContent = formattedContent.replace(/(Mục .*?)<br>/g, '<h2 style="text-align: center;"><strong>$1</strong></h2>');
-            formattedContent = formattedContent.replace(/(Chương .*?)<br>/g, '<h2 style="text-align: center;"><strong>$1</strong></h2><br>');
-            formattedContent = formattedContent.replace(/(Điều \d+\..*?)<br><br>/g, '<strong>$1</strong><br><br>');
-
-            contentHTML += `<p>${formattedContent}</p>`;
+     function handleDocumentsNghidinh(documents_nghidinh) {
+            if(documents_nghidinh.length === 0 ) return;
+            const firstDocumentsNghidinh = documents_nghidinh[0];
+            if(firstDocumentsNghidinh.title){
+                let tieudeEl = document.getElementById("title_nghidinh");
+                if (tieudeEl) tieudeEl.innerText = firstDocumentsNghidinh.title;
+            }
+            if(firstDocumentsNghidinh.codenumber){
+                let sovanbanEl = document.getElementById("sovanban_nghidinh");
+                if (sovanbanEl) sovanbanEl.innerText = firstDocumentsNghidinh.codenumber;
+            }
+            if(firstDocumentsNghidinh.receives){
+                let noinhanEl = document.getElementById("noinhan_nghidinh");
+                if (noinhanEl) noinhanEl.innerText = firstDocumentsNghidinh.receives;
+            }
+            if (firstDocumentsNghidinh.filecatalog) {
+                let namhinhthanhElements = document.querySelectorAll("[id='namhinhthanh_nghidinh']");
+                namhinhthanhElements.forEach(el => {
+                    el.innerText = firstDocumentsNghidinh.filecatalog;
+                });
+            }
+            if(firstDocumentsNghidinh.subject){
+                let noidungEl = document.getElementById("content_nghidinh");
+                if (noidungEl) noidungEl.innerText = firstDocumentsNghidinh.subject;
+            }
         }
-    });
-
-    let contentEl = document.getElementById("content");
-    if (contentEl) {
-        contentEl.innerHTML = contentHTML;
-    }
-
-    if (documents_nghidinh138.length > 0) {
-        const firstDocc = documents_nghidinh138[0];
-
-        let noinhanElements = document.querySelectorAll("[id='noinhan']");
-        noinhanElements.forEach(el => {
-            if (firstDocc.receives) el.innerText = firstDocc.receives;
-        });
-
-        let hieulucElements = document.querySelectorAll("[id='validitystatus']");
-        hieulucElements.forEach(el => {
-            if (firstDocc.validitystatus) el.innerText = firstDocc.validitystatus;
-        });
-
-        if (firstDocc.codenumber) {
-            let sovanbanEl = document.getElementById("sovanban");
-            if (sovanbanEl) sovanbanEl.innerText = firstDocc.codenumber;
-        }
-
-        if (firstDocc.filecatalog) {
-            let namhinhthanhElements = document.querySelectorAll("[id='namhinhthanh']");
-            namhinhthanhElements.forEach(el => {
-                el.innerText = firstDocc.filecatalog;
-            });
-        }
-        if (firstDocc.title) {
-            let titleEl = document.getElementById("title_nghidinh138");
-            if (titleEl) titleEl.innerText = firstDocc.title;
-        }
-    }
-}
-
-
         function handleDocuments(documents) {
             let contentHTML = "";
             documents.forEach(item => {
@@ -117,6 +93,8 @@ pub fn get_json_code() -> String {
                 }
             }
         }
+       
+        
 
         function handleSummary(summaries) {
             if (summaries.length === 0) return;
@@ -191,8 +169,15 @@ pub fn get_json_code() -> String {
                 }
             }
         }
+        
         function handleListTitle(list_titles) {
             let container = document.getElementById("listContainer");
+            
+            if (!container) {
+                console.error("Không tìm thấy phần tử có ID 'listContainer'");
+                return; // Dừng hàm nếu container không tồn tại
+            }
+
             container.innerHTML = ""; // Xóa nội dung cũ
 
             list_titles.forEach((item, index) => {
@@ -202,14 +187,13 @@ pub fn get_json_code() -> String {
                 let formattedUpdateDate = item.dateupdate ? new Date(item.dateupdate).toLocaleDateString("vi-VN") : "Không có";
 
                 let listItem = `
-                    <div class="flex border-t border-gray-300 pt-2 ">
+                    <div class="flex border-t border-gray-300 pt-2">
                         <div class="flex space-x-2">
                             <span class="font-bold">${index + 1}</span>
                             <div>
-                                 <p class="text-gray-800 font-bold cursor-pointer" 
-                       onclick="window.location.href='${formattedPath}'">
-                        ${formattedTitle}
-                    </p>
+                                <p class="text-gray-800 font-bold cursor-pointer" onclick="window.location.href='${formattedPath}'">
+                                    ${formattedTitle}
+                                </p>
                                 <div class="flex space-x-4 text-gray-600 mt-2">
                                     <a href="" class="hover:underline">Tóm tắt</a>
                                     <a href="" class="hover:underline">VB liên quan</a>
@@ -245,6 +229,8 @@ pub fn get_json_code() -> String {
                 container.innerHTML += listItem;
             });
         }
+
+        
 
     "#.to_string()
 }

@@ -110,7 +110,7 @@ pub async fn get_sql(pool: &MySqlPool) -> Result<serde_json::Value, sqlx::Error>
         "summary": summaries,
         "summary_content": summary_content,
         "list_title": list_title,
-        "documents_nghidinh138": documents_nghidinh138,
+        "documents_nghidinh": documents_nghidinh138,
     }))
 }
 

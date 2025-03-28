@@ -43,12 +43,12 @@ pub fn create_html_route_home(
         warp::reply::html(front_end::trangchu::home::homemain())
     })
 }
-pub fn create_html_route_nghidinh138(
+pub fn create_html_route_nghidinh(
     poem: Arc<Mutex<serde_json::Value>>,
 ) -> impl warp::Filter<Extract = (impl warp::Reply,), Error = warp::Rejection> + Clone {
     warp::path("nghidinh138").map(move || {
         let _poem = poem.lock(); // Giữ lại biến nhưng không dùng
-        warp::reply::html(front_end::nghidinh138::nghidinh138::home())
+        warp::reply::html(front_end::nghidinh138::nghidinh::homemain())
     })
 }
 

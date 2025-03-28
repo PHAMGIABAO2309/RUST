@@ -13,9 +13,10 @@ pub fn homemain() -> String {
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="static/nghidinh.css">
     <script src="handle/handlepage.js"></script>
-    <script src="handle/main.js"></script>
+    
 </head>
 <body>
+
     <header class="bg-white shadow">
         <div class="container mx-auto flex justify-between items-center py-4 px-6">
             <div class="flex items-center">

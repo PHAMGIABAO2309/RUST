@@ -17,7 +17,7 @@ async fn main() {
     //let summary_route = route::create_summary_route();
     let nghidinh_route = route::create_html_route(sql_data.clone());
     let home_route = route::create_html_route_home(sql_data.clone());
-    let nghidinh138_route = route::create_html_route_nghidinh138(sql_data.clone());
+    let nghidinhmotbatam_route = route::create_html_route_nghidinh(sql_data.clone());
     let api_route = route::create_api_route(sql_data.clone());
     
     let login_route = route::create_login_route(sql.clone());
@@ -31,7 +31,7 @@ async fn main() {
 
     // 👉 Chạy server trên cổng 8080 trong một task riêng
     let server_8080 = tokio::spawn(async move {
-        warp::serve(nghidinh_route.or(home_route).or(nghidinh138_route).or(api_route).or(register_route).or(static_files).or(call_login) )
+        warp::serve(nghidinh_route.or(home_route).or(nghidinhmotbatam_route).or(api_route).or(register_route).or(static_files).or(call_login) )
             .run(([127, 0, 0, 1], 8080))
             .await;
     });
