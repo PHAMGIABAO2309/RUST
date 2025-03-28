@@ -34,6 +34,14 @@ pub fn homemain() -> String {
         <div class="container mx-auto flex justify-between items-center py-2 px-6">
             <div class="flex space-x-4">
                 <a class="text-gray-600 hover:text-gray-800" href="javascript:void(0);" onclick="window.location.href='/trangchu'"><i class="fas fa-home"></i> Văn bản mới</a>
+                <a class="text-gray-600 hover:text-gray-800" href="">Tra cứu văn bản</a>
+                <a class="text-gray-600 hover:text-gray-800" href=""> Dự thảo </a>
+                <a class="text-gray-600 hover:text-gray-800" href="">Tin văn bản mới</a>
+                <a class="text-gray-600 hover:text-gray-800" href="">Tin pháp luật</a>
+                <a class="text-gray-600 hover:text-gray-800" href="">Bản tin luật</a>
+                <a class="text-gray-600 hover:text-gray-800" href="">Luật sư tư vấn</a>
+                <a class="text-gray-600 hover:text-gray-800" href="">Pháp lý doanh nghiệp</a>
+                <a class="text-gray-600 hover:text-gray-800" href=""> Tiện ích </a>
             </div>
             <button class="text-gray-600"><i class="fas fa-bars"> </i></button>
         </div>
